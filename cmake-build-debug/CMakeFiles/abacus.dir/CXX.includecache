@@ -1,0 +1,22 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+D:/code/c&c++/abacus/addition.cpp
+iostream
+-
+stdio.h
+-
+windows.h
+-
+string.h
+-
+graphics.h
+-
+conio.h
+-
+
