@@ -9,11 +9,11 @@
 D:/code/c&c++/abacus/addition.cpp
 iostream
 -
-stdio.h
+cstdio
 -
-windows.h
+Windows.h
 -
-string.h
+cstring
 -
 graphics.h
 -

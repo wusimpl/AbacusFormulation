@@ -1,13 +1,15 @@
 ﻿#define _CRT_SECURE_NO_WARNINGS
 
 #include<iostream>
-#include <stdio.h>
-#include <windows.h>
-#include <string.h>
+#include <cstdio>
+#include <Windows.h>
+#include <cstring>
 #include<graphics.h>
 #include <conio.h>
-
 using namespace std;
+
+#define PLACES_NUM 15 //挡位数
+#define MAX_NUM_OF_PLACE 9 //一档所能表示的最大数
 
 //表示算盘上的一档
 typedef struct
@@ -15,17 +17,28 @@ typedef struct
     int high; //梁上入珠数
     int low; //梁下入珠数
 } Num;
-Num ab_augend[15], ab_addend[15]; //数的算盘形式
-char augend[15], addend[15]; //数的形式
 
+Num ab_augend[PLACES_NUM], ab_addend[PLACES_NUM]; //数的算盘形式
+char augend[PLACES_NUM], addend[PLACES_NUM]; //数的形式
+
+typedef struct CARRYNUM{
+    Num carry[PLACES_NUM];
+
+    CARRYNUM(int digit){ //digit belongs to 0-14
+        for(int i=0;i<PLACES_NUM;i++){
+            carry[i] = {0,0};
+        }
+        carry[digit] = {0,1};
+    }
+}CARRYNUM;
 //绘制算珠（椭圆形状）
 void drawOneBead(float x, float y)
 {
     fillellipse(x - 20, y - 12.5, x + 20, y + 12.5); //left:椭圆外切矩形的左上角 x 坐标
 }
 
-
-void addpro()  ///加法口诀表
+//绘制加法口诀表
+void drawAdditionMnemonicRhyme()
 {
     for (int i = 0; i < 12; ++i)
         line(50, 400 + 25 * i, 600, 400 + 25 * i);
@@ -76,7 +89,8 @@ void addpro()  ///加法口诀表
     }
 }
 
-void show()
+//显示列式计算的结果
+void displayDraftCalculation()
 { //显示被加数、加数、结果
     RECT r1 = { 900, 100, 1000, 125 };
     char ta[17];
@@ -105,40 +119,47 @@ void show()
     drawtext(n, &r5, DT_VCENTER | DT_RIGHT | DT_SINGLELINE);
 }
 
-void initial(Num sa[])    //初始化
-{
-    cleardevice();
-    show();
-    int i, j, k;
-    line(50, 100, 850, 100);
-    line(50, 200, 850, 200);
-    line(50, 375, 850, 375);
-    fillellipse(725 - 5, 200 - 5, 725 + 5, 200 + 5);
+//绘制算盘
+void drawAbacus(Num *sa) {
+    int k;
+    line(50, 100, 850, 100); //上框
+    line(50, 200, 850, 200); //中框（梁）
+    line(50, 375, 850, 375); //下框
+    fillellipse(725 - 5, 200 - 5, 725 + 5, 200 + 5); //小数点
 
-    for (int i = 0; i < 17; ++i)
+    for (int i = 0; i < 17; ++i) //左框+右框+档
     {
         line(50 + i * 50, 100, 50 + i * 50, 375);
     }
 
-    for (int i = 0, j = 14; i < 15; ++i, --j)
+    for (int i = 0, j = 14; i < PLACES_NUM; ++i, --j) //绘制梁上算珠
     {
-        for (k = 0; k < sa[j].high; ++k)
+        for (k = 0; k < sa[j].high; ++k) //未入珠
             drawOneBead(100 + 50 * i, 187.5 - 25 * k);
-        for (k = 0; k < 2 - sa[j].high; ++k)
+        for (k = 0; k < 1 - sa[j].high; ++k) //入珠
             drawOneBead(100 + 50 * i, 112.5 + 25 * k);
     }
 
-    for (int i = 0, j = 14; i < 15; ++i, --j)
+    for (int i = 0, j = 14; i < PLACES_NUM; ++i, --j) //绘制梁下算珠
     {
-        for (k = 0; k < sa[j].low; ++k)
+        for (int k = 0; k < sa[j].low; ++k) //入珠
             drawOneBead(100 + 50 * i, 212.5 + 25 * k);
-        for (k = 0; k < 5 - sa[j].low; ++k)
+        for (int k = 0; k < 4 - sa[j].low; ++k) //未入珠
             drawOneBead(100 + 50 * i, 362.5 - 25 * k);
     }
-    addpro();
+    drawAdditionMnemonicRhyme(); //绘制加法口诀表
 }
 
-void toAbacusForm(Num *s, char *t, int len)  //阿拉伯数字转换为算盘式数字
+//绘制一个数的盘式
+void initialize(Num *sa)
+{
+    cleardevice(); //清空屏幕内容
+    displayDraftCalculation(); // 绘制列式计算的结果
+    drawAbacus(sa); //绘制算盘
+}
+
+//阿拉伯数字转换为算盘式数字
+void toAbacusForm(Num *s, char *t, int len)
 {
     for (int i = len - 1, k = 0; i >= 0; i--, k++)
     {
@@ -148,105 +169,154 @@ void toAbacusForm(Num *s, char *t, int len)  //阿拉伯数字转换为算盘式
     }
 }
 
-void add(Num sa[], Num sb[], int n)   //加法
-{
-    int high = sa[n].high;
-    int low = sa[n].low;
-    int h = sb[n].high;
-    int l = sb[n].low;
-    int th = high + h;
-    int tl = low + l;
-    char shuwei[12][8] = { "百分", "十分", "个", "十", "百", "千", "万", "十万", "百万", "千万", "亿", "十亿" };
-    char s[12];
-    strcpy(s, shuwei[n]);
-    strcat(s, "位相加");
+//算盘某档转为阿拉伯数字
+int toNumberForm(Num *s){
+    return s->high*5 + s->low;
+}
 
-    if (tl == 5)
-    {
-        sa[n].low = 5;
-        initial(sa);
-        RECT r1 = { 900, 250, 1000, 275 };
-        drawtext(s, &r1, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
-        //Sleep(1000);
-        getchar();
-    }
+//原朱阳阳所写算法，已重构为simulate()
+//void simulateAbacusAddition(Num *au, Num *ad, int n)
+//{
+//    int au_high = au[n].high;
+//    int au_low = au[n].low;
+//    int ad_high = ad[n].high;
+//    int ad_low = ad[n].low;
+//    int th = au_high + ad_high; //两数相加后梁上总珠数（不考虑溢出）
+//    int tl = au_low + ad_low;   //两数相加后梁下总珠数（不考虑溢出）
+//    char units[12][8] = {"百分", "十分", "个", "十", "百", "千", "万", "十万", "百万", "千万", "亿", "十亿" };
+//    char currentUnit[12]; //要计算的当前位
+//    strcpy(currentUnit, units[n]);
+//    strcat(currentUnit, "位相加");
+//
+//    if (tl == 5) //梁下逢五，梁上进一
+//    {
+//        au[n].low = 5;
+//        initialize(au);
+//        RECT r1 = { 900, 250, 1000, 275 };
+//        drawtext(currentUnit, &r1, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+//        getchar();
+//    }
+//
+//    au_low = tl % 5; //梁下逢五：梁上进一，梁下去五
+//    int r = (th + tl / 5) / 2; //考虑进位，进行加法后，本档梁上靠梁珠的个数（0、1、2）
+//    au_high = (th + tl / 5) % 2; //梁上逢二时前挡进一：本档梁上去二
+//    au[n].low = au_low;
+//
+//    if ((th + tl / 5) == 2) //若本档相加后为十
+//    {
+//        au[n].high = 2; //则本档梁上靠梁珠的个数为2
+//        initialize(au);
+//        RECT r1 = { 900, 250, 1000, 275 };
+//        drawtext(currentUnit, &r1, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+//        getchar();
+//    }
+//
+//    au[n].high = au_high;
+//    initialize(au);
+//    RECT r1 = { 900, 250, 1000, 275 };
+//    drawtext(currentUnit, &r1, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+//    getchar();
+//
+//
+//    int i = n + 1; //前一位
+//    while (r > 0)
+//    {
+//        int h1 = au[i].high;
+//        int l1 = au[i].low;
+//        char s1[12];
+//        strcpy(s1, units[i]);
+//        strcat(s1, "位进位");
+//
+//
+//        if ((l1 + r) == 5)
+//        {
+//            au[i].low = 5;
+//            initialize(au);
+//            RECT r1 = { 900, 250, 1000, 275 };
+//            drawtext(currentUnit, &r1, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+//            RECT r2 = { 900, 275, 1000, 300 };
+//            drawtext(s1, &r2, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+//            getchar();
+//        }
+//
+//        h1 = h1 + (l1 + r) / 5;
+//        l1 = (l1 + r) % 5;
+//        au[i].low = l1;
+//
+//        if (h1 == 2)
+//        {
+//            au[i].high = 2;
+//            initialize(au);
+//            RECT r1 = { 900, 250, 1000, 275 };
+//            drawtext(currentUnit, &r1, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+//            RECT r2 = { 900, 275, 1000, 300 };
+//            drawtext(s1, &r2, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+//            getchar();
+//        }
+//
+//        r = h1 / 2;
+//        h1 = h1 % 2;
+//        au[i].high = h1;
+//
+//        initialize(au);
+//        RECT r1 = { 900, 250, 1000, 275 };
+//        drawtext(currentUnit, &r1, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+//        RECT r2 = { 900, 275, 1000, 300 };
+//        drawtext(s1, &r2, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+//        //Sleep(1000);
+//        getchar();
+//        i++;
+//    }
+//}
 
-    low = tl % 5;
-    int r = (th + tl / 5) / 2;
-    high = (th + tl / 5) % 2;
-    sa[n].low = low;
+void simulate(Num* au, Num* ad, int n){
+    Num* aug = &au[n];
+    Num* add = &ad[n];
+    Num* tmp = aug; //当前被加数的指针
+    int augNumber = toNumberForm(aug); //被加数
+    int addNumber = toNumberForm(add); //加数
 
-    if ((th + tl / 5) == 2)
-    {
-        sa[n].high = 2;
-        initial(sa);
-        RECT r1 = { 900, 250, 1000, 275 };
-        drawtext(s, &r1, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
-        //Sleep(1000);
-        getchar();
-    }
-
-    sa[n].high = high;
-
-
-    initial(sa);
-    RECT r1 = { 900, 250, 1000, 275 };
-    drawtext(s, &r1, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
-
-    //Sleep(1000);
-    getchar();
-
-    int i = n + 1;
-    while (r > 0)
-    {
-        int h1 = sa[i].high;
-        int l1 = sa[i].low;
-        char s1[12];
-        strcpy(s1, shuwei[i]);
-        strcat(s1, "位进位");
-
-
-        if ((l1 + r) == 5)
-        {
-            sa[i].low = 5;
-            initial(sa);
-            RECT r1 = { 900, 250, 1000, 275 };
-            drawtext(s, &r1, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
-            RECT r2 = { 900, 275, 1000, 300 };
-            drawtext(s1, &r2, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
-            //Sleep(1000);
+    if (addNumber + augNumber <= 9){ //直接加或者凑五加
+        if(4-(aug->low) < addNumber && addNumber<5){//凑五加：被加数下框离梁珠<加数 && 加数<5
+            //凑五加：下五去凑五数
+            tmp->high += 1; //下五
+            tmp->low -= 5-addNumber; //去凑五数
+            initialize(au);
+            getchar();
+        }else{ //直接加
+            //直接加：加数>=5则梁上下五，梁下上加数-5；加数<5则梁下上加数
+            if(addNumber >=5){
+                tmp->high += 1;
+                tmp->low += addNumber - 5;
+            }else{
+                tmp->low += addNumber;
+            }
+            initialize(au);
             getchar();
         }
-
-        h1 = h1 + (l1 + r) / 5;
-        l1 = (l1 + r) % 5;
-        sa[i].low = l1;
-
-        if (h1 == 2)
-        {
-            sa[i].high = 2;
-            initial(sa);
-            RECT r1 = { 900, 250, 1000, 275 };
-            drawtext(s, &r1, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
-            RECT r2 = { 900, 275, 1000, 300 };
-            drawtext(s1, &r2, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
-            //Sleep(1000);
-            getchar();
+    }else{ //进十加或者破五进十加
+        int complement = 10-addNumber;//加数的补数
+        /*先计算本位*/
+        if(tmp->low < complement){//破五进十加：被加数下框入珠数小于补数
+            //去五，上（5-补数）
+            tmp->high -= 1;
+            tmp->low += 5-complement;
+        }else{ //进十加
+            //去补
+            tmp->high -= int(complement/5);
+            tmp->low -= complement%5;
         }
-
-        r = h1 / 2;
-        h1 = h1 % 2;
-        sa[i].high = h1;
-
-        initial(sa);
-        RECT r1 = { 900, 250, 1000, 275 };
-        drawtext(s, &r1, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
-        RECT r2 = { 900, 275, 1000, 300 };
-        drawtext(s1, &r2, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
-        //Sleep(1000);
+        initialize(au);
         getchar();
-        i++;
+
+        /*再计算进位
+         * 进一可能引起前面许多位都有进位，所以本质上是连续加法，使用递归调用解决此问题。
+         * 这里当做另外一次加法来做，被加数：当前算盘的数，加数：1。
+         * */
+        CARRYNUM carryNumber(n+1);
+        simulate(au,carryNumber.carry,n+1);
     }
+
 }
 
 //判断是否为小数,如果为小数，则去掉小数点
@@ -267,9 +337,16 @@ void isDecimal(char *x)
     x[i + 2] = '\0';
 }
 
+void drawFinished(){
+    RECT r1 = { 900, 250, 1000, 275 };
+//    initialize(ab_augend);
+    drawtext("计算结束", &r1, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+
+}
+
 int main()
 {
-    printf("\n*******此程序实现的是算盘加法的演算过程********\n************程序开始后按任意键继续*************\n请输入两个长度不超过14位的数(被加数和加数，允许两位小数)：\n");
+    printf("\n*******算盘加法的演算过程********\n请输入两个长度不超过14位的数(被加数和加数，允许两位小数)：");
     scanf("%s %s", augend, addend);
     isDecimal(augend);//判断是否为小数
     isDecimal(addend);
@@ -287,20 +364,21 @@ int main()
     setbkcolor(WHITE); //设置背景颜色
     setcolor(BROWN); //设置前景颜色
     setfillstyle(BLACK); //设置填充样式
-    setlinestyle(PS_SOLID, 2);
-    initial(ab_augend);
+    setlinestyle(PS_SOLID, 2); //设置直线样式
 
-    getchar();
-    getchar();
-    for (int i = 0; i < len; i++)
-        add(ab_augend, ab_addend, i);
-    RECT r1 = { 900, 250, 1000, 275 };
-    initial(ab_augend);
-    drawtext("计算结束", &r1, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+    initialize(ab_augend); //初始化算盘（绘制算盘、列式、口诀表）
 
-    _getch();               // 按任意键继续
-    closegraph();
-}//
-// Created by andy on 2022/4/26.
-//
+
+    for (int i = 0; i < len; i++){ //从左到右按位依次加法
+//        simulateAbacusAddition(ab_augend, ab_addend, i);
+        getchar();
+        if(toNumberForm(&ab_augend[i]) !=0 || toNumberForm(&ab_addend[i]) != 0){ //本位的加数和被加数不都为零
+            simulate(ab_augend,ab_addend,i);
+        }
+    }
+
+    drawFinished(); //绘制“计算结束”
+    _getch(); //按任意键继续
+    closegraph(); //释放绘图资源
+}
 
