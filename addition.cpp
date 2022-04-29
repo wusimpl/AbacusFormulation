@@ -37,6 +37,12 @@ void drawOneBead(float x, float y)
     fillellipse(x - 20, y - 12.5, x + 20, y + 12.5); //left:椭圆外切矩形的左上角 x 坐标
 }
 
+void drawStr(const char* str){
+    RECT r1 = { 900, 250, 1000, 275 };
+//    initialize(ab_augend);
+    drawtext(str, &r1, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+}
+
 //绘制加法口诀表
 void drawAdditionMnemonicRhyme()
 {
@@ -193,6 +199,9 @@ void simulate(Num* au, Num* ad, int n){
             //直接加：加数>=5则梁上下五，梁下上加数-5；加数<5则梁下上加数
             if(addNumber >=5){
                 tmp->high += 1;
+                initialize(au);
+
+                getchar();
                 tmp->low += addNumber - 5;
             }else{
                 tmp->low += addNumber;
@@ -243,13 +252,6 @@ void isDecimal(char *x)
     x[i + 2] = '\0';
 }
 
-void drawFinished(){
-    RECT r1 = { 900, 250, 1000, 275 };
-//    initialize(ab_augend);
-    drawtext("计算结束", &r1, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
-
-}
-
 int main()
 {
     printf("\n*******算盘加法的演算过程********\n请输入两个长度不超过14位的数(被加数和加数，允许两位小数)：");
@@ -283,7 +285,7 @@ int main()
         }
     }
 
-    drawFinished(); //绘制“计算结束”
+    drawStr("计算结束"); //绘制“计算结束”
     _getch(); //按任意键继续
     closegraph(); //释放绘图资源
 }
