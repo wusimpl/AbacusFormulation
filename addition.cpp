@@ -6,6 +6,7 @@
 #include <cstring>
 #include<graphics.h>
 #include <conio.h>
+#include <sstream>
 using namespace std;
 
 #define PLACES_NUM 15 //挡位数
@@ -20,7 +21,8 @@ typedef struct
 
 Num ab_augend[PLACES_NUM], ab_addend[PLACES_NUM]; //数的算盘形式
 char augend[PLACES_NUM], addend[PLACES_NUM]; //数的形式
-
+static const char* INDEX_TO_CHINESE_NUM[] = {"零","一","二","三","四","五","六","七","八","九","十"};
+string processHintPlaceHolder;
 typedef struct CARRYNUM{
     Num carry[PLACES_NUM];
 
@@ -40,6 +42,7 @@ void drawOneBead(float x, float y)
 void drawStr(const char* str){
     RECT r1 = { 900, 250, 1000, 275 };
 //    initialize(ab_augend);
+//    clearrectangle(r1.left,r1.top,r1.right,r1.bottom);
     drawtext(str, &r1, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
 }
 
@@ -192,21 +195,30 @@ void simulate(Num* au, Num* ad, int n){
         if(4-(aug->low) < addNumber && addNumber<5){//凑五加：被加数下框离梁珠<加数 && 加数<5
             //凑五加：下五去凑五数
             tmp->high += 1; //下五
+            initialize(au);
+            drawStr("下五");
+            getchar();
             tmp->low -= 5-addNumber; //去凑五数
             initialize(au);
+            processHintPlaceHolder = (stringstream()<<"去"<<INDEX_TO_CHINESE_NUM[5-addNumber]).str();
+            drawStr(processHintPlaceHolder.c_str());
             getchar();
         }else{ //直接加
             //直接加：加数>=5则梁上下五，梁下上加数-5；加数<5则梁下上加数
             if(addNumber >=5){
                 tmp->high += 1;
                 initialize(au);
-
+                drawStr("下五");
                 getchar();
                 tmp->low += addNumber - 5;
+                processHintPlaceHolder = (stringstream()<<"上"<<INDEX_TO_CHINESE_NUM[addNumber-5]).str();
             }else{
                 tmp->low += addNumber;
+                processHintPlaceHolder = (stringstream()<<"上"<<INDEX_TO_CHINESE_NUM[addNumber]).str();
+
             }
             initialize(au);
+            drawStr(processHintPlaceHolder.c_str());
             getchar();
         }
     }else{ //进十加或者破五进十加
@@ -215,13 +227,22 @@ void simulate(Num* au, Num* ad, int n){
         if(tmp->low < complement){//破五进十加：被加数下框入珠数小于补数
             //去五，上（5-补数）
             tmp->high -= 1;
+            initialize(au);
+            drawStr("去五");
+            getchar();
+
             tmp->low += 5-complement;
+            processHintPlaceHolder = (stringstream()<<"上"<<INDEX_TO_CHINESE_NUM[5-complement]).str();
         }else{ //进十加
             //去补
             tmp->high -= int(complement/5);
+            initialize(au);
+            getchar();
             tmp->low -= complement%5;
+            processHintPlaceHolder = (stringstream()<<"上"<<INDEX_TO_CHINESE_NUM[complement%5]).str();
         }
         initialize(au);
+        drawStr(processHintPlaceHolder.c_str());
         getchar();
 
         /*再计算进位
@@ -229,6 +250,8 @@ void simulate(Num* au, Num* ad, int n){
          * 这里当做另外一次加法来做，被加数：当前算盘的数，加数：1。
          * */
         CARRYNUM carryNumber(n+1);
+
+        drawStr("进一");
         simulate(au,carryNumber.carry,n+1);
     }
 
