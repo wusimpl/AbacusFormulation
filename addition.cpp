@@ -224,7 +224,7 @@ void simulate(Num* au, Num* ad, int n){
     }else{ //进十加或者破五进十加
         int complement = 10-addNumber;//加数的补数
         /*先计算本位*/
-        if(tmp->low < complement){//破五进十加：被加数下框入珠数小于补数
+        if(tmp->low < complement && addNumber+augNumber != 10){//破五进十加：被加数下框入珠数小于补数
             //去五，上（5-补数）
             tmp->high -= 1;
             initialize(au);
@@ -236,10 +236,10 @@ void simulate(Num* au, Num* ad, int n){
         }else{ //进十加
             //去补
             tmp->high -= int(complement/5);
-            initialize(au);
-            getchar();
+//            initialize(au);
+//            getchar();
             tmp->low -= complement%5;
-            processHintPlaceHolder = (stringstream()<<"上"<<INDEX_TO_CHINESE_NUM[complement%5]).str();
+            processHintPlaceHolder = (stringstream()<<"去"<<INDEX_TO_CHINESE_NUM[complement]).str();
         }
         initialize(au);
         drawStr(processHintPlaceHolder.c_str());
@@ -251,7 +251,9 @@ void simulate(Num* au, Num* ad, int n){
          * */
         CARRYNUM carryNumber(n+1);
 
+        initialize(au);
         drawStr("进一");
+        getchar();
         simulate(au,carryNumber.carry,n+1);
     }
 
@@ -260,19 +262,11 @@ void simulate(Num* au, Num* ad, int n){
 //判断是否为小数,如果为小数，则去掉小数点
 void isDecimal(char *x)
 {
-    int i;
-    for (i = 0; i < strlen(x); i++)
-        if (x[i] == '.')
-        {
-            x[i] = x[i + 1];
-            if (x[i + 2] == '\0')
-                x[i + 1] = '0';
-            x[i + 1] = x[i + 2];
-            x[i + 2] = '\0';
-            return;
-        }
-    x[i] = x[i + 1] = '0';
-    x[i + 2] = '\0';
+    if((string(x)).find('.') == string::npos){ //整数
+        strcat(x,"00");
+    }else{ //小数
+        itoa(atof(x)*100,x,10);
+    }
 }
 
 int main()
@@ -299,9 +293,8 @@ int main()
 
     initialize(ab_augend); //初始化算盘（绘制算盘、列式、口诀表）
 
-
+    getchar();
     for (int i = 0; i < len; i++){ //从左到右按位依次加法
-//        simulateAbacusAddition(ab_augend, ab_addend, i);
         getchar();
         if(toNumberForm(&ab_augend[i]) !=0 || toNumberForm(&ab_addend[i]) != 0){ //本位的加数和被加数不都为零
             simulate(ab_augend,ab_addend,i);
