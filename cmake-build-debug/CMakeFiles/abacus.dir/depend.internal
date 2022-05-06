@@ -3,3 +3,16 @@
 
 CMakeFiles/abacus.dir/addition.cpp.obj
  D:/code/c&c++/abacus/addition.cpp
+ D:/code/c&c++/abacus/addition.h
+ D:/code/c&c++/abacus/base.h
+CMakeFiles/abacus.dir/base.cpp.obj
+ D:/code/c&c++/abacus/base.cpp
+ D:/code/c&c++/abacus/base.h
+CMakeFiles/abacus.dir/main.cpp.obj
+ D:/code/c&c++/abacus/addition.h
+ D:/code/c&c++/abacus/base.h
+ D:/code/c&c++/abacus/main.cpp
+CMakeFiles/abacus.dir/subtraction.cpp.obj
+ D:/code/c&c++/abacus/base.h
+ D:/code/c&c++/abacus/subtraction.cpp
+ D:/code/c&c++/abacus/subtraction.h

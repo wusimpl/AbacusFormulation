@@ -77,12 +77,12 @@ clean: CMakeFiles\abacus.dir\clean
 CMakeFiles\abacus.dir\all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\abacus.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\abacus.dir\depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\abacus.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\abacus.dir\build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir="D:\code\c&c++\abacus\cmake-build-debug\CMakeFiles" --progress-num=1,2 "Built target abacus"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir="D:\code\c&c++\abacus\cmake-build-debug\CMakeFiles" --progress-num=1,2,3,4,5 "Built target abacus"
 .PHONY : CMakeFiles\abacus.dir\all
 
 # Build rule for subdir invocation for target.
 CMakeFiles\abacus.dir\rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start "D:\code\c&c++\abacus\cmake-build-debug\CMakeFiles" 2
+	$(CMAKE_COMMAND) -E cmake_progress_start "D:\code\c&c++\abacus\cmake-build-debug\CMakeFiles" 5
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 /nologo -$(MAKEFLAGS) CMakeFiles\abacus.dir\all
 	$(CMAKE_COMMAND) -E cmake_progress_start "D:\code\c&c++\abacus\cmake-build-debug\CMakeFiles" 0
 .PHONY : CMakeFiles\abacus.dir\rule

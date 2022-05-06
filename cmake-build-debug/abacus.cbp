@@ -85,6 +85,24 @@
 		<Unit filename="D:/code/c&amp;c++/abacus/addition.cpp">
 			<Option target="abacus"/>
 		</Unit>
+		<Unit filename="D:/code/c&amp;c++/abacus/addition.h">
+			<Option target="abacus"/>
+		</Unit>
+		<Unit filename="D:/code/c&amp;c++/abacus/base.cpp">
+			<Option target="abacus"/>
+		</Unit>
+		<Unit filename="D:/code/c&amp;c++/abacus/base.h">
+			<Option target="abacus"/>
+		</Unit>
+		<Unit filename="D:/code/c&amp;c++/abacus/main.cpp">
+			<Option target="abacus"/>
+		</Unit>
+		<Unit filename="D:/code/c&amp;c++/abacus/subtraction.cpp">
+			<Option target="abacus"/>
+		</Unit>
+		<Unit filename="D:/code/c&amp;c++/abacus/subtraction.h">
+			<Option target="abacus"/>
+		</Unit>
 		<Unit filename="D:/code/c&amp;c++/abacus/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>

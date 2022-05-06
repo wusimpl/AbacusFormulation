@@ -153,6 +153,87 @@ addition.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\abacus.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\abacus.dir\addition.cpp.s
 .PHONY : addition.cpp.s
 
+base.obj: base.cpp.obj
+
+.PHONY : base.obj
+
+# target to build an object file
+base.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\abacus.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\abacus.dir\base.cpp.obj
+.PHONY : base.cpp.obj
+
+base.i: base.cpp.i
+
+.PHONY : base.i
+
+# target to preprocess a source file
+base.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\abacus.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\abacus.dir\base.cpp.i
+.PHONY : base.cpp.i
+
+base.s: base.cpp.s
+
+.PHONY : base.s
+
+# target to generate assembly for a file
+base.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\abacus.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\abacus.dir\base.cpp.s
+.PHONY : base.cpp.s
+
+main.obj: main.cpp.obj
+
+.PHONY : main.obj
+
+# target to build an object file
+main.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\abacus.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\abacus.dir\main.cpp.obj
+.PHONY : main.cpp.obj
+
+main.i: main.cpp.i
+
+.PHONY : main.i
+
+# target to preprocess a source file
+main.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\abacus.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\abacus.dir\main.cpp.i
+.PHONY : main.cpp.i
+
+main.s: main.cpp.s
+
+.PHONY : main.s
+
+# target to generate assembly for a file
+main.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\abacus.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\abacus.dir\main.cpp.s
+.PHONY : main.cpp.s
+
+subtraction.obj: subtraction.cpp.obj
+
+.PHONY : subtraction.obj
+
+# target to build an object file
+subtraction.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\abacus.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\abacus.dir\subtraction.cpp.obj
+.PHONY : subtraction.cpp.obj
+
+subtraction.i: subtraction.cpp.i
+
+.PHONY : subtraction.i
+
+# target to preprocess a source file
+subtraction.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\abacus.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\abacus.dir\subtraction.cpp.i
+.PHONY : subtraction.cpp.i
+
+subtraction.s: subtraction.cpp.s
+
+.PHONY : subtraction.s
+
+# target to generate assembly for a file
+subtraction.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\abacus.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\abacus.dir\subtraction.cpp.s
+.PHONY : subtraction.cpp.s
+
 # Help Target
 help:
 	@echo The following are some of the valid targets for this Makefile:
@@ -165,6 +246,15 @@ help:
 	@echo ... addition.obj
 	@echo ... addition.i
 	@echo ... addition.s
+	@echo ... base.obj
+	@echo ... base.i
+	@echo ... base.s
+	@echo ... main.obj
+	@echo ... main.i
+	@echo ... main.s
+	@echo ... subtraction.obj
+	@echo ... subtraction.i
+	@echo ... subtraction.s
 .PHONY : help
 
 

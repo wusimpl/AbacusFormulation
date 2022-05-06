@@ -6,7 +6,11 @@
 
 #IncludeRegexTransform: 
 
-D:/code/c&c++/abacus/addition.cpp
+D:/code/c&c++/abacus/addition.h
+base.h
+D:/code/c&c++/abacus/base.h
+
+D:/code/c&c++/abacus/base.h
 iostream
 -
 cstdio
@@ -21,4 +25,8 @@ conio.h
 -
 sstream
 -
+
+D:/code/c&c++/abacus/main.cpp
+addition.h
+D:/code/c&c++/abacus/addition.h
 

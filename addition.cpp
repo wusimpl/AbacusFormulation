@@ -1,50 +1,7 @@
 ﻿#define _CRT_SECURE_NO_WARNINGS
 
-#include<iostream>
-#include <cstdio>
-#include <Windows.h>
-#include <cstring>
-#include<graphics.h>
-#include <conio.h>
-#include <sstream>
-using namespace std;
+#include "addition.h"
 
-#define PLACES_NUM 15 //挡位数
-#define MAX_NUM_OF_PLACE 9 //一档所能表示的最大数
-
-//表示算盘上的一档
-typedef struct
-{
-    int high; //梁上入珠数
-    int low; //梁下入珠数
-} Num;
-
-Num ab_augend[PLACES_NUM], ab_addend[PLACES_NUM]; //数的算盘形式
-char augend[PLACES_NUM], addend[PLACES_NUM]; //数的形式
-static const char* INDEX_TO_CHINESE_NUM[] = {"零","一","二","三","四","五","六","七","八","九","十"};
-string processHintPlaceHolder;
-typedef struct CARRYNUM{
-    Num carry[PLACES_NUM];
-
-    CARRYNUM(int digit){ //digit belongs to 0-14
-        for(int i=0;i<PLACES_NUM;i++){
-            carry[i] = {0,0};
-        }
-        carry[digit] = {0,1};
-    }
-}CARRYNUM;
-//绘制算珠（椭圆形状）
-void drawOneBead(float x, float y)
-{
-    fillellipse(x - 20, y - 12.5, x + 20, y + 12.5); //left:椭圆外切矩形的左上角 x 坐标
-}
-
-void drawStr(const char* str){
-    RECT r1 = { 900, 250, 1000, 275 };
-//    initialize(ab_augend);
-//    clearrectangle(r1.left,r1.top,r1.right,r1.bottom);
-    drawtext(str, &r1, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
-}
 
 //绘制加法口诀表
 void drawAdditionMnemonicRhyme()
@@ -99,7 +56,7 @@ void drawAdditionMnemonicRhyme()
 }
 
 //显示列式计算的结果
-void displayDraftCalculation()
+void displayDraftCalculationOfAddition()
 { //显示被加数、加数、结果
     RECT r1 = { 900, 100, 1000, 125 };
     char ta[17];
@@ -128,59 +85,14 @@ void displayDraftCalculation()
     drawtext(n, &r5, DT_VCENTER | DT_RIGHT | DT_SINGLELINE);
 }
 
-//绘制算盘
-void drawAbacus(Num *sa) {
-    int k;
-    line(50, 100, 850, 100); //上框
-    line(50, 200, 850, 200); //中框（梁）
-    line(50, 375, 850, 375); //下框
-    fillellipse(725 - 5, 200 - 5, 725 + 5, 200 + 5); //小数点
-
-    for (int i = 0; i < 17; ++i) //左框+右框+档
-    {
-        line(50 + i * 50, 100, 50 + i * 50, 375);
-    }
-
-    for (int i = 0, j = 14; i < PLACES_NUM; ++i, --j) //绘制梁上算珠
-    {
-        for (k = 0; k < sa[j].high; ++k) //未入珠
-            drawOneBead(100 + 50 * i, 187.5 - 25 * k);
-        for (k = 0; k < 1 - sa[j].high; ++k) //入珠
-            drawOneBead(100 + 50 * i, 112.5 + 25 * k);
-    }
-
-    for (int i = 0, j = 14; i < PLACES_NUM; ++i, --j) //绘制梁下算珠
-    {
-        for (int k = 0; k < sa[j].low; ++k) //入珠
-            drawOneBead(100 + 50 * i, 212.5 + 25 * k);
-        for (int k = 0; k < 4 - sa[j].low; ++k) //未入珠
-            drawOneBead(100 + 50 * i, 362.5 - 25 * k);
-    }
-    drawAdditionMnemonicRhyme(); //绘制加法口诀表
-}
 
 //绘制一个数的盘式
 void initialize(Num *sa)
 {
     cleardevice(); //清空屏幕内容
-    displayDraftCalculation(); // 绘制列式计算的结果
+    displayDraftCalculationOfAddition(); // 绘制列式计算的结果
     drawAbacus(sa); //绘制算盘
-}
-
-//阿拉伯数字转换为算盘式数字
-void toAbacusForm(Num *s, char *t, int len)
-{
-    for (int i = len - 1, k = 0; i >= 0; i--, k++)
-    {
-        int x = t[i] - '0';
-        s[k].high = x / 5;
-        s[k].low = x % 5;
-    }
-}
-
-//算盘某档转为阿拉伯数字
-int toNumberForm(Num *s){
-    return s->high*5 + s->low;
+    drawAdditionMnemonicRhyme(); //绘制加法口诀表
 }
 
 //可视化模拟一位加法
@@ -256,53 +168,5 @@ void simulate(Num* au, Num* ad, int n){
         getchar();
         simulate(au,carryNumber.carry,n+1);
     }
-
-}
-
-//判断是否为小数,如果为小数，则去掉小数点
-void isDecimal(char *x)
-{
-    if((string(x)).find('.') == string::npos){ //整数
-        strcat(x,"00");
-    }else{ //小数
-        itoa(atof(x)*100,x,10);
-    }
-}
-
-int main()
-{
-    printf("\n*******算盘加法的演算过程********\n请输入两个长度不超过14位的数(被加数和加数，允许两位小数)：");
-    scanf("%s %s", augend, addend);
-    isDecimal(augend);//判断是否为小数
-    isDecimal(addend);
-    int len1 = strlen(augend);
-    int len2 = strlen(addend);
-    int len = len1 > len2 ? len1 : len2;
-    if (len > 14){
-        printf("您输入的数过大！\n");
-        return -1;
-    }
-
-    toAbacusForm(ab_augend, augend, len1);
-    toAbacusForm(ab_addend, addend, len2);
-    initgraph(1100, 700); //初始化绘图环境
-    setbkcolor(WHITE); //设置背景颜色
-    setcolor(BROWN); //设置前景颜色
-    setfillstyle(BLACK); //设置填充样式
-    setlinestyle(PS_SOLID, 2); //设置直线样式
-
-    initialize(ab_augend); //初始化算盘（绘制算盘、列式、口诀表）
-
-    getchar();
-    for (int i = 0; i < len; i++){ //从左到右按位依次加法
-        getchar();
-        if(toNumberForm(&ab_augend[i]) !=0 || toNumberForm(&ab_addend[i]) != 0){ //本位的加数和被加数不都为零
-            simulate(ab_augend,ab_addend,i);
-        }
-    }
-
-    drawStr("计算结束"); //绘制“计算结束”
-    _getch(); //按任意键继续
-    closegraph(); //释放绘图资源
 }
 

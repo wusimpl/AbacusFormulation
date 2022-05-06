@@ -5,6 +5,9 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
   "D:/code/c&c++/abacus/addition.cpp" "D:/code/c&c++/abacus/cmake-build-debug/CMakeFiles/abacus.dir/addition.cpp.obj"
+  "D:/code/c&c++/abacus/base.cpp" "D:/code/c&c++/abacus/cmake-build-debug/CMakeFiles/abacus.dir/base.cpp.obj"
+  "D:/code/c&c++/abacus/main.cpp" "D:/code/c&c++/abacus/cmake-build-debug/CMakeFiles/abacus.dir/main.cpp.obj"
+  "D:/code/c&c++/abacus/subtraction.cpp" "D:/code/c&c++/abacus/cmake-build-debug/CMakeFiles/abacus.dir/subtraction.cpp.obj"
   )
 set(CMAKE_CXX_COMPILER_ID "MSVC")
 
