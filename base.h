@@ -25,16 +25,16 @@ typedef struct
 } Num;
 
 //全局变量
-extern Num ab_augend[PLACES_NUM], ab_addend[PLACES_NUM];
-extern char augend[PLACES_NUM], addend[PLACES_NUM];
+extern Num first_operand[PLACES_NUM], second_operand[PLACES_NUM];
+extern char c_first_operand[PLACES_NUM], c_second_operand[PLACES_NUM];
 extern const char* INDEX_TO_CHINESE_NUM[];
 extern string processHintPlaceHolder; //演算过程提示占位符
 
 void drawOneBead(float x, float y); //绘制算珠（椭圆形状）
 void drawStr(const char* str);
-void drawAbacus(Num *sa); //绘制算盘
+void drawAbacus(Num *num); //绘制算盘
 void isDecimal(char *x); //判断是否为小数,如果为小数，则去掉小数点
-void toAbacusForm(Num *s, char *t, int len); //阿拉伯数字转换为算盘式数字
-int toNumberForm(Num *s); //算盘某档转为阿拉伯数字
+void toAbacusForm(Num *abacus_number, char *arabic_number, int len); //阿拉伯数字转换为算盘式数字
+int toNumberForm(Num *abacus_number); //算盘某档转为阿拉伯数字
 
 #endif //ABACUS_BASE_H

@@ -6,6 +6,10 @@
 
 #IncludeRegexTransform: 
 
+D:/code/c&c++/abacus/addition.cpp
+addition.h
+D:/code/c&c++/abacus/addition.h
+
 D:/code/c&c++/abacus/addition.h
 base.h
 D:/code/c&c++/abacus/base.h
@@ -29,4 +33,10 @@ sstream
 D:/code/c&c++/abacus/main.cpp
 addition.h
 D:/code/c&c++/abacus/addition.h
+subtraction.h
+D:/code/c&c++/abacus/subtraction.h
+
+D:/code/c&c++/abacus/subtraction.h
+base.h
+D:/code/c&c++/abacus/base.h
 

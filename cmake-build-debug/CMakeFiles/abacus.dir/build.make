@@ -98,28 +98,9 @@ CMakeFiles\abacus.dir\subtraction.cpp.s: cmake_force
  /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) /FoNUL /FAs /FaCMakeFiles\abacus.dir\subtraction.cpp.s /c "D:\code\c&c++\abacus\subtraction.cpp"
 <<
 
-CMakeFiles\abacus.dir\main.cpp.obj: CMakeFiles\abacus.dir\flags.make
-CMakeFiles\abacus.dir\main.cpp.obj: ..\main.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="D:\code\c&c++\abacus\cmake-build-debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/abacus.dir/main.cpp.obj"
-	C:\PROGRA~2\MICROS~4\2019\COMMUN~1\VC\Tools\MSVC\1429~1.301\bin\Hostx86\x86\cl.exe @<<
- /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) /FoCMakeFiles\abacus.dir\main.cpp.obj /FdCMakeFiles\abacus.dir\ /FS -c "D:\code\c&c++\abacus\main.cpp"
-<<
-
-CMakeFiles\abacus.dir\main.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/abacus.dir/main.cpp.i"
-	C:\PROGRA~2\MICROS~4\2019\COMMUN~1\VC\Tools\MSVC\1429~1.301\bin\Hostx86\x86\cl.exe > CMakeFiles\abacus.dir\main.cpp.i @<<
- /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "D:\code\c&c++\abacus\main.cpp"
-<<
-
-CMakeFiles\abacus.dir\main.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/abacus.dir/main.cpp.s"
-	C:\PROGRA~2\MICROS~4\2019\COMMUN~1\VC\Tools\MSVC\1429~1.301\bin\Hostx86\x86\cl.exe @<<
- /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) /FoNUL /FAs /FaCMakeFiles\abacus.dir\main.cpp.s /c "D:\code\c&c++\abacus\main.cpp"
-<<
-
 CMakeFiles\abacus.dir\base.cpp.obj: CMakeFiles\abacus.dir\flags.make
 CMakeFiles\abacus.dir\base.cpp.obj: ..\base.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="D:\code\c&c++\abacus\cmake-build-debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/abacus.dir/base.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="D:\code\c&c++\abacus\cmake-build-debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/abacus.dir/base.cpp.obj"
 	C:\PROGRA~2\MICROS~4\2019\COMMUN~1\VC\Tools\MSVC\1429~1.301\bin\Hostx86\x86\cl.exe @<<
  /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) /FoCMakeFiles\abacus.dir\base.cpp.obj /FdCMakeFiles\abacus.dir\ /FS -c "D:\code\c&c++\abacus\base.cpp"
 <<
@@ -136,20 +117,39 @@ CMakeFiles\abacus.dir\base.cpp.s: cmake_force
  /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) /FoNUL /FAs /FaCMakeFiles\abacus.dir\base.cpp.s /c "D:\code\c&c++\abacus\base.cpp"
 <<
 
+CMakeFiles\abacus.dir\main.cpp.obj: CMakeFiles\abacus.dir\flags.make
+CMakeFiles\abacus.dir\main.cpp.obj: ..\main.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="D:\code\c&c++\abacus\cmake-build-debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/abacus.dir/main.cpp.obj"
+	C:\PROGRA~2\MICROS~4\2019\COMMUN~1\VC\Tools\MSVC\1429~1.301\bin\Hostx86\x86\cl.exe @<<
+ /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) /FoCMakeFiles\abacus.dir\main.cpp.obj /FdCMakeFiles\abacus.dir\ /FS -c "D:\code\c&c++\abacus\main.cpp"
+<<
+
+CMakeFiles\abacus.dir\main.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/abacus.dir/main.cpp.i"
+	C:\PROGRA~2\MICROS~4\2019\COMMUN~1\VC\Tools\MSVC\1429~1.301\bin\Hostx86\x86\cl.exe > CMakeFiles\abacus.dir\main.cpp.i @<<
+ /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "D:\code\c&c++\abacus\main.cpp"
+<<
+
+CMakeFiles\abacus.dir\main.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/abacus.dir/main.cpp.s"
+	C:\PROGRA~2\MICROS~4\2019\COMMUN~1\VC\Tools\MSVC\1429~1.301\bin\Hostx86\x86\cl.exe @<<
+ /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) /FoNUL /FAs /FaCMakeFiles\abacus.dir\main.cpp.s /c "D:\code\c&c++\abacus\main.cpp"
+<<
+
 # Object files for target abacus
 abacus_OBJECTS = \
 "CMakeFiles\abacus.dir\addition.cpp.obj" \
 "CMakeFiles\abacus.dir\subtraction.cpp.obj" \
-"CMakeFiles\abacus.dir\main.cpp.obj" \
-"CMakeFiles\abacus.dir\base.cpp.obj"
+"CMakeFiles\abacus.dir\base.cpp.obj" \
+"CMakeFiles\abacus.dir\main.cpp.obj"
 
 # External object files for target abacus
 abacus_EXTERNAL_OBJECTS =
 
 abacus.exe: CMakeFiles\abacus.dir\addition.cpp.obj
 abacus.exe: CMakeFiles\abacus.dir\subtraction.cpp.obj
-abacus.exe: CMakeFiles\abacus.dir\main.cpp.obj
 abacus.exe: CMakeFiles\abacus.dir\base.cpp.obj
+abacus.exe: CMakeFiles\abacus.dir\main.cpp.obj
 abacus.exe: CMakeFiles\abacus.dir\build.make
 abacus.exe: CMakeFiles\abacus.dir\objects1.rsp
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir="D:\code\c&c++\abacus\cmake-build-debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX executable abacus.exe"

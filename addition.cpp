@@ -60,16 +60,16 @@ void displayDraftCalculationOfAddition()
 { //显示被加数、加数、结果
     RECT r1 = { 900, 100, 1000, 125 };
     char ta[17];
-    sprintf(ta, "%.2f", atoi(augend) * 1.0 / 100);
+    sprintf(ta, "%.2f", atoi(c_first_operand) * 1.0 / 100);
     drawtext(ta, &r1, DT_RIGHT | DT_VCENTER | DT_SINGLELINE);
     char tmp[190];
-    sprintf(tmp, "+%17.2f", atoi(addend) * 1.0 / 100);
+    sprintf(tmp, "+%17.2f", atoi(c_second_operand) * 1.0 / 100);
 
     RECT r2 = { 900, 125, 1000, 150 };
     drawtext(tmp, &r2, DT_RIGHT | DT_VCENTER | DT_SINGLELINE);
     line(900, 150, 1000, 150);
     RECT r3 = { 900, 150, 1000, 175 };
-    int ans = atoi(augend) + atoi(addend);
+    int ans = atoi(c_first_operand) + atoi(c_second_operand);
     //	char sans[10];
     //	itoa(ans, sans, 10);
     char tans[17];
@@ -87,7 +87,7 @@ void displayDraftCalculationOfAddition()
 
 
 //绘制一个数的盘式
-void initialize(Num *sa)
+void drawNumOnAbacusOfAddition(Num *sa)
 {
     cleardevice(); //清空屏幕内容
     displayDraftCalculationOfAddition(); // 绘制列式计算的结果
@@ -96,7 +96,7 @@ void initialize(Num *sa)
 }
 
 //可视化模拟一位加法
-void simulate(Num* au, Num* ad, int n){
+void simulateAddition(Num* au, Num* ad, int n){
     Num* aug = &au[n];
     Num* add = &ad[n];
     Num* tmp = aug; //当前被加数的指针
@@ -107,11 +107,11 @@ void simulate(Num* au, Num* ad, int n){
         if(4-(aug->low) < addNumber && addNumber<5){//凑五加：被加数下框离梁珠<加数 && 加数<5
             //凑五加：下五去凑五数
             tmp->high += 1; //下五
-            initialize(au);
+            drawNumOnAbacusOfAddition(au);
             drawStr("下五");
             getchar();
             tmp->low -= 5-addNumber; //去凑五数
-            initialize(au);
+            drawNumOnAbacusOfAddition(au);
             processHintPlaceHolder = (stringstream()<<"去"<<INDEX_TO_CHINESE_NUM[5-addNumber]).str();
             drawStr(processHintPlaceHolder.c_str());
             getchar();
@@ -119,7 +119,7 @@ void simulate(Num* au, Num* ad, int n){
             //直接加：加数>=5则梁上下五，梁下上加数-5；加数<5则梁下上加数
             if(addNumber >=5){
                 tmp->high += 1;
-                initialize(au);
+                drawNumOnAbacusOfAddition(au);
                 drawStr("下五");
                 getchar();
                 tmp->low += addNumber - 5;
@@ -129,7 +129,7 @@ void simulate(Num* au, Num* ad, int n){
                 processHintPlaceHolder = (stringstream()<<"上"<<INDEX_TO_CHINESE_NUM[addNumber]).str();
 
             }
-            initialize(au);
+            drawNumOnAbacusOfAddition(au);
             drawStr(processHintPlaceHolder.c_str());
             getchar();
         }
@@ -139,7 +139,7 @@ void simulate(Num* au, Num* ad, int n){
         if(tmp->low < complement && addNumber+augNumber != 10){//破五进十加：被加数下框入珠数小于补数
             //去五，上（5-补数）
             tmp->high -= 1;
-            initialize(au);
+            drawNumOnAbacusOfAddition(au);
             drawStr("去五");
             getchar();
 
@@ -148,12 +148,12 @@ void simulate(Num* au, Num* ad, int n){
         }else{ //进十加
             //去补
             tmp->high -= int(complement/5);
-//            initialize(au);
+//            drawNumOnAbacusOfAddition(au);
 //            getchar();
             tmp->low -= complement%5;
             processHintPlaceHolder = (stringstream()<<"去"<<INDEX_TO_CHINESE_NUM[complement]).str();
         }
-        initialize(au);
+        drawNumOnAbacusOfAddition(au);
         drawStr(processHintPlaceHolder.c_str());
         getchar();
 
@@ -163,10 +163,10 @@ void simulate(Num* au, Num* ad, int n){
          * */
         CARRYNUM carryNumber(n+1);
 
-        initialize(au);
+        drawNumOnAbacusOfAddition(au);
         drawStr("进一");
         getchar();
-        simulate(au,carryNumber.carry,n+1);
+        simulateAddition(au, carryNumber.carry, n + 1);
     }
 }
 
