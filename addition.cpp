@@ -91,7 +91,7 @@ void drawNumOnAbacusOfAddition(Num *sa)
 {
     cleardevice(); //清空屏幕内容
     displayDraftCalculationOfAddition(); // 绘制列式计算的结果
-    drawAbacus(sa); //绘制算盘
+    drawAbacus(sa,AbacusParams()); //绘制算盘
     drawAdditionMnemonicRhyme(); //绘制加法口诀表
 }
 

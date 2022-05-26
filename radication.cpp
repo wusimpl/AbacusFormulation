@@ -6,5 +6,5 @@
 
 void drawNumOnAbacusOfRadication(Num *sa) {
     cleardevice(); //清空屏幕内容
-    drawAbacus(sa); //绘制算盘
+    drawAbacus(sa,AbacusParams()); //绘制算盘
 }

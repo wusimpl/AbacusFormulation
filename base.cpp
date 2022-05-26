@@ -21,16 +21,17 @@ void drawStr(const char* str){
 }
 
 //绘制算盘
-void drawAbacus(Num *num) {
-    Coordinate topLeft = {50,100};
-    int width = 800, heightToBeam = 100, heightToBottom = 275;
-    int stickSpan = 50;
-    float beadHalfHeight = 12.5,beadHalfWidth = 12.5;
+void drawAbacus(Num *num, AbacusParams param) {
+    Coordinate topLeft = param.topLeft;
+    int width = param.width, heightToBeam = param.heightToBeam, heightToBottom = param.heightToBottom;
+    int stickSpan = param.stickSpan;
+    float beadHalfHeight = param.beadHalfHeight,beadHalfWidth = param.beadHalfWidth;
+    int dotLocation = param.dotLocation;
 
     line(topLeft.x, topLeft.y, topLeft.x+width, topLeft.y); //上框
     line(topLeft.x, topLeft.y+heightToBeam, topLeft.x+width, topLeft.y+heightToBeam); //中框（梁）
     line(topLeft.x, topLeft.y+heightToBottom, topLeft.x+width, topLeft.y+heightToBottom); //下框
-    fillellipse(725 - 5, 200 - 5, 725 + 5, 200 + 5); //小数点
+    fillellipse(topLeft.x+stickSpan/2+dotLocation*50 - 5, topLeft.y+heightToBeam - 5, topLeft.x+stickSpan/2+dotLocation*50 + 5, topLeft.y+heightToBeam + 5); //小数点
 
     for (int i = 0; i < 17; ++i) //左框+右框+档
     {
@@ -65,7 +66,7 @@ void isDecimal(char *x)
 }
 
 //阿拉伯数字转换为算盘式数字
-void toAbacusForm(Num *abacus_number, char *arabic_number, int len)
+void toAbacusForm(Num *abacus_number, char* arabic_number, int len)
 {
     for (int i = len - 1, k = 0; i >= 0; i--, k++)
     {

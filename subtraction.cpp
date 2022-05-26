@@ -83,7 +83,7 @@ void drawNumOnAbacusOfSubtraction(Num *sa)
 {
     cleardevice(); //清空屏幕内容
     displayDraftCalculationOfSubtraction(); // 绘制列式计算的结果
-    drawAbacus(sa); //绘制算盘
+    drawAbacus(sa,AbacusParams()); //绘制算盘
     drawSubtractionMnemonicRhyme(); //绘制减法口诀表
 }
 
