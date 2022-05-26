@@ -207,6 +207,33 @@ main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\abacus.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\abacus.dir\main.cpp.s
 .PHONY : main.cpp.s
 
+radication.obj: radication.cpp.obj
+
+.PHONY : radication.obj
+
+# target to build an object file
+radication.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\abacus.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\abacus.dir\radication.cpp.obj
+.PHONY : radication.cpp.obj
+
+radication.i: radication.cpp.i
+
+.PHONY : radication.i
+
+# target to preprocess a source file
+radication.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\abacus.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\abacus.dir\radication.cpp.i
+.PHONY : radication.cpp.i
+
+radication.s: radication.cpp.s
+
+.PHONY : radication.s
+
+# target to generate assembly for a file
+radication.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\abacus.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\abacus.dir\radication.cpp.s
+.PHONY : radication.cpp.s
+
 subtraction.obj: subtraction.cpp.obj
 
 .PHONY : subtraction.obj
@@ -252,6 +279,9 @@ help:
 	@echo ... main.obj
 	@echo ... main.i
 	@echo ... main.s
+	@echo ... radication.obj
+	@echo ... radication.i
+	@echo ... radication.s
 	@echo ... subtraction.obj
 	@echo ... subtraction.i
 	@echo ... subtraction.s

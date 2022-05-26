@@ -3,4 +3,4 @@ project(abacus)
 
 set(CMAKE_CXX_STANDARD 11)
 
-add_executable(abacus addition.cpp subtraction.cpp base.h addition.h base.cpp subtraction.h main.cpp)
+add_executable(abacus addition.cpp subtraction.cpp base.h addition.h base.cpp subtraction.h main.cpp radication.cpp radication.h)

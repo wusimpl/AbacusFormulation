@@ -24,6 +24,11 @@ typedef struct
     int low; //梁下入珠数
 } Num;
 
+typedef struct{
+    int x;
+    int y;
+} Coordinate;
+
 //全局变量
 extern Num first_operand[PLACES_NUM], second_operand[PLACES_NUM];
 extern char c_first_operand[PLACES_NUM], c_second_operand[PLACES_NUM];

@@ -97,6 +97,12 @@
 		<Unit filename="D:/code/c&amp;c++/abacus/main.cpp">
 			<Option target="abacus"/>
 		</Unit>
+		<Unit filename="D:/code/c&amp;c++/abacus/radication.cpp">
+			<Option target="abacus"/>
+		</Unit>
+		<Unit filename="D:/code/c&amp;c++/abacus/radication.h">
+			<Option target="abacus"/>
+		</Unit>
 		<Unit filename="D:/code/c&amp;c++/abacus/subtraction.cpp">
 			<Option target="abacus"/>
 		</Unit>

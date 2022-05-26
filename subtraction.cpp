@@ -88,50 +88,50 @@ void drawNumOnAbacusOfSubtraction(Num *sa)
 }
 
 //可视化模拟一位减法
-void simulateSubtraction(Num* au, Num* ad, int n){
-    Num* aug = &au[n];
-    Num* add = &ad[n];
-    Num* tmp = aug; //当前被减数的指针
-    int augNumber = toNumberForm(aug); //被减数
-    int addNumber = toNumberForm(add); //减数
+void simulateSubtraction(Num* minuend, Num* meiosis, int n){
+    Num* mi = &minuend[n];
+    Num* mei = &meiosis[n];
+    Num* tmp = mi; //当前被减数的指针
+    int miNumber = toNumberForm(mi); //被减数
+    int meiNumber = toNumberForm(mei); //减数
 
-    if (addNumber + augNumber <= 9){ //直接减或者凑五减
-        if(4-(aug->low) < addNumber && addNumber<5){//凑五减：被减数下框离梁珠<减数 && 减数<5
+    if (meiNumber + miNumber <= 9){ //直接减或者凑五减
+        if(4-(mi->low) < meiNumber && meiNumber < 5){//凑五减：被减数下框离梁珠<减数 && 减数<5
             //凑五减：下五去凑五数
             tmp->high += 1; //下五
-            drawNumOnAbacusOfSubtraction(au);
+            drawNumOnAbacusOfSubtraction(minuend);
             drawStr("下五");
             getchar();
-            tmp->low -= 5-addNumber; //去凑五数
-            drawNumOnAbacusOfSubtraction(au);
-            processHintPlaceHolder = (stringstream()<<"去"<<INDEX_TO_CHINESE_NUM[5-addNumber]).str();
+            tmp->low -= 5 - meiNumber; //去凑五数
+            drawNumOnAbacusOfSubtraction(minuend);
+            processHintPlaceHolder = (stringstream()<<"去"<<INDEX_TO_CHINESE_NUM[5 - meiNumber]).str();
             drawStr(processHintPlaceHolder.c_str());
             getchar();
         }else{ //直接减
             //直接减：减数>=5则梁上下五，梁下上减数-5；减数<5则梁下上减数
-            if(addNumber >=5){
+            if(meiNumber >= 5){
                 tmp->high += 1;
-                drawNumOnAbacusOfSubtraction(au);
+                drawNumOnAbacusOfSubtraction(minuend);
                 drawStr("下五");
                 getchar();
-                tmp->low += addNumber - 5;
-                processHintPlaceHolder = (stringstream()<<"上"<<INDEX_TO_CHINESE_NUM[addNumber-5]).str();
+                tmp->low += meiNumber - 5;
+                processHintPlaceHolder = (stringstream()<<"上"<<INDEX_TO_CHINESE_NUM[meiNumber - 5]).str();
             }else{
-                tmp->low += addNumber;
-                processHintPlaceHolder = (stringstream()<<"上"<<INDEX_TO_CHINESE_NUM[addNumber]).str();
+                tmp->low += meiNumber;
+                processHintPlaceHolder = (stringstream()<<"上"<<INDEX_TO_CHINESE_NUM[meiNumber]).str();
 
             }
-            drawNumOnAbacusOfSubtraction(au);
+            drawNumOnAbacusOfSubtraction(minuend);
             drawStr(processHintPlaceHolder.c_str());
             getchar();
         }
     }else{ //进十减或者破五进十减
-        int complement = 10-addNumber;//减数的补数
+        int complement = 10 - meiNumber;//减数的补数
         /*先计算本位*/
-        if(tmp->low < complement && addNumber+augNumber != 10){//破五进十减：被减数下框入珠数小于补数
+        if(tmp->low < complement && meiNumber + miNumber != 10){//破五进十减：被减数下框入珠数小于补数
             //去五，上（5-补数）
             tmp->high -= 1;
-            drawNumOnAbacusOfSubtraction(au);
+            drawNumOnAbacusOfSubtraction(minuend);
             drawStr("去五");
             getchar();
 
@@ -140,12 +140,12 @@ void simulateSubtraction(Num* au, Num* ad, int n){
         }else{ //进十减
             //去补
             tmp->high -= int(complement/5);
-//            drawNumOnAbacusOfAddition(au);
+//            drawNumOnAbacusOfAddition(minuend);
 //            getchar();
             tmp->low -= complement%5;
             processHintPlaceHolder = (stringstream()<<"去"<<INDEX_TO_CHINESE_NUM[complement]).str();
         }
-        drawNumOnAbacusOfSubtraction(au);
+        drawNumOnAbacusOfSubtraction(minuend);
         drawStr(processHintPlaceHolder.c_str());
         getchar();
 
@@ -155,9 +155,9 @@ void simulateSubtraction(Num* au, Num* ad, int n){
          * */
 //        CARRYNUM carryNumber(n+1);
 //
-//        drawNumOnAbacusOfAddition(au);
+//        drawNumOnAbacusOfAddition(minuend);
 //        drawStr("进一");
 //        getchar();
-//        simulateAddition(au, carryNumber.carry, n + 1);
+//        simulateAddition(minuend, carryNumber.carry, n + 1);
     }
 }

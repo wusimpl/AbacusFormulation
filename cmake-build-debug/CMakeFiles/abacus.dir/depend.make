@@ -11,7 +11,12 @@ CMakeFiles\abacus.dir\base.cpp.obj: ..\base.h
 CMakeFiles\abacus.dir\main.cpp.obj: ..\addition.h
 CMakeFiles\abacus.dir\main.cpp.obj: ..\base.h
 CMakeFiles\abacus.dir\main.cpp.obj: ..\main.cpp
+CMakeFiles\abacus.dir\main.cpp.obj: ..\radication.h
 CMakeFiles\abacus.dir\main.cpp.obj: ..\subtraction.h
+
+CMakeFiles\abacus.dir\radication.cpp.obj: ..\base.h
+CMakeFiles\abacus.dir\radication.cpp.obj: ..\radication.cpp
+CMakeFiles\abacus.dir\radication.cpp.obj: ..\radication.h
 
 CMakeFiles\abacus.dir\subtraction.cpp.obj: ..\base.h
 CMakeFiles\abacus.dir\subtraction.cpp.obj: ..\subtraction.cpp

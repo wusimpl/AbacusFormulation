@@ -3,15 +3,17 @@
 //
 #include "addition.h"
 #include "subtraction.h"
+#include "radication.h"
 
 void addition();
-
 void subtraction();
+void radication();
 
 void menu(){
     printf("*******算盘的演算过程********\n");
     printf("1.加法\n");
     printf("2.减法\n");
+    printf("3.开方\n");
     printf("***************************\n");
 }
 
@@ -27,6 +29,9 @@ int main()
             break;
         case 2:
             subtraction();
+            break;
+        case 3:
+            radication();
             break;
         default:
             exit(0);
@@ -103,7 +108,7 @@ void addition() {
     drawNumOnAbacusOfAddition(first_operand); //初始化算盘（绘制算盘、列式、口诀表）
 
     getchar();
-    for (int i = 0; i < maxLen; i++){ //从左到右按位依次加法
+    for (int i = 0; i < maxLen; i++){ //从右到左按位依次加法
         getchar();
         if(toNumberForm(&first_operand[i]) != 0 || toNumberForm(&second_operand[i]) != 0){ //本位的加数和被加数不都为零
             simulateAddition(first_operand, second_operand, i);
@@ -115,4 +120,33 @@ void addition() {
     closegraph(); //释放绘图资源
 }
 
+void radication(){
+    int errorFlag = 0;
+    int len;
+    do{
+        printf("请输入被开方数(允许两位小数)：");
+        scanf("%s", c_first_operand);
+        isDecimal(c_first_operand);//判断是否为小数
+        len = strlen(c_first_operand);
+        if (len > 14){
+            printf("您输入的数过大，请重新输入\n");
+            errorFlag = 1;
+        }
+    } while(errorFlag);
+
+    toAbacusForm(first_operand, c_first_operand, len);
+    initgraph(1100, 700); //初始化绘图环境
+    setbkcolor(WHITE); //设置背景颜色
+    setcolor(BROWN); //设置前景颜色
+    setfillstyle(BLACK); //设置填充样式
+    setlinestyle(PS_SOLID, 2); //设置直线样式
+
+    drawNumOnAbacusOfRadication(first_operand); //初始化算盘（绘制算盘、列式、口诀表）
+
+    // simulation
+
+    drawStr("计算结束"); //绘制“计算结束”
+    _getch(); //按任意键继续
+    closegraph(); //释放绘图资源
+}
 

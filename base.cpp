@@ -22,31 +22,35 @@ void drawStr(const char* str){
 
 //绘制算盘
 void drawAbacus(Num *num) {
-    int k;
-    line(50, 100, 850, 100); //上框
-    line(50, 200, 850, 200); //中框（梁）
-    line(50, 375, 850, 375); //下框
+    Coordinate topLeft = {50,100};
+    int width = 800, heightToBeam = 100, heightToBottom = 275;
+    int stickSpan = 50;
+    float beadHalfHeight = 12.5,beadHalfWidth = 12.5;
+
+    line(topLeft.x, topLeft.y, topLeft.x+width, topLeft.y); //上框
+    line(topLeft.x, topLeft.y+heightToBeam, topLeft.x+width, topLeft.y+heightToBeam); //中框（梁）
+    line(topLeft.x, topLeft.y+heightToBottom, topLeft.x+width, topLeft.y+heightToBottom); //下框
     fillellipse(725 - 5, 200 - 5, 725 + 5, 200 + 5); //小数点
 
     for (int i = 0; i < 17; ++i) //左框+右框+档
     {
-        line(50 + i * 50, 100, 50 + i * 50, 375);
+        line(topLeft.x + i * stickSpan, topLeft.y, topLeft.x + i * stickSpan, topLeft.y+heightToBottom);
     }
 
     for (int i = 0, j = 14; i < PLACES_NUM; ++i, --j) //绘制梁上算珠
     {
-        for (k = 0; k < num[j].high; ++k) //未入珠
-            drawOneBead(100 + 50 * i, 187.5 - 25 * k);
-        for (k = 0; k < 1 - num[j].high; ++k) //入珠
-            drawOneBead(100 + 50 * i, 112.5 + 25 * k);
+        for (int k = 0; k < num[j].high; ++k) //入珠
+            drawOneBead(topLeft.x+stickSpan + stickSpan * i, topLeft.y+heightToBeam-beadHalfHeight - 2*beadHalfWidth * k);
+        for (int k = 0; k < 1 - num[j].high; ++k) //未入珠
+            drawOneBead(topLeft.x+stickSpan + stickSpan * i, topLeft.y+beadHalfHeight + 2*beadHalfWidth * k);
     }
 
     for (int i = 0, j = 14; i < PLACES_NUM; ++i, --j) //绘制梁下算珠
     {
         for (int k = 0; k < num[j].low; ++k) //入珠
-            drawOneBead(100 + 50 * i, 212.5 + 25 * k);
+            drawOneBead(topLeft.x+stickSpan + stickSpan * i, topLeft.y+heightToBeam+beadHalfHeight + 2*beadHalfWidth * k);
         for (int k = 0; k < 4 - num[j].low; ++k) //未入珠
-            drawOneBead(100 + 50 * i, 362.5 - 25 * k);
+            drawOneBead(topLeft.x+stickSpan + stickSpan * i, topLeft.y+heightToBottom-beadHalfHeight - 2*beadHalfWidth * k);
     }
 }
 
