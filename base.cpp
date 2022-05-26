@@ -56,7 +56,7 @@ void drawAbacus(Num *num, AbacusParams param) {
 }
 
 //判断是否为小数,如果为小数，则去掉小数点
-void isDecimal(char *x)
+void convertToDecimal(char *x)
 {
     if((string(x)).find('.') == string::npos){ //整数
         strcat(x,"00");
@@ -66,7 +66,7 @@ void isDecimal(char *x)
 }
 
 //阿拉伯数字转换为算盘式数字
-void toAbacusForm(Num *abacus_number, char* arabic_number, int len)
+void toAbacusForm(Num *abacus_number, const char* arabic_number, int len)
 {
     for (int i = len - 1, k = 0; i >= 0; i--, k++)
     {

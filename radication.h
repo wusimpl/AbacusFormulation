@@ -7,7 +7,8 @@
 
 #include "base.h"
 
-void drawNumOnAbacusOfRadication(Num *sa);
-
+void drawNumOnAbacusOfRadication(Num *sa, Num* result);
+void simulateRadication(size_t dotLocation,int originalLen, int convertedLen);
+size_t getDotLocation(const char* cStr);
 
 #endif //ABACUS_RADICATION_H
