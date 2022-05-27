@@ -41,6 +41,7 @@ void simulateRadication(char* c_original_first_operand,size_t dotLocation,int or
     double denominator = 0; // 法数：2(root1 + root2 + root3 ...)
     double remainder = allToNumberForm(a_first_operand);//余数
     double subtrahend = 0; //减数：(法数+当前根)*当前根
+    //test
     //估首根
     getHead(c_original_first_operand,originalLen,dotLocation,head);
     currentRoot = int(sqrt(CSTR_TO_NUM(head)));
