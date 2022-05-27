@@ -56,21 +56,21 @@ void subtraction() {
         }
     } while(errorHappened);
 
-    toAbacusForm(first_operand, c_first_operand, len1);
-    toAbacusForm(second_operand, c_second_operand, len2);
+    toAbacusForm(a_first_operand, c_first_operand, len1);
+    toAbacusForm(a_second_operand, c_second_operand, len2);
     initgraph(1100, 700); //初始化绘图环境
     setbkcolor(WHITE); //设置背景颜色
     setcolor(BROWN); //设置前景颜色
     setfillstyle(BLACK); //设置填充样式
     setlinestyle(PS_SOLID, 2); //设置直线样式
 
-    drawNumOnAbacusOfSubtraction(first_operand); //初始化算盘（绘制算盘、列式、口诀表）
+    drawNumOnAbacusOfSubtraction(a_first_operand); //初始化算盘（绘制算盘、列式、口诀表）
 
     getchar();
     for (int i = 0; i < maxLen; i++){ //从左到右按位依次减法
         getchar();
-        if(toNumberForm(&first_operand[i]) != 0 || toNumberForm(&second_operand[i]) != 0){ //本位的加数和被加数不都为零
-            simulateSubtraction(first_operand, second_operand, i);
+        if(toNumberForm(&a_first_operand[i]) != 0 || toNumberForm(&a_second_operand[i]) != 0){ //本位的加数和被加数不都为零
+            simulateSubtraction(a_first_operand, a_second_operand, i);
         }
     }
 
@@ -97,21 +97,21 @@ void addition() {
         }
     } while(errorHappened);
 
-    toAbacusForm(first_operand, c_first_operand, len1);
-    toAbacusForm(second_operand, c_second_operand, len2);
+    toAbacusForm(a_first_operand, c_first_operand, len1);
+    toAbacusForm(a_second_operand, c_second_operand, len2);
     initgraph(1100, 700); //初始化绘图环境
     setbkcolor(WHITE); //设置背景颜色
     setcolor(BROWN); //设置前景颜色
     setfillstyle(BLACK); //设置填充样式
     setlinestyle(PS_SOLID, 2); //设置直线样式
 
-    drawNumOnAbacusOfAddition(first_operand); //初始化算盘（绘制算盘、列式、口诀表）
+    drawNumOnAbacusOfAddition(a_first_operand); //初始化算盘（绘制算盘、列式、口诀表）
 
     getchar();
     for (int i = 0; i < maxLen; i++){ //从右到左按位依次加法
         getchar();
-        if(toNumberForm(&first_operand[i]) != 0 || toNumberForm(&second_operand[i]) != 0){ //本位的加数和被加数不都为零
-            simulateAddition(first_operand, second_operand, i);
+        if(toNumberForm(&a_first_operand[i]) != 0 || toNumberForm(&a_second_operand[i]) != 0){ //本位的加数和被加数不都为零
+            simulateAddition(a_first_operand, a_second_operand, i);
         }
     }
 
@@ -136,7 +136,7 @@ void radication(){
         convertToDecimal(c_first_operand);//若为整数，末尾添加00；若为小数，*100
         convertedLen = strlen(c_first_operand);
 //        cout << "convertedLen:" << convertedLen << endl;
-        toAbacusForm(first_operand, c_first_operand, convertedLen); //转为算盘形式
+        toAbacusForm(a_first_operand, c_first_operand, convertedLen); //转为算盘形式
 
         if (convertedLen > 14){
             printf("您输入的数过大，请重新输入\n");
@@ -152,9 +152,9 @@ void radication(){
 
     c_second_operand[14] = '0'; //存储开方结果
     convertToDecimal(c_second_operand);
-    toAbacusForm(second_operand,c_second_operand,1);
+    toAbacusForm(a_second_operand, c_second_operand, 1);
 
-    drawNumOnAbacusOfRadication(first_operand,second_operand); //初始化算盘（绘制算盘、列式、口诀表）
+    drawNumOnAbacusOfRadication(a_first_operand, a_second_operand); //初始化算盘
 
     // simulation
     simulateRadication(c_original_first_operand,dotLocation,originalLen,convertedLen);

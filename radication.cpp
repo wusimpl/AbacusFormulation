@@ -5,9 +5,11 @@
 #include "radication.h"
 #include <cmath>
 #include <string>
+#include <stdio.h>
+
 
 #define CSTR_TO_NUM(cstr) (atoi(cstr))
-#define NUM_TO_STRING(num) (std::to_string(num))
+#define NUM_TO_CSTR(num,str) (sprintf(str,"%.2lf",num))
 
 void drawNumOnAbacusOfRadication(Num *sa, Num* result) {
     cleardevice(); //清空屏幕内容
@@ -32,11 +34,41 @@ void simulateRadication(char* c_original_first_operand,size_t dotLocation,int or
         integralDigitsCount = ceil(dotLocation/2.0);
     }
     int currentRootLocation = integralDigitsCount; //以小数点为原点0，向左依次+1，向右依次-1
-    int currentRoot = 0; // root value
+    double currentRoot = 0; // root value
+    double currentRootWithDigits = 0; // root * 10^(its digit)
     char head[3]; // 要估算的位，例如344.2，估首根，head为3
-    //求首根
+    double sumUpOfRoots = 0; // 已经求得的根之和
+    double denominator = 0; // 法数：2(root1 + root2 + root3 ...)
+    double remainder = allToNumberForm(a_first_operand);//余数
+    double subtrahend = 0; //减数：(法数+当前根)*当前根
+
+    //估首根
     getHead(c_original_first_operand,originalLen,dotLocation,head);
     currentRoot = int(sqrt(CSTR_TO_NUM(head)));
+    currentRootWithDigits = currentRoot * pow(10,currentRootLocation-1);
+    sumUpOfRoots += currentRootWithDigits;
+    denominator = 2*sumUpOfRoots;
+    //减首根平方
+    remainder -= pow(currentRootWithDigits,2);
+    currentRootLocation--;
+    //估其他根
+    char remainderStrForm[15];
+    for (int i = currentRootLocation; i > -2; --i) {
+        //估根
+        NUM_TO_CSTR(remainder, remainderStrForm);
+        dotLocation = getDotLocation(remainderStrForm);
+//        getHead(remainderStrForm, strlen(remainderStrForm),dotLocation,head);
+        currentRoot = i>0?int(remainder/denominator/ pow(10,i-1)):int((remainder/denominator)*pow(10,-(i-1))); //估
+        currentRootWithDigits = currentRoot * pow(10,i-1);
+        sumUpOfRoots += currentRootWithDigits;
+        subtrahend = (denominator + currentRootWithDigits) * currentRootWithDigits;
+        remainder -= subtrahend;
+        denominator = 2*sumUpOfRoots; //更新法数
+
+        if((remainder-0.0) < 0.000001){ //开方开尽，退出
+            break;
+        }
+    }
 }
 
 size_t getDotLocation(const char cStr[]){

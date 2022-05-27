@@ -4,7 +4,7 @@
 
 #include "base.h"
 
-Num first_operand[PLACES_NUM+1], second_operand[PLACES_NUM+1]; //数的算盘形式
+Num a_first_operand[PLACES_NUM], a_second_operand[PLACES_NUM]; //数的算盘形式
 char c_first_operand[PLACES_NUM+1], c_second_operand[PLACES_NUM+1]; //数的字符形式
 const char* INDEX_TO_CHINESE_NUM[] = {"零","一","二","三","四","五","六","七","八","九","十"}; // 中文数字字符常量
 string processHintPlaceHolder; //演算过程提示占位符
@@ -55,14 +55,14 @@ void drawAbacus(Num *num, AbacusParams param) {
     }
 }
 
-//判断是否为小数,如果为小数，则去掉小数点
+//248->24800, 23.12 -> 2312, 0.3 -> 3-
 void convertToDecimal(char *x)
 {
-    if((string(x)).find('.') == string::npos){ //整数
-        strcat(x,"00");
-    }else{ //小数
+//    if((string(x)).find('.') == string::npos){ //整数
+//        strcat(x,"00");
+//    }else{ //小数
         itoa(atof(x)*100,x,10);
-    }
+//    }
 }
 
 //阿拉伯数字转换为算盘式数字
@@ -79,4 +79,16 @@ void toAbacusForm(Num *abacus_number, const char* arabic_number, int len)
 //算盘某档转为阿拉伯数字
 int toNumberForm(Num *abacus_number){
     return abacus_number->high * 5 + abacus_number->low;
+}
+
+double allToNumberForm(Num* abacus_number){
+    double result = 0;
+    int digit;
+    for (int i = 0; i < 15; ++i) {
+        digit = toNumberForm(&abacus_number[i]);
+        if(digit != 0){
+            result += digit * pow(10,i-2);
+        }
+    }
+    return result;
 }
