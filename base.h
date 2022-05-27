@@ -39,8 +39,8 @@ typedef struct AbacusParams{
 }AbacusParams;
 
 //全局变量
-extern Num first_operand[PLACES_NUM], second_operand[PLACES_NUM];
-extern char c_first_operand[PLACES_NUM], c_second_operand[PLACES_NUM];
+extern Num first_operand[PLACES_NUM+1], second_operand[PLACES_NUM+1];
+extern char c_first_operand[PLACES_NUM+1], c_second_operand[PLACES_NUM+1];
 extern const char* INDEX_TO_CHINESE_NUM[];
 extern string processHintPlaceHolder; //演算过程提示占位符
 

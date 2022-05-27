@@ -4,6 +4,10 @@
 
 #include "radication.h"
 #include <cmath>
+#include <string>
+
+#define CSTR_TO_NUM(cstr) (atoi(cstr))
+#define NUM_TO_STRING(num) (std::to_string(num))
 
 void drawNumOnAbacusOfRadication(Num *sa, Num* result) {
     cleardevice(); //清空屏幕内容
@@ -19,7 +23,7 @@ void drawNumOnAbacusOfRadication(Num *sa, Num* result) {
     drawAbacus(result, param); //绘制第二个算盘，用于展示开方结果的变化
 }
 
-void simulateRadication(size_t dotLocation,int originalLen, int convertedLen){
+void simulateRadication(char* c_original_first_operand,size_t dotLocation,int originalLen, int convertedLen){
     int integralDigitsCount = 0; //开方结果的整数的位数
     //根据小数点的位置确定integralDigitsCount
     if(dotLocation == 0){//整数
@@ -27,7 +31,12 @@ void simulateRadication(size_t dotLocation,int originalLen, int convertedLen){
     }else{//小数
         integralDigitsCount = ceil(dotLocation/2.0);
     }
-
+    int currentRootLocation = integralDigitsCount; //以小数点为原点0，向左依次+1，向右依次-1
+    int currentRoot = 0; // root value
+    char head[3]; // 要估算的位，例如344.2，估首根，head为3
+    //求首根
+    getHead(c_original_first_operand,originalLen,dotLocation,head);
+    currentRoot = int(sqrt(CSTR_TO_NUM(head)));
 }
 
 size_t getDotLocation(const char cStr[]){
@@ -39,4 +48,19 @@ size_t getDotLocation(const char cStr[]){
         }
     }
     return 0;
+}
+
+void getHead(const char* strNum, int length, size_t dotLocation, char *head) {
+    int headLength = 0;
+    size_t integralDigitsNum = 0; //被开方数的整数部分的位数
+
+    integralDigitsNum = dotLocation == 0 ? length : dotLocation;
+
+    headLength = integralDigitsNum%2==0 ? 2 : 1; //判断head是一位还是两位
+
+    int i = 0;
+    for (i = 0; i < headLength; ++i) {
+        head[i] = strNum[i];
+    }
+    head[i] = '\0';
 }

@@ -4,8 +4,8 @@
 
 #include "base.h"
 
-Num first_operand[PLACES_NUM], second_operand[PLACES_NUM]; //数的算盘形式
-char c_first_operand[PLACES_NUM], c_second_operand[PLACES_NUM]; //数的字符形式
+Num first_operand[PLACES_NUM+1], second_operand[PLACES_NUM+1]; //数的算盘形式
+char c_first_operand[PLACES_NUM+1], c_second_operand[PLACES_NUM+1]; //数的字符形式
 const char* INDEX_TO_CHINESE_NUM[] = {"零","一","二","三","四","五","六","七","八","九","十"}; // 中文数字字符常量
 string processHintPlaceHolder; //演算过程提示占位符
 

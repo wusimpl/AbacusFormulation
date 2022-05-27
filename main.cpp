@@ -125,15 +125,17 @@ void radication(){
     int originalLen = 0;
     int convertedLen=0;
     size_t dotLocation = 0; //小数点在第dotLocation位数字的后面
+    char c_original_first_operand[PLACES_NUM+1]; //未去掉小数点的cstr
     do{
         printf("请输入被开方数(允许两位小数)：");
         scanf("%s", c_first_operand); //读取
+        strcpy(c_original_first_operand, c_first_operand);
         dotLocation = getDotLocation(c_first_operand); //得到小数点的位置（用于后面的定位）
-        cout<<"dotLocation:"<<dotLocation<<endl;
-        originalLen = strlen(c_first_operand); //原始长度（不算上小数点）
+//        cout<<"dotLocation:"<<dotLocation<<endl;
+        originalLen = strlen(c_first_operand)-1; //原始长度（不算上小数点）
         convertToDecimal(c_first_operand);//若为整数，末尾添加00；若为小数，*100
         convertedLen = strlen(c_first_operand);
-        cout << "convertedLen:" << convertedLen << endl;
+//        cout << "convertedLen:" << convertedLen << endl;
         toAbacusForm(first_operand, c_first_operand, convertedLen); //转为算盘形式
 
         if (convertedLen > 14){
@@ -155,7 +157,7 @@ void radication(){
     drawNumOnAbacusOfRadication(first_operand,second_operand); //初始化算盘（绘制算盘、列式、口诀表）
 
     // simulation
-    simulateRadication(dotLocation,originalLen,convertedLen);
+    simulateRadication(c_original_first_operand,dotLocation,originalLen,convertedLen);
 
     drawStr("计算结束"); //绘制“计算结束”
     _getch(); //按任意键继续
