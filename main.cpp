@@ -121,26 +121,30 @@ void addition() {
 }
 
 void radication(){
-    int errorHappened = 0;
-    int originalLen = 0;
-    int convertedLen=0;
-    size_t dotLocation = 0; //小数点在第dotLocation位数字的后面
+    int errorHappened; //true如果用户输入的数字位数>14
+    int originalLen; //用户输入的数字的原始长度
+    int lenWithoutDot; //去掉小数点后的长度
+    int convertedLen; //*100之后的长度
+    size_t dotLocation; //小数点在第dotLocation位数字的后面
     char c_original_first_operand[PLACES_NUM+1]; //未去掉小数点的cstr
     do{
         printf("请输入被开方数(允许两位小数)：");
         scanf("%s", c_first_operand); //读取
         strcpy(c_original_first_operand, c_first_operand);
-        dotLocation = getDotLocation(c_first_operand); //得到小数点的位置（用于后面的定位）
-//        cout<<"dotLocation:"<<dotLocation<<endl;
-        originalLen = strlen(c_first_operand)-1; //原始长度（不算上小数点）
-        convertToDecimal(c_first_operand);//若为整数，末尾添加00；若为小数，*100
+        lenWithoutDot=dotLocation = getDotLocation(c_first_operand); //得到小数点的位置（用于后面的定位）
+        originalLen = strlen(c_first_operand); //原始长度（不算上小数点）
+        if(convertToDecimal(c_first_operand)){ //若为整数，末尾添加00；若为小数，*100
+            //如果是小数
+            lenWithoutDot -= 1;
+        }
         convertedLen = strlen(c_first_operand);
-//        cout << "convertedLen:" << convertedLen << endl;
         toAbacusForm(a_first_operand, c_first_operand, convertedLen); //转为算盘形式
 
         if (convertedLen > 14){
             printf("您输入的数过大，请重新输入\n");
-            errorHappened = 1;
+            errorHappened = true;
+        }else{
+            errorHappened = false;
         }
     } while(errorHappened);
 

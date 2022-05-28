@@ -29,24 +29,29 @@ void simulateRadication(char* c_original_first_operand,size_t dotLocation,int or
     int integralDigitsCount = 0; //开方结果的整数的位数
     //根据小数点的位置确定integralDigitsCount
     if(dotLocation == 0){//整数
-        integralDigitsCount = ceil(originalLen/2.0); //上取整
+        integralDigitsCount = ceil(originalLen%2); //上取整
     }else{//小数
-        integralDigitsCount = ceil(dotLocation/2.0);
+        integralDigitsCount = ceil(dotLocation%2);
     }
     int currentRootLocation = integralDigitsCount; //以小数点为原点0，向左依次+1，向右依次-1
     double currentRoot = 0; // root value
+    int currentResultStick = integralDigitsCount+2; // 显示结果的算盘的当前挡位（从右至左），因为有两位小数点，所以+2
     double currentRootWithDigits = 0; // root * 10^(its digit)
     char head[3]; // 要估算的位，例如344.2，估首根，head为3
     double sumUpOfRoots = 0; // 已经求得的根之和
-    double denominator = 0; // 法数：2(root1 + root2 + root3 ...)
+    double denominator; // 法数：2(root1 + root2 + root3 ...)
     double remainder = allToNumberForm(a_first_operand);//余数
-    double subtrahend = 0; //减数：(法数+当前根)*当前根
+    double subtrahend; //减数：(法数+当前根)*当前根
     //估首根
     getHead(c_original_first_operand,originalLen,dotLocation,head);
     currentRoot = int(sqrt(CSTR_TO_NUM(head)));
     currentRootWithDigits = currentRoot * pow(10,currentRootLocation-1);
     sumUpOfRoots += currentRootWithDigits;
     denominator = 2*sumUpOfRoots;
+
+    setNumToAbacus(currentRoot,a_second_operand,currentResultStick);
+    drawNumOnAbacusOfRadication(a_first_operand, a_second_operand);
+    _getch();
     //减首根平方
     remainder -= pow(currentRootWithDigits,2);
     currentRootLocation--;

@@ -56,13 +56,14 @@ void drawAbacus(Num *num, AbacusParams param) {
 }
 
 //248->24800, 23.12 -> 2312, 0.3 -> 3-
-void convertToDecimal(char *x)
+bool convertToDecimal(char *x)
 {
-//    if((string(x)).find('.') == string::npos){ //整数
-//        strcat(x,"00");
-//    }else{ //小数
-        itoa(atof(x)*100,x,10);
-//    }
+    bool isDecimal = true;
+    if((string(x)).find('.') == string::npos) { //整数
+        isDecimal = false;
+    }
+    itoa(atof(x)*100,x,10);
+    return isDecimal;
 }
 
 //阿拉伯数字转换为算盘式数字
@@ -79,6 +80,12 @@ void toAbacusForm(Num *abacus_number, const char* arabic_number, int len)
 //算盘某档转为阿拉伯数字
 int toNumberForm(Num *abacus_number){
     return abacus_number->high * 5 + abacus_number->low;
+}
+
+//将数字设置到算盘的某个挡位
+void setNumToAbacus(int num, Num* abacus,int stickNum){
+    abacus[stickNum-1].high = num / 5;
+    abacus[stickNum-1].low = num % 5;
 }
 
 double allToNumberForm(Num* abacus_number){
