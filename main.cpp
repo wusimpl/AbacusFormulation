@@ -131,8 +131,8 @@ void radication(){
         printf("请输入被开方数(允许两位小数)：");
         scanf("%s", c_first_operand); //读取
         strcpy(c_original_first_operand, c_first_operand);
-        lenWithoutDot=dotLocation = getDotLocation(c_first_operand); //得到小数点的位置（用于后面的定位）
-        originalLen = strlen(c_first_operand); //原始长度（不算上小数点）
+        dotLocation = getDotLocation(c_first_operand); //得到小数点的位置（用于后面的定位）
+        lenWithoutDot = originalLen = strlen(c_first_operand); //原始长度（不算上小数点）
         if(convertToDecimal(c_first_operand)){ //若为整数，末尾添加00；若为小数，*100
             //如果是小数
             lenWithoutDot -= 1;
@@ -161,7 +161,7 @@ void radication(){
     drawNumOnAbacusOfRadication(a_first_operand, a_second_operand); //初始化算盘
 
     // simulation
-    simulateRadication(c_original_first_operand,dotLocation,originalLen,convertedLen);
+    simulateRadication(c_original_first_operand,dotLocation,lenWithoutDot,convertedLen);
 
     drawStr("计算结束"); //绘制“计算结束”
     _getch(); //按任意键继续

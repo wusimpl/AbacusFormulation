@@ -25,14 +25,12 @@ void drawNumOnAbacusOfRadication(Num *sa, Num* result) {
     drawAbacus(result, param); //绘制第二个算盘，用于展示开方结果的变化
 }
 
-void simulateRadication(char* c_original_first_operand,size_t dotLocation,int originalLen, int convertedLen){
+void simulateRadication(char* c_original_first_operand,size_t dotLocation,int lenWithoutDot, int convertedLen){
     int integralDigitsCount = 0; //开方结果的整数的位数
     //根据小数点的位置确定integralDigitsCount
-    if(dotLocation == 0){//整数
-        integralDigitsCount = ceil(originalLen%2); //上取整
-    }else{//小数
-        integralDigitsCount = ceil(dotLocation%2);
-    }
+    integralDigitsCount = dotLocation == 0?lenWithoutDot:dotLocation;
+    integralDigitsCount = integralDigitsCount%2==0?integralDigitsCount/2:integralDigitsCount/2+1;
+
     int currentRootLocation = integralDigitsCount; //以小数点为原点0，向左依次+1，向右依次-1
     double currentRoot = 0; // root value
     int currentResultStick = integralDigitsCount+2; // 显示结果的算盘的当前挡位（从右至左），因为有两位小数点，所以+2
@@ -43,31 +41,52 @@ void simulateRadication(char* c_original_first_operand,size_t dotLocation,int or
     double remainder = allToNumberForm(a_first_operand);//余数
     double subtrahend; //减数：(法数+当前根)*当前根
     //估首根
-    getHead(c_original_first_operand,originalLen,dotLocation,head);
+    _getch();
+    getHead(c_original_first_operand,lenWithoutDot,dotLocation,head);
     currentRoot = int(sqrt(CSTR_TO_NUM(head)));
     currentRootWithDigits = currentRoot * pow(10,currentRootLocation-1);
     sumUpOfRoots += currentRootWithDigits;
     denominator = 2*sumUpOfRoots;
 
-    setNumToAbacus(currentRoot,a_second_operand,currentResultStick);
+    setNumToAbacus(currentRoot,a_second_operand,currentResultStick);//可视化
     drawNumOnAbacusOfRadication(a_first_operand, a_second_operand);
+    currentResultStick--;
     _getch();
     //减首根平方
     remainder -= pow(currentRootWithDigits,2);
     currentRootLocation--;
+
+    NUM_TO_CSTR(remainder,c_first_operand);//可视化
+    convertToDecimal(c_first_operand);
+    clearAbacus(a_first_operand);
+    toAbacusForm(a_first_operand,c_first_operand, strlen(c_first_operand));
+    drawNumOnAbacusOfRadication(a_first_operand, a_second_operand);
+    _getch();
     //估其他根
     char remainderStrForm[15];
-    for (int i = currentRootLocation; i > -2; --i) {
+    for (int i = currentRootLocation; i > -2; i--,currentResultStick--) {
         //估根
         NUM_TO_CSTR(remainder, remainderStrForm);
-        dotLocation = getDotLocation(remainderStrForm);
+//        dotLocation = getDotLocation(remainderStrForm);
 //        getHead(remainderStrForm, strlen(remainderStrForm),dotLocation,head);
         currentRoot = i>0?int(remainder/denominator/ pow(10,i-1)):int((remainder/denominator)*pow(10,-(i-1))); //估
         currentRootWithDigits = currentRoot * pow(10,i-1);
+
+        setNumToAbacus(currentRoot,a_second_operand,currentResultStick);//可视化
+        drawNumOnAbacusOfRadication(a_first_operand, a_second_operand);
+        _getch();
+
         sumUpOfRoots += currentRootWithDigits;
         subtrahend = (denominator + currentRootWithDigits) * currentRootWithDigits;
         remainder -= subtrahend;
         denominator = 2*sumUpOfRoots; //更新法数
+
+        NUM_TO_CSTR(remainder,c_first_operand);//可视化
+        convertToDecimal(c_first_operand);
+        clearAbacus(a_first_operand);
+        toAbacusForm(a_first_operand,c_first_operand, strlen(c_first_operand));
+        drawNumOnAbacusOfRadication(a_first_operand, a_second_operand);
+        _getch();
 
         if((remainder-0.0) < 0.000001){ //开方开尽，退出
             break;

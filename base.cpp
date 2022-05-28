@@ -66,8 +66,15 @@ bool convertToDecimal(char *x)
     return isDecimal;
 }
 
+void clearAbacus(Num* abacus){
+    for (int i = 0; i < PLACES_NUM; ++i) {
+        abacus[i].high = 0;
+        abacus[i].low = 0;
+    }
+}
+
 //阿拉伯数字转换为算盘式数字
-void toAbacusForm(Num *abacus_number, const char* arabic_number, int len)
+void toAbacusForm(Num *abacus_number, const char* arabic_number, int len) //len：没有小数点
 {
     for (int i = len - 1, k = 0; i >= 0; i--, k++)
     {
