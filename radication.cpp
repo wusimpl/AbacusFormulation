@@ -6,6 +6,10 @@
 #include <cmath>
 #include <string>
 #include <stdio.h>
+//#define DEBUG 1
+#ifdef DEBUG
+#define _getch()
+#endif
 
 
 #define CSTR_TO_NUM(cstr) (atoi(cstr))
@@ -71,6 +75,13 @@ void simulateRadication(char* c_original_first_operand,size_t dotLocation,int le
 //        getHead(remainderStrForm, strlen(remainderStrForm),dotLocation,head);
         currentRoot = i>0?int(remainder/denominator/ pow(10,i-1)):int((remainder/denominator)*pow(10,-(i-1))); //估
         currentRootWithDigits = currentRoot * pow(10,i-1);
+//        currentRootWithDigits = ((int)(currentRootWithDigits*100))/100.0; //0.1000004 -> 10 -> 0.100000 懂？
+        while(remainder - (denominator+currentRootWithDigits)*currentRootWithDigits < 0){ //估根估大了，调整
+            currentRoot--;
+            currentRootWithDigits = currentRoot * pow(10,i-1);
+//            currentRootWithDigits = ((int)(currentRootWithDigits*100))/100.0; //0.1000004 -> 10 -> 0.100000 懂？
+        }
+
 
         setNumToAbacus(currentRoot,a_second_operand,currentResultStick);//可视化
         drawNumOnAbacusOfRadication(a_first_operand, a_second_operand);
