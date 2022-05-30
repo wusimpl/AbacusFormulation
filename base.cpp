@@ -16,7 +16,7 @@ void drawOneBead(float x, float y)
 }
 
 void drawStr(const char* str){
-    RECT r1 = { 900, 250, 1000, 275 };
+    RECT r1 = { 900, 250, 1100, 275 };
     drawtext(str, &r1, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
 }
 
