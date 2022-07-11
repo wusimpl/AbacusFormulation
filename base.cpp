@@ -20,6 +20,28 @@ void drawStr(const char* str){
     drawtext(str, &r1, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
 }
 
+void drawStrOfSize32(const char* str){
+    setFontSizeTo32();
+    RECT r1 = { 900, 250, 1100, 280 };
+    drawtext(str, &r1, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+    setFontSizeTo16();
+}
+
+void setFontSizeTo16(){
+    setFontSize(16);
+}
+
+void setFontSizeTo32(){
+    setFontSize(32);
+}
+
+void setFontSize(int size){
+    LOGFONT f;
+    gettextstyle(&f);
+    f.lfHeight =size;
+    f.lfWeight = FW_NORMAL;
+    settextstyle(&f);
+}
 //绘制算盘
 void drawAbacus(Num *num, AbacusParams param) {
     Coordinate topLeft = param.topLeft;

@@ -46,6 +46,7 @@ extern string processHintPlaceHolder; //演算过程提示占位符
 
 void drawOneBead(float x, float y); //绘制算珠（椭圆形状）
 void drawStr(const char* str);
+void drawStrOfSize32(const char* str);
 void drawAbacus(Num *num, AbacusParams param); //绘制算盘
 bool convertToDecimal(char *x); //判断是否为小数,如果为小数，则去掉小数点
 void toAbacusForm(Num *abacus_number, const char *arabic_number, int len); //阿拉伯数字(字符串形式)转换为算盘式数字
@@ -53,4 +54,7 @@ int toNumberForm(Num *abacus_number); //算盘某档转为阿拉伯数字
 double allToNumberForm(Num* abacus_number); //整个算盘转换为阿拉伯数字(toAbacusForm()的逆运算)
 void setNumToAbacus(int num, Num* abacus,int stickNum);
 void clearAbacus(Num* abacus);//清空算盘
+void setFontSize(int size);
+void setFontSizeTo16();
+void setFontSizeTo32();
 #endif //ABACUS_BASE_H

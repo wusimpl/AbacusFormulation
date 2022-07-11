@@ -5,6 +5,9 @@
 #include "subtraction.h"
 #include "radication.h"
 
+#define GraphSizeOfWidth 1200
+#define GraphSizeOfHeight 1200
+
 void addition();
 void subtraction();
 void radication();
@@ -58,9 +61,9 @@ void subtraction() {
 
     toAbacusForm(a_first_operand, c_first_operand, len1);
     toAbacusForm(a_second_operand, c_second_operand, len2);
-    initgraph(1100, 700); //初始化绘图环境
+    initgraph(GraphSizeOfWidth, GraphSizeOfHeight); //初始化绘图环境
     setbkcolor(WHITE); //设置背景颜色
-    setcolor(BROWN); //设置前景颜色
+    setcolor(BLACK); //设置前景颜色
     setfillstyle(BLACK); //设置填充样式
     setlinestyle(PS_SOLID, 2); //设置直线样式
 
@@ -74,7 +77,7 @@ void subtraction() {
         }
     }
 
-    drawStr("计算结束"); //绘制“计算结束”
+    drawStrOfSize32("计算结束"); //绘制“计算结束”
     _getch(); //按任意键继续
     closegraph(); //释放绘图资源
 }
@@ -99,9 +102,9 @@ void addition() {
 
     toAbacusForm(a_first_operand, c_first_operand, len1);
     toAbacusForm(a_second_operand, c_second_operand, len2);
-    initgraph(1100, 700); //初始化绘图环境
+    initgraph(GraphSizeOfWidth, GraphSizeOfHeight); //初始化绘图环境
     setbkcolor(WHITE); //设置背景颜色
-    setcolor(BROWN); //设置前景颜色
+    setcolor(BLACK); //设置前景颜色
     setfillstyle(BLACK); //设置填充样式
     setlinestyle(PS_SOLID, 2); //设置直线样式
 
@@ -115,7 +118,7 @@ void addition() {
         }
     }
 
-    drawStr("计算结束"); //绘制“计算结束”
+    drawStrOfSize32("计算结束"); //绘制“计算结束”
     _getch(); //按任意键继续
     closegraph(); //释放绘图资源
 }
@@ -148,9 +151,9 @@ void radication(){
         }
     } while(errorHappened);
 
-    initgraph(1100, 700); //初始化绘图环境
+    initgraph(GraphSizeOfWidth, GraphSizeOfHeight); //初始化绘图环境
     setbkcolor(WHITE); //设置背景颜色
-    setcolor(BROWN); //设置前景颜色
+    setcolor(BLACK); //设置前景颜色
     setfillstyle(BLACK); //设置填充样式
     setlinestyle(PS_SOLID, 2); //设置直线样式
 
@@ -163,7 +166,7 @@ void radication(){
     // simulation
     simulateRadication(c_original_first_operand,dotLocation,lenWithoutDot,convertedLen);
 
-    drawStr("计算结束"); //绘制“计算结束”
+    drawStrOfSize32("计算结束"); //绘制“计算结束”
     _getch(); //按任意键继续
     closegraph(); //释放绘图资源
 }

@@ -57,7 +57,7 @@ void simulateRadication(char* c_original_first_operand,size_t dotLocation,int le
     drawNumOnAbacusOfRadication(a_first_operand, a_second_operand);
     currentResultStick--;
     processHintPlaceHolder = (stringstream()<<"估得首根为"<<currentRoot).str();
-    drawStr(processHintPlaceHolder.c_str());
+    drawStrOfSize32(processHintPlaceHolder.c_str());
     _getch();
     //减首根平方
     remainder -= pow(currentRootWithDigits,2);
@@ -69,7 +69,7 @@ void simulateRadication(char* c_original_first_operand,size_t dotLocation,int le
     toAbacusForm(a_first_operand,c_first_operand, strlen(c_first_operand));
     drawNumOnAbacusOfRadication(a_first_operand, a_second_operand);
     processHintPlaceHolder = (stringstream()<<"减首根平方"<<pow(currentRootWithDigits,2)).str();
-    drawStr(processHintPlaceHolder.c_str());
+    drawStrOfSize32(processHintPlaceHolder.c_str());
     _getch();
     //估其他根
     char remainderStrForm[15];
@@ -91,7 +91,7 @@ void simulateRadication(char* c_original_first_operand,size_t dotLocation,int le
         setNumToAbacus(currentRoot,a_second_operand,currentResultStick);//可视化
         drawNumOnAbacusOfRadication(a_first_operand, a_second_operand);
         processHintPlaceHolder = (stringstream()<<"估得下一根为"<<currentRoot).str();
-        drawStr(processHintPlaceHolder.c_str());
+        drawStrOfSize32(processHintPlaceHolder.c_str());
         _getch();
 
         sumUpOfRoots += currentRootWithDigits;
@@ -105,7 +105,7 @@ void simulateRadication(char* c_original_first_operand,size_t dotLocation,int le
         clearAbacus(a_first_operand);
         toAbacusForm(a_first_operand,c_first_operand, strlen(c_first_operand));
         drawNumOnAbacusOfRadication(a_first_operand, a_second_operand);
-        drawStr(processHintPlaceHolder.c_str());
+        drawStrOfSize32(processHintPlaceHolder.c_str());
         _getch();
 
         if((remainder-0.0) < 0.000001){ //开方开尽，退出
