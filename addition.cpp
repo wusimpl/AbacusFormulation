@@ -108,7 +108,7 @@ void simulateAddition(Num* au, Num* ad, int n){
     int addNumber = toNumberForm(add); //加数
 
     if (addNumber + augNumber <= 9){ //直接加或者凑五加
-        if(4-(aug->low) < addNumber && addNumber<5){//凑五加：被加数下框离梁珠<加数 && 加数<5
+        if(augNumber<5&&addNumber<5&&addNumber+augNumber>=5){//凑五加：被加数下框离梁珠<加数 && 加数<5
             //凑五加：下五去凑五数
             tmp->high += 1; //下五
             drawNumOnAbacusOfAddition(au);
@@ -120,19 +120,9 @@ void simulateAddition(Num* au, Num* ad, int n){
             drawStrOfSize32(processHintPlaceHolder.c_str());
             getchar();
         }else{ //直接加
-            //直接加：加数>=5则梁上下五，梁下上加数-5；加数<5则梁下上加数
-            if(addNumber >=5){
-                tmp->high += 1;
-                drawNumOnAbacusOfAddition(au);
-                drawStrOfSize32("下五");
-                getchar();
-                tmp->low += addNumber - 5;
-                processHintPlaceHolder = (stringstream()<<"上"<<INDEX_TO_CHINESE_NUM[addNumber-5]).str();
-            }else{
-                tmp->low += addNumber;
-                processHintPlaceHolder = (stringstream()<<"上"<<INDEX_TO_CHINESE_NUM[addNumber]).str();
-
-            }
+            tmp->high += addNumber/5;
+            tmp->low += addNumber%5;
+            processHintPlaceHolder = (stringstream()<<"上"<<INDEX_TO_CHINESE_NUM[addNumber]).str();
             drawNumOnAbacusOfAddition(au);
             drawStrOfSize32(processHintPlaceHolder.c_str());
             getchar();
