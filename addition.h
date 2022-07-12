@@ -7,19 +7,6 @@
 
 #include "base.h"
 
-
-
-typedef struct CARRYNUM{
-    Num carry[PLACES_NUM];
-
-    CARRYNUM(int digit){ //digit belongs to 0-14
-        for(int i=0;i<PLACES_NUM;i++){
-            carry[i] = {0,0};
-        }
-        carry[digit] = {0,1};
-    }
-}CARRYNUM;
-
 void drawAdditionMnemonicRhyme(); //绘制加法口诀表
 void displayDraftCalculationOfAddition(); //显示列式计算的结果
 void drawNumOnAbacusOfAddition(Num *sa); //绘制一个数的盘式

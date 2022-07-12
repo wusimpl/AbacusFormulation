@@ -8,9 +8,10 @@
 #define GraphSizeOfWidth 1200
 #define GraphSizeOfHeight 1200
 
-//#define DEBUG 1
+#define DEBUG 1
 #ifdef DEBUG
 #define _getch()
+#define getchar()
 #endif
 
 void addition();

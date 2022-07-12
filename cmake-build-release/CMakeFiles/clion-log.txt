@@ -1,0 +1,4 @@
+"E:\software\clion\CLion 2021.1\bin\cmake\win\bin\cmake.exe" -DCMAKE_BUILD_TYPE=Release -G "CodeBlocks - NMake Makefiles" D:\code\c&c++\abacus
+-- Configuring done
+-- Generating done
+-- Build files have been written to: D:/code/c&c++/abacus/cmake-build-release

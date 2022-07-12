@@ -1,0 +1,3 @@
+D:/code/c&c++/abacus/cmake-build-release/CMakeFiles/abacus.dir
+D:/code/c&c++/abacus/cmake-build-release/CMakeFiles/edit_cache.dir
+D:/code/c&c++/abacus/cmake-build-release/CMakeFiles/rebuild_cache.dir

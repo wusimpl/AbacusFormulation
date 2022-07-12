@@ -2,13 +2,14 @@
 // Created by andy on 2022/5/6.
 //
 #include "subtraction.h"
+#include "addition.h"
 
 void displayCalculationResultOfSubtraction(){//显示被减数、减数、结果
     setFontSizeTo32();
     int miNumber = atoi(original_c_first_operand);
     int meiNumber = atoi(original_c_second_operand);
-    processHintPlaceHolder = (stringstream() << miNumber << "-" << meiNumber << "=" << miNumber - meiNumber).str();
-    drawStrOfDisplayCalculationResult(processHintPlaceHolder.c_str());
+    stringGenerator << miNumber << "-" << meiNumber << "=" << miNumber - meiNumber;
+    drawStrOfDisplayCalculationResult(stringGenerator.str().c_str());
     setFontSizeTo16();
 }
 
@@ -79,55 +80,56 @@ void simulateSubtraction(Num* minuend, Num* meiosis, int n){
     int miNumber = toNumberForm(mi); //被减数
     int meiNumber = toNumberForm(mei); //减数
 
-    if (miNumber <= meiNumber){ //不退位减
-        if(miNumber>5 && meiNumber < 5){//破五减
-            tmp->high -= 1; //去五
+    if (miNumber >= meiNumber){ //不退位减
+        if(miNumber>=5 && meiNumber<5 && meiNumber > (miNumber-5)){//破五减
+            tmp->upper -= 1; //去五
             drawNumOnAbacusOfSubtraction(minuend);
             drawStrOfSize32("去五");
             getchar();
-            tmp->low += 5 - meiNumber; //上（5-减数）
+            tmp->lower += 5 - meiNumber; //上（5-减数）
             drawNumOnAbacusOfSubtraction(minuend);
-            processHintPlaceHolder = (stringstream()<<"上"<<INDEX_TO_CHINESE_NUM[5 - meiNumber]).str();
-            drawStrOfSize32(processHintPlaceHolder.c_str());
+            stringGenerator<<"上"<<INDEX_TO_CHINESE_NUM[5 - meiNumber];
+            drawStrOfSize32(stringGenerator.str().c_str());
+            stringGenerator.str("");
             getchar();
         }else{ //直接减
-            tmp->high -= mei->high;
-            tmp->low -= mei->low;
-            processHintPlaceHolder = (stringstream()<<"去"<<INDEX_TO_CHINESE_NUM[meiNumber]).str();
-            drawStrOfSize32(processHintPlaceHolder.c_str());
+            tmp->upper -= mei->upper;
+            tmp->lower -= mei->lower;
+            drawNumOnAbacusOfSubtraction(minuend);
+            stringGenerator<<"去"<<INDEX_TO_CHINESE_NUM[meiNumber];
+            drawStrOfSize32(stringGenerator.str().c_str());
+            stringGenerator.str("");
             getchar();
         }
     }else{ //退位减
         int complement = 10 - meiNumber;//减数的补数
         /*先计算本位*/
-        if(tmp->low + complement >= 5){//退十还五减：本位的补数和被减数需要相加，为凑五加的情况
-            tmp->high += 1; //还五
+        if(meiNumber>5&&tmp->upper==0){//退十还五减
+            tmp->upper += 1; //还五
             drawNumOnAbacusOfSubtraction(minuend);
             drawStrOfSize32("还五");
             getchar();
-            tmp->low -= meiNumber-5;
-            processHintPlaceHolder = (stringstream()<<"去"<<INDEX_TO_CHINESE_NUM[meiNumber-5]).str();
-        }else{ //进十减
-            //去补
-            tmp->high -= int(complement/5);
-//            drawNumOnAbacusOfAddition(minuend);
-//            getchar();
-            tmp->low -= complement%5;
-            processHintPlaceHolder = (stringstream()<<"去"<<INDEX_TO_CHINESE_NUM[complement]).str();
+            tmp->lower -= meiNumber - 5;
+            stringGenerator<<"去"<<INDEX_TO_CHINESE_NUM[meiNumber-5];
+        }else{ //退十减
+            tmp->upper += int(complement / 5);
+            tmp->lower += complement % 5;
+            stringGenerator<<"还"<<INDEX_TO_CHINESE_NUM[complement];
         }
         drawNumOnAbacusOfSubtraction(minuend);
-        drawStrOfSize32(processHintPlaceHolder.c_str());
+        drawStrOfSize32(stringGenerator.str().c_str());
+        stringGenerator.str("");
         getchar();
 
         /*再计算借位
          * 退一可能引起前面许多位都有借位，所以本质上是连续减法，使用递归调用解决此问题。
          * 这里当做另外一次减法来做，被减数：当前算盘的数，减数：1。
          * */
-//        CARRYNUM carryNumber(n+1);
-//
-//        drawNumOnAbacusOfAddition(minuend);
-//        drawStrOfSize32("进一");
-//        getchar();
-//        simulateAddition(minuend, carryNumber.carry, n + 1);
+        CARRYNUM carryNumber(n+1);
+
+        drawNumOnAbacusOfSubtraction(minuend);
+        drawStrOfSize32("退一");
+        getchar();
+        simulateSubtraction(minuend, carryNumber.carry, n + 1);
     }
 }

@@ -9,6 +9,7 @@ char c_first_operand[PLACES_NUM+1], c_second_operand[PLACES_NUM+1]; //数的字�
 char original_c_first_operand[PLACES_NUM+1], original_c_second_operand[PLACES_NUM+1];//接收到的输入数字
 const char* INDEX_TO_CHINESE_NUM[] = {"零","一","二","三","四","五","六","七","八","九","十"}; // 中文数字字符常量
 string processHintPlaceHolder; //演算过程提示占位符
+stringstream stringGenerator;
 
 //绘制算珠（椭圆形状）
 void drawOneBead(float x, float y)
@@ -71,17 +72,17 @@ void drawAbacus(Num *num, AbacusParams param) {
 
     for (int i = 0, j = 14; i < PLACES_NUM; ++i, --j) //绘制梁上算珠
     {
-        for (int k = 0; k < num[j].high; ++k) //入珠
+        for (int k = 0; k < num[j].upper; ++k) //入珠
             drawOneBead(topLeft.x+stickSpan + stickSpan * i, topLeft.y+heightToBeam-beadHalfHeight - 2*beadHalfWidth * k);
-        for (int k = 0; k < 1 - num[j].high; ++k) //未入珠
+        for (int k = 0; k < 1 - num[j].upper; ++k) //未入珠
             drawOneBead(topLeft.x+stickSpan + stickSpan * i, topLeft.y+beadHalfHeight + 2*beadHalfWidth * k);
     }
 
     for (int i = 0, j = 14; i < PLACES_NUM; ++i, --j) //绘制梁下算珠
     {
-        for (int k = 0; k < num[j].low; ++k) //入珠
+        for (int k = 0; k < num[j].lower; ++k) //入珠
             drawOneBead(topLeft.x+stickSpan + stickSpan * i, topLeft.y+heightToBeam+beadHalfHeight + 2*beadHalfWidth * k);
-        for (int k = 0; k < 4 - num[j].low; ++k) //未入珠
+        for (int k = 0; k < 4 - num[j].lower; ++k) //未入珠
             drawOneBead(topLeft.x+stickSpan + stickSpan * i, topLeft.y+heightToBottom-beadHalfHeight - 2*beadHalfWidth * k);
     }
 }
@@ -99,8 +100,8 @@ bool convertToDecimal(char *x)
 
 void clearAbacus(Num* abacus){
     for (int i = 0; i < PLACES_NUM; ++i) {
-        abacus[i].high = 0;
-        abacus[i].low = 0;
+        abacus[i].upper = 0;
+        abacus[i].lower = 0;
     }
 }
 
@@ -110,20 +111,20 @@ void toAbacusForm(Num *abacus_number, const char* arabic_number, int len) //len�
     for (int i = len - 1, k = 0; i >= 0; i--, k++)
     {
         int x = arabic_number[i] - '0';
-        abacus_number[k].high = x / 5;
-        abacus_number[k].low = x % 5;
+        abacus_number[k].upper = x / 5;
+        abacus_number[k].lower = x % 5;
     }
 }
 
 //算盘某档转为阿拉伯数字
 int toNumberForm(Num *abacus_number){
-    return abacus_number->high * 5 + abacus_number->low;
+    return abacus_number->upper * 5 + abacus_number->lower;
 }
 
 //将数字设置到算盘的某个挡位
 void setNumToAbacus(int num, Num* abacus,int stickNum){
-    abacus[stickNum-1].high = num / 5;
-    abacus[stickNum-1].low = num % 5;
+    abacus[stickNum-1].upper = num / 5;
+    abacus[stickNum-1].lower = num % 5;
 }
 
 double allToNumberForm(Num* abacus_number){

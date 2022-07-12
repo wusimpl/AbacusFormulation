@@ -20,9 +20,20 @@ using namespace std;
 //表示算盘上的一档
 typedef struct
 {
-    int high; //梁上入珠数
-    int low; //梁下入珠数
+    int upper; //梁上入珠数
+    int lower; //梁下入珠数
 } Num;
+
+typedef struct CARRYNUM{ //进位或借位数
+    Num carry[PLACES_NUM];
+
+    CARRYNUM(int digit){ //digit belongs to 0-14
+        for(int i=0;i<PLACES_NUM;i++){
+            carry[i] = {0,0};
+        }
+        carry[digit] = {0,1};
+    }
+}CARRYNUM;
 
 typedef struct{
     int x;
@@ -43,8 +54,8 @@ extern Num a_first_operand[PLACES_NUM], a_second_operand[PLACES_NUM]; //a_first_
 extern char original_c_first_operand[PLACES_NUM+1], original_c_second_operand[PLACES_NUM+1];//接收到的输入数字
 extern char c_first_operand[PLACES_NUM+1], c_second_operand[PLACES_NUM+1];//original数字
 extern const char* INDEX_TO_CHINESE_NUM[];
-extern string processHintPlaceHolder; //演算过程提示占位符
-
+//extern string processHintPlaceHolder; //演算过程提示占位符
+extern stringstream stringGenerator; //字符串生成器
 void drawOneBead(float x, float y); //绘制算珠（椭圆形状）
 void drawStr(const char* str);
 void drawStrOfSize32(const char* str);

@@ -61,8 +61,8 @@ void displayDraftCalculationOfAddition()
     setFontSizeTo32();
     int augNumber = atoi(original_c_first_operand);
     int addNumber = atoi(original_c_second_operand);
-    processHintPlaceHolder = (stringstream()<<augNumber<<"+"<<addNumber<<"="<<augNumber+addNumber).str();
-    drawStrOfDisplayCalculationResult(processHintPlaceHolder.c_str());
+    stringGenerator<<augNumber<<"+"<<addNumber<<"="<<augNumber+addNumber;
+    drawStrOfDisplayCalculationResult(stringGenerator.str().c_str());
     setFontSizeTo16();
 }
 
@@ -87,45 +87,45 @@ void simulateAddition(Num* au, Num* ad, int n){
     if (addNumber + augNumber <= 9){ //直接加或者凑五加
         if(augNumber<5&&addNumber<5&&addNumber+augNumber>=5){//凑五加：被加数下框离梁珠<加数 && 加数<5
             //凑五加：下五去凑五数
-            tmp->high += 1; //下五
+            tmp->upper += 1; //下五
             drawNumOnAbacusOfAddition(au);
             drawStrOfSize32("下五");
             getchar();
-            tmp->low -= 5-addNumber; //去凑五数
+            tmp->lower -= 5 - addNumber;
             drawNumOnAbacusOfAddition(au);
-            processHintPlaceHolder = (stringstream()<<"").str();
-            drawStrOfSize32(processHintPlaceHolder.c_str());
+            stringGenerator<<"去"<<INDEX_TO_CHINESE_NUM[5 - addNumber];
+            drawStrOfSize32(stringGenerator.str().c_str());
+            stringGenerator.str("");
             getchar();
         }else{ //直接加
-            tmp->high += addNumber/5;
-            tmp->low += addNumber%5;
-            processHintPlaceHolder = (stringstream()<<"上"<<INDEX_TO_CHINESE_NUM[addNumber]).str();
+            tmp->upper += addNumber / 5;
+            tmp->lower += addNumber % 5;
+            stringGenerator<<"上"<<INDEX_TO_CHINESE_NUM[addNumber];
             drawNumOnAbacusOfAddition(au);
-            drawStrOfSize32(processHintPlaceHolder.c_str());
+            drawStrOfSize32(stringGenerator.str().c_str());
+            stringGenerator.str("");
             getchar();
         }
     }else{ //进十加或者破五进十加
         int complement = 10-addNumber;//加数的补数
         /*先计算本位*/
-        if(tmp->low < complement && addNumber+augNumber != 10){//破五进十加：本档需用破五减
+        if(tmp->lower < complement && addNumber + augNumber != 10){//破五进十加：本档需用破五减
             //去五，上（5-补数）
-            tmp->high -= 1;
+            tmp->upper -= 1;
             drawNumOnAbacusOfAddition(au);
             drawStrOfSize32("去五");
             getchar();
 
-            tmp->low += 5-complement;
-            processHintPlaceHolder = (stringstream()<<"上"<<INDEX_TO_CHINESE_NUM[5-complement]).str();
+            tmp->lower += 5 - complement;
+            stringGenerator<<"上"<<INDEX_TO_CHINESE_NUM[5-complement];
         }else{ //进十加
-            //去补
-            tmp->high -= int(complement/5);
-//            drawNumOnAbacusOfAddition(au);
-//            getchar();
-            tmp->low -= complement%5;
-            processHintPlaceHolder = (stringstream()<<"去"<<INDEX_TO_CHINESE_NUM[complement]).str();
+            tmp->upper -= int(complement / 5);
+            tmp->lower -= complement % 5;
+            stringGenerator<<"去"<<INDEX_TO_CHINESE_NUM[complement];
         }
         drawNumOnAbacusOfAddition(au);
-        drawStrOfSize32(processHintPlaceHolder.c_str());
+        drawStrOfSize32(stringGenerator.str().c_str());
+        stringGenerator.str("");
         getchar();
 
         /*再计算进位
