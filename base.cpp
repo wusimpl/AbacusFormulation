@@ -6,6 +6,7 @@
 
 Num a_first_operand[PLACES_NUM], a_second_operand[PLACES_NUM]; //数的算盘形式
 char c_first_operand[PLACES_NUM+1], c_second_operand[PLACES_NUM+1]; //数的字符形式
+char original_c_first_operand[PLACES_NUM+1], original_c_second_operand[PLACES_NUM+1];//接收到的输入数字
 const char* INDEX_TO_CHINESE_NUM[] = {"零","一","二","三","四","五","六","七","八","九","十"}; // 中文数字字符常量
 string processHintPlaceHolder; //演算过程提示占位符
 
@@ -25,6 +26,14 @@ void drawStrOfSize32(const char* str){
     RECT r1 = { 900, 250, 1100, 280 };
     drawtext(str, &r1, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
     setFontSizeTo16();
+}
+
+void drawStrOfDisplayCalculationResult(const char* str){
+    setFontSizeTo32();
+    RECT r1 = { 900, 100, 1100, 125 };
+    drawtext(str, &r1, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+    setFontSizeTo16();
+
 }
 
 void setFontSizeTo16(){

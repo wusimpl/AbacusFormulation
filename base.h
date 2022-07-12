@@ -40,13 +40,15 @@ typedef struct AbacusParams{
 
 //全局变量
 extern Num a_first_operand[PLACES_NUM], a_second_operand[PLACES_NUM]; //a_first_operand[14]表示第15档，a_first_operand[0]表示第1档
-extern char c_first_operand[PLACES_NUM+1], c_second_operand[PLACES_NUM+1];
+extern char original_c_first_operand[PLACES_NUM+1], original_c_second_operand[PLACES_NUM+1];//接收到的输入数字
+extern char c_first_operand[PLACES_NUM+1], c_second_operand[PLACES_NUM+1];//original数字
 extern const char* INDEX_TO_CHINESE_NUM[];
 extern string processHintPlaceHolder; //演算过程提示占位符
 
 void drawOneBead(float x, float y); //绘制算珠（椭圆形状）
 void drawStr(const char* str);
 void drawStrOfSize32(const char* str);
+void drawStrOfDisplayCalculationResult(const char*);//绘制表达式计算结果
 void drawAbacus(Num *num, AbacusParams param); //绘制算盘
 bool convertToDecimal(char *x); //判断是否为小数,如果为小数，则去掉小数点
 void toAbacusForm(Num *abacus_number, const char *arabic_number, int len); //阿拉伯数字(字符串形式)转换为算盘式数字

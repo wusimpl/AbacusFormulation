@@ -9,7 +9,7 @@
 
 void drawSubtractionMnemonicRhyme();  ///减法口诀表
 void drawNumOnAbacusOfSubtraction(Num *sa);
-void displayDraftCalculationOfSubtraction();
+void displayCalculationResultOfSubtraction();
 void simulateSubtraction(Num* minuend, Num* meiosis, int n);
 
 #endif //ABACUS_SUBTRACTION_H

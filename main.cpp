@@ -8,6 +8,11 @@
 #define GraphSizeOfWidth 1200
 #define GraphSizeOfHeight 1200
 
+//#define DEBUG 1
+#ifdef DEBUG
+#define _getch()
+#endif
+
 void addition();
 void subtraction();
 void radication();
@@ -16,7 +21,9 @@ void menu(){
     printf("*******算盘的演算过程********\n");
     printf("1.加法\n");
     printf("2.减法\n");
-    printf("3.开方\n");
+    printf("3.乘法\n");
+    printf("4.除法\n");
+    printf("5.开方\n");
     printf("***************************\n");
 }
 
@@ -36,6 +43,12 @@ int main()
         case 3:
             radication();
             break;
+        case 4:
+            radication();
+            break;
+        case 5:
+            radication();
+            break;
         default:
             exit(0);
     }
@@ -48,6 +61,8 @@ void subtraction() {
     do{
         printf("请输入两个长度不超过14位的数(被减数和减数,被减数大于减数，允许两位小数)：");
         scanf("%s %s", c_first_operand, c_second_operand);
+        strcpy(original_c_first_operand,c_first_operand);
+        strcpy(original_c_second_operand,c_second_operand);
         convertToDecimal(c_first_operand);//判断是否为小数
         convertToDecimal(c_second_operand);
         len1 = strlen(c_first_operand);
@@ -89,8 +104,10 @@ void addition() {
    do{
         printf("请输入两个长度不超过14位的数(被加数和加数，允许两位小数)：");
         scanf("%s %s", c_first_operand, c_second_operand);
-       convertToDecimal(c_first_operand);//判断是否为小数
-       convertToDecimal(c_second_operand);
+        strcpy(original_c_first_operand,c_first_operand);
+        strcpy(original_c_second_operand,c_second_operand);
+        convertToDecimal(c_first_operand);//判断是否为小数
+        convertToDecimal(c_second_operand);
         len1 = strlen(c_first_operand);
         len2 = strlen(c_second_operand);
         maxLen = len1 > len2 ? len1 : len2;
@@ -129,11 +146,11 @@ void radication(){
     int lenWithoutDot; //去掉小数点后的长度
     int convertedLen; //*100之后的长度
     size_t dotLocation; //小数点在第dotLocation位数字的后面
-    char c_original_first_operand[PLACES_NUM+1]; //未去掉小数点的cstr
+//    char original_c_first_operand[PLACES_NUM+1]; //未去掉小数点的cstr
     do{
         printf("请输入被开方数(允许两位小数)：");
         scanf("%s", c_first_operand); //读取
-        strcpy(c_original_first_operand, c_first_operand);
+        strcpy(original_c_first_operand, c_first_operand);
         dotLocation = getDotLocation(c_first_operand); //得到小数点的位置（用于后面的定位）
         lenWithoutDot = originalLen = strlen(c_first_operand); //原始长度（不算上小数点）
         if(convertToDecimal(c_first_operand)){ //若为整数，末尾添加00；若为小数，*100
@@ -164,7 +181,7 @@ void radication(){
     drawNumOnAbacusOfRadication(a_first_operand, a_second_operand); //初始化算盘
 
     // simulation
-    simulateRadication(c_original_first_operand,dotLocation,lenWithoutDot,convertedLen);
+    simulateRadication(original_c_first_operand,dotLocation,lenWithoutDot,convertedLen);
 
     drawStrOfSize32("计算结束"); //绘制“计算结束”
     _getch(); //按任意键继续

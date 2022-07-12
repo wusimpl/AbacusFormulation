@@ -3,32 +3,12 @@
 //
 #include "subtraction.h"
 
-void displayDraftCalculationOfSubtraction(){//显示被减数、减数、结果
+void displayCalculationResultOfSubtraction(){//显示被减数、减数、结果
     setFontSizeTo32();
-
-    RECT r1 = {900, 100, 1000, 125};
-    char ta[17];
-    sprintf(ta, "%.2f", atoi(c_first_operand) * 1.0 / 100);
-    drawtext(ta, &r1, DT_RIGHT | DT_VCENTER | DT_SINGLELINE);
-    char tmp[17];
-    sprintf(tmp, "-%17.2f", atoi(c_second_operand) * 1.0 / 100);
-    RECT r2 = {900, 125, 1000, 150};
-    drawtext(tmp, &r2, DT_RIGHT | DT_VCENTER | DT_SINGLELINE);
-    line(900, 150, 1000, 150);
-    RECT r3 = {900, 150, 1000, 175};
-    int ans = atoi(c_first_operand) - atoi(c_second_operand);
-    char tans[17];
-    sprintf(tans, "%.2f", ans * 1.0 / 100);
-    drawtext(tans, &r3, DT_RIGHT | DT_VCENTER | DT_SINGLELINE);
-
-    //显示个位位置
-    RECT r4 = { 650, 10, 718, 50 };
-    char m[6] = "个";
-    drawtext(m, &r4, DT_RIGHT | DT_VCENTER | DT_SINGLELINE);
-    RECT r5 = { 650, 50, 718, 100 };
-    char n[10] = "位";
-    drawtext(n, &r5, DT_VCENTER | DT_RIGHT | DT_SINGLELINE);
-
+    int miNumber = atoi(original_c_first_operand);
+    int meiNumber = atoi(original_c_second_operand);
+    processHintPlaceHolder = (stringstream() << miNumber << "-" << meiNumber << "=" << miNumber - meiNumber).str();
+    drawStrOfDisplayCalculationResult(processHintPlaceHolder.c_str());
     setFontSizeTo16();
 }
 
@@ -86,7 +66,7 @@ void drawSubtractionMnemonicRhyme()  ///减法口诀表
 void drawNumOnAbacusOfSubtraction(Num *sa)
 {
     cleardevice(); //清空屏幕内容
-    displayDraftCalculationOfSubtraction(); // 绘制列式计算的结果
+    displayCalculationResultOfSubtraction(); // 绘制列式计算的结果
     drawAbacus(sa,AbacusParams()); //绘制算盘
     drawSubtractionMnemonicRhyme(); //绘制减法口诀表
 }
@@ -99,8 +79,8 @@ void simulateSubtraction(Num* minuend, Num* meiosis, int n){
     int miNumber = toNumberForm(mi); //被减数
     int meiNumber = toNumberForm(mei); //减数
 
-    if (meiNumber <= miNumber){ //不退位减
-        if(miNumber>5 && meiNumber < 5){//破五减：被减数下框离梁珠<减数 && 减数<5
+    if (miNumber <= meiNumber){ //不退位减
+        if(miNumber>5 && meiNumber < 5){//破五减
             tmp->high -= 1; //去五
             drawNumOnAbacusOfSubtraction(minuend);
             drawStrOfSize32("去五");

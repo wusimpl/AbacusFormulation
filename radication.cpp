@@ -7,10 +7,6 @@
 #include <string>
 #include <cstdio>
 #include <iomanip>
-//#define DEBUG 1
-#ifdef DEBUG
-#define _getch()
-#endif
 
 
 #define CSTR_TO_NUM(cstr) (atoi(cstr))
@@ -30,7 +26,7 @@ void drawNumOnAbacusOfRadication(Num *sa, Num* result) {
     drawAbacus(result, param); //绘制第二个算盘，用于展示开方结果的变化
 }
 
-void simulateRadication(char* c_original_first_operand,size_t dotLocation,int lenWithoutDot, int convertedLen){
+void simulateRadication(char* original_c_first_operand,size_t dotLocation,int lenWithoutDot, int convertedLen){
     int integralDigitsCount = 0; //开方结果的整数的位数
     //根据小数点的位置确定integralDigitsCount
     integralDigitsCount = dotLocation == 0?lenWithoutDot:dotLocation;
@@ -47,7 +43,7 @@ void simulateRadication(char* c_original_first_operand,size_t dotLocation,int le
     double subtrahend; //减数：(法数+当前根)*当前根
     //估首根
     _getch();
-    getHead(c_original_first_operand,lenWithoutDot,dotLocation,head);
+    getHead(original_c_first_operand,lenWithoutDot,dotLocation,head);
     currentRoot = int(sqrt(CSTR_TO_NUM(head)));
     currentRootWithDigits = currentRoot * pow(10,currentRootLocation-1);
     sumUpOfRoots += currentRootWithDigits;

@@ -59,33 +59,10 @@ void drawAdditionMnemonicRhyme()
 void displayDraftCalculationOfAddition()
 { //显示被加数、加数、结果
     setFontSizeTo32();
-
-    RECT r1 = { 900, 100, 1100, 125 };
-    char ta[17];
-    sprintf(ta, "%.2f", atoi(c_first_operand) * 1.0 / 100);
-    drawtext(ta, &r1, DT_RIGHT | DT_VCENTER | DT_SINGLELINE);
-    char tmp[190];
-    sprintf(tmp, "+%17.2f", atoi(c_second_operand) * 1.0 / 100);
-
-    RECT r2 = { 900, 125, 1100, 150 };
-    drawtext(tmp, &r2, DT_RIGHT | DT_VCENTER | DT_SINGLELINE);
-    line(900, 150, 1100, 150);
-    RECT r3 = { 900, 150, 1100, 175 };
-    int ans = atoi(c_first_operand) + atoi(c_second_operand);
-    //	char sans[10];
-    //	itoa(ans, sans, 10);
-    char tans[17];
-    sprintf(tans, "%.2f", ans * 1.0 / 100);
-    drawtext(tans, &r3, DT_RIGHT | DT_VCENTER | DT_SINGLELINE);
-
-    //显示个位位置
-    RECT r4 = { 650, 10, 718, 50 };
-    char m[6] = "个";
-    drawtext(m, &r4, DT_RIGHT | DT_VCENTER | DT_SINGLELINE);
-    RECT r5 = { 650, 50, 718, 100 };
-    char n[10] = "位";
-    drawtext(n, &r5, DT_VCENTER | DT_RIGHT | DT_SINGLELINE);
-
+    int augNumber = atoi(original_c_first_operand);
+    int addNumber = atoi(original_c_second_operand);
+    processHintPlaceHolder = (stringstream()<<augNumber<<"+"<<addNumber<<"="<<augNumber+addNumber).str();
+    drawStrOfDisplayCalculationResult(processHintPlaceHolder.c_str());
     setFontSizeTo16();
 }
 
@@ -116,7 +93,7 @@ void simulateAddition(Num* au, Num* ad, int n){
             getchar();
             tmp->low -= 5-addNumber; //去凑五数
             drawNumOnAbacusOfAddition(au);
-            processHintPlaceHolder = (stringstream()<<"去"<<INDEX_TO_CHINESE_NUM[5-addNumber]).str();
+            processHintPlaceHolder = (stringstream()<<"").str();
             drawStrOfSize32(processHintPlaceHolder.c_str());
             getchar();
         }else{ //直接加
