@@ -53,7 +53,8 @@ void simulateRadication(char* original_c_first_operand,size_t dotLocation,int le
     drawNumOnAbacusOfRadication(a_first_operand, a_second_operand);
     currentResultStick--;
     stringGenerator<<"估得首根为"<<currentRoot;
-    drawStrOfSize32(stringGenerator.str().c_str());
+    strcpy(strInfo,stringGenerator.str().c_str());
+    drawStrOfSize32(strInfo);
     stringGenerator.str("");
     _getch();
     //减首根平方
@@ -66,7 +67,8 @@ void simulateRadication(char* original_c_first_operand,size_t dotLocation,int le
     toAbacusForm(a_first_operand,c_first_operand, strlen(c_first_operand));
     drawNumOnAbacusOfRadication(a_first_operand, a_second_operand);
     stringGenerator<<"减首根平方"<<pow(currentRootWithDigits,2);
-    drawStrOfSize32(stringGenerator.str().c_str());
+    strcpy(strInfo,stringGenerator.str().c_str());
+    drawStrOfSize32(strInfo);
     stringGenerator.str("");
     _getch();
     //估其他根
@@ -89,7 +91,8 @@ void simulateRadication(char* original_c_first_operand,size_t dotLocation,int le
         setNumToAbacus(currentRoot,a_second_operand,currentResultStick);//可视化
         drawNumOnAbacusOfRadication(a_first_operand, a_second_operand);
         stringGenerator<<"估得下一根为"<<currentRoot;
-        drawStrOfSize32(stringGenerator.str().c_str());
+        strcpy(strInfo,stringGenerator.str().c_str());
+        drawStrOfSize32(strInfo);
         stringGenerator.str("");
         _getch();
 
@@ -104,7 +107,8 @@ void simulateRadication(char* original_c_first_operand,size_t dotLocation,int le
         clearAbacus(a_first_operand);
         toAbacusForm(a_first_operand,c_first_operand, strlen(c_first_operand));
         drawNumOnAbacusOfRadication(a_first_operand, a_second_operand);
-        drawStrOfSize32(stringGenerator.str().c_str());
+        strcpy(strInfo,stringGenerator.str().c_str());
+        drawStrOfSize32(strInfo);
         stringGenerator.str("");
         _getch();
 

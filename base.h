@@ -55,6 +55,7 @@ extern char original_c_first_operand[PLACES_NUM+1], original_c_second_operand[PL
 extern char c_first_operand[PLACES_NUM+1], c_second_operand[PLACES_NUM+1];//original数字
 extern const char* INDEX_TO_CHINESE_NUM[];
 //extern string processHintPlaceHolder; //演算过程提示占位符
+extern char strInfo[100];
 extern stringstream stringGenerator; //字符串生成器
 void drawOneBead(float x, float y); //绘制算珠（椭圆形状）
 void drawStr(const char* str);

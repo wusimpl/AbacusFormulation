@@ -55,14 +55,16 @@ void drawAdditionMnemonicRhyme()
     }
 }
 
-//显示列式计算的结果
+//显示表达式计算的结果
 void displayDraftCalculationOfAddition()
-{ //显示被加数、加数、结果
+{
     setFontSizeTo32();
     int augNumber = atoi(original_c_first_operand);
     int addNumber = atoi(original_c_second_operand);
     stringGenerator<<augNumber<<"+"<<addNumber<<"="<<augNumber+addNumber;
-    drawStrOfDisplayCalculationResult(stringGenerator.str().c_str());
+    strcpy(strInfo,stringGenerator.str().c_str());
+    drawStrOfDisplayCalculationResult(strInfo);
+    stringGenerator.str("");
     setFontSizeTo16();
 }
 
@@ -94,15 +96,17 @@ void simulateAddition(Num* au, Num* ad, int n){
             tmp->lower -= 5 - addNumber;
             drawNumOnAbacusOfAddition(au);
             stringGenerator<<"去"<<INDEX_TO_CHINESE_NUM[5 - addNumber];
-            drawStrOfSize32(stringGenerator.str().c_str());
+            strcpy(strInfo,stringGenerator.str().c_str());
+            drawStrOfSize32(strInfo);
             stringGenerator.str("");
             getchar();
         }else{ //直接加
             tmp->upper += addNumber / 5;
             tmp->lower += addNumber % 5;
-            stringGenerator<<"上"<<INDEX_TO_CHINESE_NUM[addNumber];
             drawNumOnAbacusOfAddition(au);
-            drawStrOfSize32(stringGenerator.str().c_str());
+            stringGenerator<<"上"<<INDEX_TO_CHINESE_NUM[addNumber];
+            strcpy(strInfo,stringGenerator.str().c_str());
+            drawStrOfSize32(strInfo);
             stringGenerator.str("");
             getchar();
         }
@@ -124,7 +128,8 @@ void simulateAddition(Num* au, Num* ad, int n){
             stringGenerator<<"去"<<INDEX_TO_CHINESE_NUM[complement];
         }
         drawNumOnAbacusOfAddition(au);
-        drawStrOfSize32(stringGenerator.str().c_str());
+        strcpy(strInfo,stringGenerator.str().c_str());
+        drawStrOfSize32(strInfo);
         stringGenerator.str("");
         getchar();
 

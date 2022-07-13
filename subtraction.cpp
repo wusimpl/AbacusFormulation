@@ -9,7 +9,9 @@ void displayCalculationResultOfSubtraction(){//显示被减数、减数、结果
     int miNumber = atoi(original_c_first_operand);
     int meiNumber = atoi(original_c_second_operand);
     stringGenerator << miNumber << "-" << meiNumber << "=" << miNumber - meiNumber;
-    drawStrOfDisplayCalculationResult(stringGenerator.str().c_str());
+    strcpy(strInfo,stringGenerator.str().c_str());
+    drawStrOfDisplayCalculationResult(strInfo);
+    stringGenerator.str("");
     setFontSizeTo16();
 }
 
@@ -89,7 +91,8 @@ void simulateSubtraction(Num* minuend, Num* meiosis, int n){
             tmp->lower += 5 - meiNumber; //上（5-减数）
             drawNumOnAbacusOfSubtraction(minuend);
             stringGenerator<<"上"<<INDEX_TO_CHINESE_NUM[5 - meiNumber];
-            drawStrOfSize32(stringGenerator.str().c_str());
+            strcpy(strInfo,stringGenerator.str().c_str());
+            drawStrOfSize32(strInfo);
             stringGenerator.str("");
             getchar();
         }else{ //直接减
@@ -97,7 +100,8 @@ void simulateSubtraction(Num* minuend, Num* meiosis, int n){
             tmp->lower -= mei->lower;
             drawNumOnAbacusOfSubtraction(minuend);
             stringGenerator<<"去"<<INDEX_TO_CHINESE_NUM[meiNumber];
-            drawStrOfSize32(stringGenerator.str().c_str());
+            strcpy(strInfo,stringGenerator.str().c_str());
+            drawStrOfSize32(strInfo);
             stringGenerator.str("");
             getchar();
         }
@@ -117,7 +121,8 @@ void simulateSubtraction(Num* minuend, Num* meiosis, int n){
             stringGenerator<<"还"<<INDEX_TO_CHINESE_NUM[complement];
         }
         drawNumOnAbacusOfSubtraction(minuend);
-        drawStrOfSize32(stringGenerator.str().c_str());
+        strcpy(strInfo,stringGenerator.str().c_str());
+        drawStrOfSize32(strInfo);
         stringGenerator.str("");
         getchar();
 
