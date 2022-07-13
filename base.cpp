@@ -9,6 +9,8 @@ char c_first_operand[PLACES_NUM+1], c_second_operand[PLACES_NUM+1]; //数的字�
 char original_c_first_operand[PLACES_NUM+1], original_c_second_operand[PLACES_NUM+1];//接收到的输入数字
 const char* INDEX_TO_CHINESE_NUM[] = {"零","一","二","三","四","五","六","七","八","九","十"}; // 中文数字字符常量
 //string processHintPlaceHolder; //演算过程提示占位符
+Coordinate expressionDisplayLeftTop={100, 20},expressionDisplayRightBottom={700, 53};
+Coordinate rulesDisplayLeftTop={750,190},rulesDisplayRightBottom{1250,223};
 char strInfo[100];
 stringstream stringGenerator;
 
@@ -26,7 +28,7 @@ void drawStr(const char* str){
 //拨珠规则显示
 void drawStrOfSize32(const char* str){
     setFontSizeTo32();
-    RECT r1 = { 900, 250, 1100, 280 };
+    RECT r1 = {rulesDisplayLeftTop.x, rulesDisplayLeftTop.y, rulesDisplayRightBottom.x, rulesDisplayRightBottom.y};
     drawtext(str, &r1, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
     setFontSizeTo16();
 }
@@ -34,7 +36,7 @@ void drawStrOfSize32(const char* str){
 //表达式计算显示
 void drawStrOfDisplayCalculationResult(const char* str){
     setFontSizeTo32();
-    RECT r1 = { 900, 100, 1100, 125 };
+    RECT r1 = {expressionDisplayLeftTop.x, expressionDisplayLeftTop.y, expressionDisplayRightBottom.x, expressionDisplayRightBottom.y};
     drawtext(str, &r1, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
     setFontSizeTo16();
 }
@@ -96,7 +98,8 @@ bool convertToDecimal(char *x)
     if((string(x)).find('.') == string::npos) { //整数
         isDecimal = false;
     }
-    itoa(atof(x)*100,x,10);
+    long long value = atof(x)*100;
+    sprintf(x,"%lld",value);
     return isDecimal;
 }
 

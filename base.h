@@ -12,6 +12,7 @@
 #include<graphics.h>
 #include <conio.h>
 #include <sstream>
+#include <iomanip>
 using namespace std;
 
 #define PLACES_NUM 15 //挡位数

@@ -5,8 +5,8 @@
 #include "subtraction.h"
 #include "radication.h"
 
-#define GraphSizeOfWidth 1200
-#define GraphSizeOfHeight 1200
+#define GraphSizeOfWidth 1300
+#define GraphSizeOfHeight 800
 
 //#define DEBUG
 #ifdef DEBUG
@@ -30,6 +30,8 @@ void menu(){
 
 int main()
 {
+    stringGenerator.precision(2);
+    stringGenerator.setf(ios::fixed);
     menu();
     int arithmetic = 0;
     printf("请选择：");
@@ -85,14 +87,12 @@ void subtraction() {
 
     drawNumOnAbacusOfSubtraction(a_first_operand); //初始化算盘（绘制算盘、列式、口诀表）
 
-    getchar();
+    _getch();
     for (int i = 0; i < maxLen; i++){ //从左到右按位依次减法
-        getchar();
         if(toNumberForm(&a_first_operand[i]) != 0 || toNumberForm(&a_second_operand[i]) != 0){ //本位的加数和被加数不都为零
             simulateSubtraction(a_first_operand, a_second_operand, i);
         }
     }
-
     drawStrOfSize32("计算结束"); //绘制“计算结束”
     _getch(); //按任意键继续
     closegraph(); //释放绘图资源
@@ -128,9 +128,8 @@ void addition() {
 
     drawNumOnAbacusOfAddition(a_first_operand); //初始化算盘（绘制算盘、列式、口诀表）
 
-    getchar();
+    _getch();
     for (int i = 0; i < maxLen; i++){ //从右到左按位依次加法
-        getchar();
         if(toNumberForm(&a_first_operand[i]) != 0 || toNumberForm(&a_second_operand[i]) != 0){ //本位的加数和被加数不都为零
             simulateAddition(a_first_operand, a_second_operand, i);
         }
@@ -182,6 +181,7 @@ void radication(){
     drawNumOnAbacusOfRadication(a_first_operand, a_second_operand); //初始化算盘
 
     // simulation
+    _getch();
     simulateRadication(original_c_first_operand,dotLocation,lenWithoutDot,convertedLen);
 
     drawStrOfSize32("计算结束"); //绘制“计算结束”

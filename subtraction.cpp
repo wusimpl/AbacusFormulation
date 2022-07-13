@@ -6,8 +6,8 @@
 
 void displayCalculationResultOfSubtraction(){//显示被减数、减数、结果
     setFontSizeTo32();
-    int miNumber = atoi(original_c_first_operand);
-    int meiNumber = atoi(original_c_second_operand);
+    double miNumber = atof(original_c_first_operand);
+    double meiNumber = atof(original_c_second_operand);
     stringGenerator << miNumber << "-" << meiNumber << "=" << miNumber - meiNumber;
     strcpy(strInfo,stringGenerator.str().c_str());
     drawStrOfDisplayCalculationResult(strInfo);
@@ -87,14 +87,14 @@ void simulateSubtraction(Num* minuend, Num* meiosis, int n){
             tmp->upper -= 1; //去五
             drawNumOnAbacusOfSubtraction(minuend);
             drawStrOfSize32("去五");
-            getchar();
+            _getch();
             tmp->lower += 5 - meiNumber; //上（5-减数）
             drawNumOnAbacusOfSubtraction(minuend);
             stringGenerator<<"上"<<INDEX_TO_CHINESE_NUM[5 - meiNumber];
             strcpy(strInfo,stringGenerator.str().c_str());
             drawStrOfSize32(strInfo);
             stringGenerator.str("");
-            getchar();
+            _getch();
         }else{ //直接减
             tmp->upper -= mei->upper;
             tmp->lower -= mei->lower;
@@ -103,7 +103,7 @@ void simulateSubtraction(Num* minuend, Num* meiosis, int n){
             strcpy(strInfo,stringGenerator.str().c_str());
             drawStrOfSize32(strInfo);
             stringGenerator.str("");
-            getchar();
+            _getch();
         }
     }else{ //退位减
         int complement = 10 - meiNumber;//减数的补数
@@ -112,19 +112,20 @@ void simulateSubtraction(Num* minuend, Num* meiosis, int n){
             tmp->upper += 1; //还五
             drawNumOnAbacusOfSubtraction(minuend);
             drawStrOfSize32("还五");
-            getchar();
+            _getch();
             tmp->lower -= meiNumber - 5;
+            drawNumOnAbacusOfSubtraction(minuend);
             stringGenerator<<"去"<<INDEX_TO_CHINESE_NUM[meiNumber-5];
         }else{ //退十减
             tmp->upper += int(complement / 5);
             tmp->lower += complement % 5;
+            drawNumOnAbacusOfSubtraction(minuend);
             stringGenerator<<"还"<<INDEX_TO_CHINESE_NUM[complement];
         }
-        drawNumOnAbacusOfSubtraction(minuend);
         strcpy(strInfo,stringGenerator.str().c_str());
         drawStrOfSize32(strInfo);
         stringGenerator.str("");
-        getchar();
+        _getch();
 
         /*再计算借位
          * 退一可能引起前面许多位都有借位，所以本质上是连续减法，使用递归调用解决此问题。
@@ -134,7 +135,7 @@ void simulateSubtraction(Num* minuend, Num* meiosis, int n){
 
         drawNumOnAbacusOfSubtraction(minuend);
         drawStrOfSize32("退一");
-        getchar();
+        _getch();
         simulateSubtraction(minuend, carryNumber.carry, n + 1);
     }
 }

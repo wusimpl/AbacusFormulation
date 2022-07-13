@@ -59,8 +59,8 @@ void drawAdditionMnemonicRhyme()
 void displayDraftCalculationOfAddition()
 {
     setFontSizeTo32();
-    int augNumber = atoi(original_c_first_operand);
-    int addNumber = atoi(original_c_second_operand);
+    double augNumber = atof(original_c_first_operand);
+    double addNumber = atof(original_c_second_operand);
     stringGenerator<<augNumber<<"+"<<addNumber<<"="<<augNumber+addNumber;
     strcpy(strInfo,stringGenerator.str().c_str());
     drawStrOfDisplayCalculationResult(strInfo);
@@ -92,14 +92,14 @@ void simulateAddition(Num* au, Num* ad, int n){
             tmp->upper += 1; //下五
             drawNumOnAbacusOfAddition(au);
             drawStrOfSize32("下五");
-            getchar();
+            _getch();
             tmp->lower -= 5 - addNumber;
             drawNumOnAbacusOfAddition(au);
             stringGenerator<<"去"<<INDEX_TO_CHINESE_NUM[5 - addNumber];
             strcpy(strInfo,stringGenerator.str().c_str());
             drawStrOfSize32(strInfo);
             stringGenerator.str("");
-            getchar();
+            _getch();
         }else{ //直接加
             tmp->upper += addNumber / 5;
             tmp->lower += addNumber % 5;
@@ -108,7 +108,7 @@ void simulateAddition(Num* au, Num* ad, int n){
             strcpy(strInfo,stringGenerator.str().c_str());
             drawStrOfSize32(strInfo);
             stringGenerator.str("");
-            getchar();
+            _getch();
         }
     }else{ //进十加或者破五进十加
         int complement = 10-addNumber;//加数的补数
@@ -118,20 +118,21 @@ void simulateAddition(Num* au, Num* ad, int n){
             tmp->upper -= 1;
             drawNumOnAbacusOfAddition(au);
             drawStrOfSize32("去五");
-            getchar();
+            _getch();
 
             tmp->lower += 5 - complement;
+            drawNumOnAbacusOfAddition(au);
             stringGenerator<<"上"<<INDEX_TO_CHINESE_NUM[5-complement];
         }else{ //进十加
             tmp->upper -= int(complement / 5);
             tmp->lower -= complement % 5;
+            drawNumOnAbacusOfAddition(au);
             stringGenerator<<"去"<<INDEX_TO_CHINESE_NUM[complement];
         }
-        drawNumOnAbacusOfAddition(au);
         strcpy(strInfo,stringGenerator.str().c_str());
         drawStrOfSize32(strInfo);
         stringGenerator.str("");
-        getchar();
+        _getch();
 
         /*再计算进位
          * 进一可能引起前面许多位都有进位，所以本质上是连续加法，使用递归调用解决此问题。
@@ -141,7 +142,7 @@ void simulateAddition(Num* au, Num* ad, int n){
 
         drawNumOnAbacusOfAddition(au);
         drawStrOfSize32("进一");
-        getchar();
+        _getch();
         simulateAddition(au, carryNumber.carry, n + 1);
     }
 }
