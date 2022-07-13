@@ -8,7 +8,7 @@
 #endif
 
 //绘制加法口诀表
-void drawAdditionMnemonicRhyme()
+void drawMnemonicRhymeOfAddition()
 {
     for (int i = 0; i < 12; ++i)
         line(50, 400 + 25 * i, 600, 400 + 25 * i);
@@ -60,14 +60,14 @@ void drawAdditionMnemonicRhyme()
 }
 
 //显示表达式计算的结果
-void displayDraftCalculationOfAddition()
+void drawExpressionOfAddition()
 {
     setFontSizeTo32();
     double augNumber = atof(original_c_first_operand);
     double addNumber = atof(original_c_second_operand);
     stringGenerator<<augNumber<<"+"<<addNumber<<"="<<augNumber+addNumber;
     strcpy(strInfo,stringGenerator.str().c_str());
-    drawStrOfDisplayCalculationResult(strInfo);
+    drawExpression(strInfo);
     stringGenerator.str("");
     setFontSizeTo16();
 }
@@ -77,9 +77,9 @@ void displayDraftCalculationOfAddition()
 void drawNumOnAbacusOfAddition(Num *sa)
 {
     cleardevice(); //清空屏幕内容
-    displayDraftCalculationOfAddition(); // 绘制列式计算的结果
+    drawExpressionOfAddition(); // 绘制列式计算的结果
     drawAbacus(sa,AbacusParams()); //绘制算盘
-    drawAdditionMnemonicRhyme(); //绘制加法口诀表
+    drawMnemonicRhymeOfAddition(); //绘制加法口诀表
 }
 
 //可视化模拟一位加法
@@ -95,13 +95,13 @@ void simulateAddition(Num* au, Num* ad, int n){
             //凑五加：下五去凑五数
             tmp->upper += 1; //下五
             drawNumOnAbacusOfAddition(au);
-            drawStrOfSize32("下五");
+            drawRules("下五");
             _getch();
             tmp->lower -= 5 - addNumber;
             drawNumOnAbacusOfAddition(au);
             stringGenerator<<"去"<<INDEX_TO_CHINESE_NUM[5 - addNumber];
             strcpy(strInfo,stringGenerator.str().c_str());
-            drawStrOfSize32(strInfo);
+            drawRules(strInfo);
             stringGenerator.str("");
             _getch();
         }else{ //直接加
@@ -110,7 +110,7 @@ void simulateAddition(Num* au, Num* ad, int n){
             drawNumOnAbacusOfAddition(au);
             stringGenerator<<"上"<<INDEX_TO_CHINESE_NUM[addNumber];
             strcpy(strInfo,stringGenerator.str().c_str());
-            drawStrOfSize32(strInfo);
+            drawRules(strInfo);
             stringGenerator.str("");
             _getch();
         }
@@ -121,7 +121,7 @@ void simulateAddition(Num* au, Num* ad, int n){
             //去五，上（5-补数）
             tmp->upper -= 1;
             drawNumOnAbacusOfAddition(au);
-            drawStrOfSize32("去五");
+            drawRules("去五");
             _getch();
 
             tmp->lower += 5 - complement;
@@ -134,7 +134,7 @@ void simulateAddition(Num* au, Num* ad, int n){
             stringGenerator<<"去"<<INDEX_TO_CHINESE_NUM[complement];
         }
         strcpy(strInfo,stringGenerator.str().c_str());
-        drawStrOfSize32(strInfo);
+        drawRules(strInfo);
         stringGenerator.str("");
         _getch();
 
@@ -145,7 +145,7 @@ void simulateAddition(Num* au, Num* ad, int n){
         CARRYNUM carryNumber(n+1);
 
         drawNumOnAbacusOfAddition(au);
-        drawStrOfSize32("进一");
+        drawRules("进一");
         _getch();
         simulateAddition(au, carryNumber.carry, n + 1);
     }

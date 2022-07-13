@@ -26,7 +26,7 @@ void drawStr(const char* str){
 }
 
 //拨珠规则显示
-void drawStrOfSize32(const char* str){
+void drawRules(const char* str){
     setFontSizeTo32();
     RECT r1 = {rulesDisplayLeftTop.x, rulesDisplayLeftTop.y, rulesDisplayRightBottom.x, rulesDisplayRightBottom.y};
     drawtext(str, &r1, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
@@ -34,7 +34,7 @@ void drawStrOfSize32(const char* str){
 }
 
 //表达式计算显示
-void drawStrOfDisplayCalculationResult(const char* str){
+void drawExpression(const char* str){
     setFontSizeTo32();
     RECT r1 = {expressionDisplayLeftTop.x, expressionDisplayLeftTop.y, expressionDisplayRightBottom.x, expressionDisplayRightBottom.y};
     drawtext(str, &r1, DT_CENTER | DT_VCENTER | DT_SINGLELINE);

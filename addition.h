@@ -7,8 +7,8 @@
 
 #include "base.h"
 
-void drawAdditionMnemonicRhyme(); //绘制加法口诀表
-void displayDraftCalculationOfAddition(); //显示列式计算的结果
+void drawMnemonicRhymeOfAddition(); //绘制加法口诀表
+void drawExpressionOfAddition(); //显示列式计算的结果
 void drawNumOnAbacusOfAddition(Num *sa); //绘制一个数的盘式
 void simulateAddition(Num* au, Num* ad, int n); //可视化模拟一位加法
 

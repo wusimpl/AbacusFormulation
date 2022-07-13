@@ -92,7 +92,7 @@ void subtraction() {
             simulateSubtraction(a_first_operand, a_second_operand, i);
         }
     }
-    drawStrOfSize32("计算结束"); //绘制“计算结束”
+    drawRules("计算结束"); //绘制“计算结束”
     _getch(); //按任意键继续
     closegraph(); //释放绘图资源
 }
@@ -134,7 +134,7 @@ void addition() {
         }
     }
 
-    drawStrOfSize32("计算结束"); //绘制“计算结束”
+    drawRules("计算结束"); //绘制“计算结束”
     _getch(); //按任意键继续
     closegraph(); //释放绘图资源
 }
@@ -183,7 +183,7 @@ void radication(){
     _getch();
     simulateRadication(original_c_first_operand,dotLocation,lenWithoutDot,convertedLen);
 
-    drawStrOfSize32("计算结束"); //绘制“计算结束”
+    drawRules("计算结束"); //绘制“计算结束”
     _getch(); //按任意键继续
     closegraph(); //释放绘图资源
 }

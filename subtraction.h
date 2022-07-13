@@ -7,9 +7,9 @@
 
 #include "base.h"
 
-void drawSubtractionMnemonicRhyme();  ///减法口诀表
+void drawMnemonicRhymeOfSubtraction();  ///减法口诀表
 void drawNumOnAbacusOfSubtraction(Num *sa);
-void displayCalculationResultOfSubtraction();
+void drawExpressionOfSubtraction();
 void simulateSubtraction(Num* minuend, Num* meiosis, int n);
 
 #endif //ABACUS_SUBTRACTION_H

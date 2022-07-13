@@ -9,18 +9,18 @@
 #define _getch() ;
 #endif
 
-void displayCalculationResultOfSubtraction(){//显示被减数、减数、结果
+void drawExpressionOfSubtraction(){//显示计算表达式
     setFontSizeTo32();
     double miNumber = atof(original_c_first_operand);
     double meiNumber = atof(original_c_second_operand);
     stringGenerator << miNumber << "-" << meiNumber << "=" << miNumber - meiNumber;
     strcpy(strInfo,stringGenerator.str().c_str());
-    drawStrOfDisplayCalculationResult(strInfo);
+    drawExpression(strInfo);
     stringGenerator.str("");
     setFontSizeTo16();
 }
 
-void drawSubtractionMnemonicRhyme()  ///减法口诀表
+void drawMnemonicRhymeOfSubtraction()  ///减法口诀表
 {
     for(int i=0;i<12;++i)
         line(50,400+25*i,600,400+25*i);
@@ -74,9 +74,9 @@ void drawSubtractionMnemonicRhyme()  ///减法口诀表
 void drawNumOnAbacusOfSubtraction(Num *sa)
 {
     cleardevice(); //清空屏幕内容
-    displayCalculationResultOfSubtraction(); // 绘制列式计算的结果
+    drawExpressionOfSubtraction(); // 绘制列式计算的结果
     drawAbacus(sa,AbacusParams()); //绘制算盘
-    drawSubtractionMnemonicRhyme(); //绘制减法口诀表
+    drawMnemonicRhymeOfSubtraction(); //绘制减法口诀表
 }
 
 //可视化模拟一位减法
@@ -91,13 +91,13 @@ void simulateSubtraction(Num* minuend, Num* meiosis, int n){
         if(miNumber>=5 && meiNumber<5 && meiNumber > (miNumber-5)){//破五减
             tmp->upper -= 1; //去五
             drawNumOnAbacusOfSubtraction(minuend);
-            drawStrOfSize32("去五");
+            drawRules("去五");
             _getch();
             tmp->lower += 5 - meiNumber; //上（5-减数）
             drawNumOnAbacusOfSubtraction(minuend);
             stringGenerator<<"上"<<INDEX_TO_CHINESE_NUM[5 - meiNumber];
             strcpy(strInfo,stringGenerator.str().c_str());
-            drawStrOfSize32(strInfo);
+            drawRules(strInfo);
             stringGenerator.str("");
             _getch();
         }else{ //直接减
@@ -106,7 +106,7 @@ void simulateSubtraction(Num* minuend, Num* meiosis, int n){
             drawNumOnAbacusOfSubtraction(minuend);
             stringGenerator<<"去"<<INDEX_TO_CHINESE_NUM[meiNumber];
             strcpy(strInfo,stringGenerator.str().c_str());
-            drawStrOfSize32(strInfo);
+            drawRules(strInfo);
             stringGenerator.str("");
             _getch();
         }
@@ -116,7 +116,7 @@ void simulateSubtraction(Num* minuend, Num* meiosis, int n){
         if(meiNumber>5&&tmp->upper==0){//退十还五减
             tmp->upper += 1; //还五
             drawNumOnAbacusOfSubtraction(minuend);
-            drawStrOfSize32("还五");
+            drawRules("还五");
             _getch();
             tmp->lower -= meiNumber - 5;
             drawNumOnAbacusOfSubtraction(minuend);
@@ -128,7 +128,7 @@ void simulateSubtraction(Num* minuend, Num* meiosis, int n){
             stringGenerator<<"还"<<INDEX_TO_CHINESE_NUM[complement];
         }
         strcpy(strInfo,stringGenerator.str().c_str());
-        drawStrOfSize32(strInfo);
+        drawRules(strInfo);
         stringGenerator.str("");
         _getch();
 
@@ -139,7 +139,7 @@ void simulateSubtraction(Num* minuend, Num* meiosis, int n){
         CARRYNUM carryNumber(n+1);
 
         drawNumOnAbacusOfSubtraction(minuend);
-        drawStrOfSize32("退一");
+        drawRules("退一");
         _getch();
         simulateSubtraction(minuend, carryNumber.carry, n + 1);
     }

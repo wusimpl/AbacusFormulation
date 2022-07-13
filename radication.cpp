@@ -8,7 +8,7 @@
 #include <cstdio>
 #include <iomanip>
 
-#define DEBUG
+//#define DEBUG
 #ifdef DEBUG
 #define _getch() ;
 #endif
@@ -18,6 +18,7 @@
 
 void drawNumOnAbacusOfRadication(Num *sa, Num* result) {
     cleardevice(); //清空屏幕内容
+    drawExpressionOfRadication(); // 绘制列式计算的结果
     drawAbacus(sa,AbacusParams()); //绘制第一个算盘，用于展示余数的变化
     AbacusParams param = {{50,400},
                           800,
@@ -58,7 +59,7 @@ void simulateRadication(char* original_c_first_operand,size_t dotLocation,int le
     currentResultStick--;
     stringGenerator<<"估得首根为"<<currentRoot;
     strcpy(strInfo,stringGenerator.str().c_str());
-    drawStrOfSize32(strInfo);
+    drawRules(strInfo);
     stringGenerator.str("");
     _getch();
     //减首根平方
@@ -72,7 +73,7 @@ void simulateRadication(char* original_c_first_operand,size_t dotLocation,int le
     drawNumOnAbacusOfRadication(a_first_operand, a_second_operand);
     stringGenerator<<"减首根平方"<<pow(currentRootWithDigits,2);
     strcpy(strInfo,stringGenerator.str().c_str());
-    drawStrOfSize32(strInfo);
+    drawRules(strInfo);
     stringGenerator.str("");
     _getch();
     //估其他根
@@ -96,7 +97,7 @@ void simulateRadication(char* original_c_first_operand,size_t dotLocation,int le
         drawNumOnAbacusOfRadication(a_first_operand, a_second_operand);
         stringGenerator<<"估得下一根为"<<currentRoot;
         strcpy(strInfo,stringGenerator.str().c_str());
-        drawStrOfSize32(strInfo);
+        drawRules(strInfo);
         stringGenerator.str("");
         _getch();
 
@@ -112,7 +113,7 @@ void simulateRadication(char* original_c_first_operand,size_t dotLocation,int le
         toAbacusForm(a_first_operand,c_first_operand, strlen(c_first_operand));
         drawNumOnAbacusOfRadication(a_first_operand, a_second_operand);
         strcpy(strInfo,stringGenerator.str().c_str());
-        drawStrOfSize32(strInfo);
+        drawRules(strInfo);
         stringGenerator.str("");
         _getch();
 
@@ -146,4 +147,14 @@ void getHead(const char* strNum, int length, size_t dotLocation, char *head) {
         head[i] = strNum[i];
     }
     head[i] = '\0';
+}
+
+void drawExpressionOfRadication() {
+    setFontSizeTo32();
+    stringstream sg;
+    double number = atof(original_c_first_operand);
+    sg << "sqrt("<<number<<")"<<"="<<sqrt(number)<<"（保留两位小数）";
+    strcpy(strInfo,sg.str().c_str());
+    drawExpression(strInfo);
+    setFontSizeTo16();
 }
