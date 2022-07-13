@@ -4,6 +4,11 @@
 #include "subtraction.h"
 #include "addition.h"
 
+#define DEBUG
+#ifdef DEBUG
+#define _getch() ;
+#endif
+
 void displayCalculationResultOfSubtraction(){//显示被减数、减数、结果
     setFontSizeTo32();
     double miNumber = atof(original_c_first_operand);

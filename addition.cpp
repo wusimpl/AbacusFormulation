@@ -2,6 +2,10 @@
 
 #include "addition.h"
 
+//#define DEBUG
+#ifdef DEBUG
+#define _getch() ;
+#endif
 
 //绘制加法口诀表
 void drawAdditionMnemonicRhyme()
@@ -113,7 +117,7 @@ void simulateAddition(Num* au, Num* ad, int n){
     }else{ //进十加或者破五进十加
         int complement = 10-addNumber;//加数的补数
         /*先计算本位*/
-        if(tmp->lower < complement && addNumber + augNumber != 10){//破五进十加：本档需用破五减
+        if(addNumber>5&&tmp->upper==1){//破五进十加
             //去五，上（5-补数）
             tmp->upper -= 1;
             drawNumOnAbacusOfAddition(au);

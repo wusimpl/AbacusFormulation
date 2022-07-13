@@ -8,6 +8,10 @@
 #include <cstdio>
 #include <iomanip>
 
+#define DEBUG
+#ifdef DEBUG
+#define _getch() ;
+#endif
 
 #define CSTR_TO_NUM(cstr) (atoi(cstr))
 #define NUM_TO_CSTR(num,str) (sprintf(str,"%.2lf",num))

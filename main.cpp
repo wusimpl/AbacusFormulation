@@ -5,14 +5,13 @@
 #include "subtraction.h"
 #include "radication.h"
 
-#define GraphSizeOfWidth 1300
-#define GraphSizeOfHeight 800
-
 //#define DEBUG
 #ifdef DEBUG
-#define _getch()
-#define getchar()
+#define _getch() ;
 #endif
+
+#define GraphSizeOfWidth 1300
+#define GraphSizeOfHeight 800
 
 void addition();
 void subtraction();
