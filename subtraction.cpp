@@ -4,7 +4,7 @@
 #include "subtraction.h"
 #include "addition.h"
 
-#define DEBUG
+//#define DEBUG
 #ifdef DEBUG
 #define _getch() ;
 #endif
@@ -113,7 +113,7 @@ void simulateSubtraction(Num* minuend, Num* meiosis, int n){
     }else{ //退位减
         int complement = 10 - meiNumber;//减数的补数
         /*先计算本位*/
-        if(meiNumber>5&&tmp->upper==0){//退十还五减
+        if(meiNumber>5&&miNumber<5&&(meiNumber-miNumber)<=5){//退十还五减
             tmp->upper += 1; //还五
             drawNumOnAbacusOfSubtraction(minuend);
             drawRules("还五");
