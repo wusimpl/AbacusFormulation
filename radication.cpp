@@ -149,6 +149,7 @@ void getHead(const char* strNum, int length, size_t dotLocation, char *head) {
     head[i] = '\0';
 }
 
+
 void drawExpressionOfRadication() {
     setFontSizeTo32();
     stringstream sg;
