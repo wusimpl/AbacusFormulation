@@ -13,9 +13,13 @@
 #define GraphSizeOfWidth 1300
 #define GraphSizeOfHeight 800
 
+void menu();
+void initDrawingEnv();
 void addition();
 void subtraction();
 void radication();
+void multiplication();
+void division();
 
 void menu(){
     printf("*******算盘的演算过程********\n");
@@ -43,10 +47,10 @@ int main()
             subtraction();
             break;
         case 3:
-            radication();
+            multiplication();
             break;
         case 4:
-            radication();
+            division();
             break;
         case 5:
             radication();
@@ -54,6 +58,14 @@ int main()
         default:
             exit(0);
     }
+}
+
+void division() {
+
+}
+
+void multiplication() {
+
 }
 
 void subtraction() {
@@ -79,11 +91,8 @@ void subtraction() {
     toAbacusForm(a_first_operand, c_first_operand, len1);
     toAbacusForm(a_second_operand, c_second_operand, len2);
     initgraph(GraphSizeOfWidth, GraphSizeOfHeight); //初始化绘图环境
-    setbkcolor(WHITE); //设置背景颜色
-    setcolor(BLACK); //设置前景颜色
-    setfillstyle(BLACK); //设置填充样式
-    setlinestyle(PS_SOLID, 2); //设置直线样式
 
+    initDrawingEnv();
     drawNumOnAbacusOfSubtraction(a_first_operand); //初始化算盘（绘制算盘、列式、口诀表）
 
     _getch();
@@ -119,12 +128,8 @@ void addition() {
 
     toAbacusForm(a_first_operand, c_first_operand, len1);
     toAbacusForm(a_second_operand, c_second_operand, len2);
-    initgraph(GraphSizeOfWidth, GraphSizeOfHeight); //初始化绘图环境
-    setbkcolor(WHITE); //设置背景颜色
-    setcolor(BLACK); //设置前景颜色
-    setfillstyle(BLACK); //设置填充样式
-    setlinestyle(PS_SOLID, 2); //设置直线样式
 
+    initDrawingEnv();
     drawNumOnAbacusOfAddition(a_first_operand); //初始化算盘（绘制算盘、列式、口诀表）
 
     _getch();
@@ -167,16 +172,11 @@ void radication(){
         }
     } while(errorHappened);
 
-    initgraph(GraphSizeOfWidth, GraphSizeOfHeight); //初始化绘图环境
-    setbkcolor(WHITE); //设置背景颜色
-    setcolor(BLACK); //设置前景颜色
-    setfillstyle(BLACK); //设置填充样式
-    setlinestyle(PS_SOLID, 2); //设置直线样式
-
     c_second_operand[14] = '0'; //存储开方结果
     convertToDecimal(c_second_operand);
     toAbacusForm(a_second_operand, c_second_operand, 1);
 
+    initDrawingEnv();
     drawNumOnAbacusOfRadication(a_first_operand, a_second_operand); //初始化算盘
 
     // simulation
@@ -186,5 +186,14 @@ void radication(){
     drawRules("计算结束"); //绘制“计算结束”
     _getch(); //按任意键继续
     closegraph(); //释放绘图资源
+}
+
+//初始化绘图环境
+void initDrawingEnv() {
+    initgraph(GraphSizeOfWidth, GraphSizeOfHeight); //初始化绘图环境
+    setbkcolor(WHITE); //设置背景颜色
+    setcolor(BLACK); //设置前景颜色
+    setfillstyle(BLACK); //设置填充样式
+    setlinestyle(PS_SOLID, 2); //设置直线样式
 }
 
