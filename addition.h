@@ -7,6 +7,10 @@
 
 #include "base.h"
 
+//Abacus aug;
+//Abacus add;
+//Abacus ca;
+
 void drawMnemonicRhymeOfAddition(); //绘制加法口诀表
 void drawExpressionOfAddition(); //显示列式计算的结果
 void drawNumOnAbacusOfAddition(Num *sa); //绘制一个数的盘式

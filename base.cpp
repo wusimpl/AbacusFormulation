@@ -143,3 +143,18 @@ double allToNumberForm(Num* abacus_number){
     }
     return result;
 }
+
+//int toNumberForm(int upper, int lower) {
+//    return upper * 5 + lower;
+//}
+
+size_t getDotLocation(const char cStr[]){
+    for (int i = 0; i < 15; ++i) {
+        if(cStr[i]=='.'){
+            return i;
+        }else if(cStr[i] == '\0'){
+            return 0;
+        }
+    }
+    return 0;
+}

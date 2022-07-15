@@ -123,16 +123,16 @@ void simulateRadication(char* original_c_first_operand,size_t dotLocation,int le
     }
 }
 
-size_t getDotLocation(const char cStr[]){
-    for (int i = 0; i < 15; ++i) {
-        if(cStr[i]=='.'){
-            return i;
-        }else if(cStr[i] == '\0'){
-            return 0;
-        }
-    }
-    return 0;
-}
+//size_t getDotLocation(const char cStr[]){
+//    for (int i = 0; i < 15; ++i) {
+//        if(cStr[i]=='.'){
+//            return i;
+//        }else if(cStr[i] == '\0'){
+//            return 0;
+//        }
+//    }
+//    return 0;
+//}
 
 void getHead(const char* strNum, int length, size_t dotLocation, char *head) {
     int headLength = 0;
