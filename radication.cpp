@@ -151,11 +151,11 @@ void getHead(const char* strNum, int length, size_t dotLocation, char *head) {
 
 
 void drawExpressionOfRadication() {
-    setFontSizeTo32();
     stringstream sg;
+    sg.precision(2);
+    sg.setf(ios::fixed);
     double number = atof(original_c_first_operand);
     sg << "sqrt("<<number<<")"<<"="<<sqrt(number)<<"（保留两位小数）";
     strcpy(strInfo,sg.str().c_str());
     drawExpression(strInfo);
-    setFontSizeTo16();
 }

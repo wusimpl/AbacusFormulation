@@ -62,14 +62,12 @@ void drawMnemonicRhymeOfAddition()
 //显示表达式计算的结果
 void drawExpressionOfAddition()
 {
-    setFontSizeTo32();
     double augNumber = atof(original_c_first_operand);
     double addNumber = atof(original_c_second_operand);
     stringGenerator<<augNumber<<"+"<<addNumber<<"="<<augNumber+addNumber;
     strcpy(strInfo,stringGenerator.str().c_str());
     drawExpression(strInfo);
     stringGenerator.str("");
-    setFontSizeTo16();
 }
 
 

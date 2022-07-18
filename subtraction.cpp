@@ -10,14 +10,12 @@
 #endif
 
 void drawExpressionOfSubtraction(){//显示计算表达式
-    setFontSizeTo32();
     double miNumber = atof(original_c_first_operand);
     double meiNumber = atof(original_c_second_operand);
     stringGenerator << miNumber << "-" << meiNumber << "=" << miNumber - meiNumber;
     strcpy(strInfo,stringGenerator.str().c_str());
     drawExpression(strInfo);
     stringGenerator.str("");
-    setFontSizeTo16();
 }
 
 void drawMnemonicRhymeOfSubtraction()  ///减法口诀表

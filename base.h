@@ -20,10 +20,18 @@ using namespace std;
 
 
 //表示算盘上的一档
-typedef struct
+typedef struct Num
 {
     int upper; //梁上入珠数
     int lower; //梁下入珠数
+    Num(){
+        upper = lower = 0;
+    }
+
+    Num(int _upper, int _lower){
+        upper = _upper;
+        lower = _lower;
+    }
 } Num;
 
 typedef struct{
