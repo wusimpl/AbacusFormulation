@@ -74,7 +74,7 @@ void drawAbacus(Num *num, AbacusParams param) {
         line(topLeft.x + i * stickSpan, topLeft.y, topLeft.x + i * stickSpan, topLeft.y+heightToBottom);
     }
 
-    for (int i = 0, j = 14; i < PLACES_NUM; ++i, --j) //绘制梁上算珠
+    for (int i = 0, j = 0; i < PLACES_NUM; ++i, ++j) //绘制梁上算珠
     {
         for (int k = 0; k < num[j].upper; ++k) //入珠
             drawOneBead(topLeft.x+stickSpan + stickSpan * i, topLeft.y+heightToBeam-beadHalfHeight - 2*beadHalfWidth * k);
@@ -82,7 +82,7 @@ void drawAbacus(Num *num, AbacusParams param) {
             drawOneBead(topLeft.x+stickSpan + stickSpan * i, topLeft.y+beadHalfHeight + 2*beadHalfWidth * k);
     }
 
-    for (int i = 0, j = 14; i < PLACES_NUM; ++i, --j) //绘制梁下算珠
+    for (int i = 0, j = 0; i < PLACES_NUM; ++i, ++j) //绘制梁下算珠
     {
         for (int k = 0; k < num[j].lower; ++k) //入珠
             drawOneBead(topLeft.x+stickSpan + stickSpan * i, topLeft.y+heightToBeam+beadHalfHeight + 2*beadHalfWidth * k);
@@ -113,11 +113,11 @@ void clearAbacus(Num* abacus){
 //阿拉伯数字转换为算盘式数字
 void toAbacusForm(Num *abacus_number, const char* arabic_number, int len) //len：没有小数点
 {
-    for (int i = len - 1, k = 0; i >= 0; i--, k++)
+    for (int i = len-1,j=0; i >=0; i--,j++)
     {
-        int x = arabic_number[i] - '0';
-        abacus_number[k].upper = x / 5;
-        abacus_number[k].lower = x % 5;
+        int digit = arabic_number[i] - '0';
+        abacus_number[PLACES_NUM-1-j].upper = digit / 5;
+        abacus_number[PLACES_NUM-1-j].lower = digit % 5;
     }
 }
 
@@ -128,8 +128,8 @@ int toNumberForm(Num *abacus_number){
 
 //将数字设置到算盘的某个挡位
 void setNumToAbacus(int num, Num* abacus,int stickNum){
-    abacus[stickNum-1].upper = num / 5;
-    abacus[stickNum-1].lower = num % 5;
+    abacus[PLACES_NUM-stickNum].upper = num / 5;
+    abacus[PLACES_NUM-stickNum].lower = num % 5;
 }
 
 double allToNumberForm(Num* abacus_number){
@@ -138,7 +138,7 @@ double allToNumberForm(Num* abacus_number){
     for (int i = 0; i < 15; ++i) {
         digit = toNumberForm(&abacus_number[i]);
         if(digit != 0){
-            result += digit * pow(10,i-2);
+            result += digit * pow(10,PLACES_NUM-2-i-1);
         }
     }
     return result;

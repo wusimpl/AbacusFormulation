@@ -131,8 +131,8 @@ void subtraction() {
 
     _getch();
     for (int i = 0; i < maxLen; i++){ //从左到右按位依次减法
-        if(toNumberForm(&a_first_operand[i]) != 0 || toNumberForm(&a_second_operand[i]) != 0){ //本位的加数和被加数不都为零
-            simulateSubtraction(a_first_operand, a_second_operand, i);
+        if(toNumberForm(&a_first_operand[PLACES_NUM-i-1]) != 0 || toNumberForm(&a_second_operand[PLACES_NUM-i-1]) != 0){ //本位的加数和被加数不都为零
+            simulateSubtraction(a_first_operand, a_second_operand, PLACES_NUM-i-1);
         }
     }
     drawRules("计算结束"); //绘制“计算结束”
@@ -168,8 +168,8 @@ void addition() {
 
     _getch();
     for (int i = 0; i < maxLen; i++){ //从右到左按位依次加法
-        if(toNumberForm(&a_first_operand[i]) != 0 || toNumberForm(&a_second_operand[i]) != 0){ //本位的加数和被加数不都为零
-            simulateAddition(a_first_operand, a_second_operand, i);
+        if(toNumberForm(&a_first_operand[PLACES_NUM-i-1]) != 0 || toNumberForm(&a_second_operand[PLACES_NUM-i-1]) != 0){ //本位的加数和被加数不都为零
+            simulateAddition(a_first_operand, a_second_operand, PLACES_NUM-i-1);
         }
     }
 

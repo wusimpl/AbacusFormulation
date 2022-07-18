@@ -140,12 +140,12 @@ void simulateAddition(Num* au, Num* ad, int n){
          * 进一可能引起前面许多位都有进位，所以本质上是连续加法，使用递归调用解决此问题。
          * 这里当做另外一次加法来做，被加数：当前算盘的数，加数：1。
          * */
-        CARRYNUM carryNumber(n+1);
+        CARRYNUM carryNumber(n-1);
 
         drawNumOnAbacusOfAddition(au);
         drawRules("进一");
         _getch();
-        simulateAddition(au, carryNumber.carry, n + 1);
+        simulateAddition(au, carryNumber.carry, n - 1);
     }
 }
 

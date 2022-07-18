@@ -134,11 +134,11 @@ void simulateSubtraction(Num* minuend, Num* meiosis, int n){
          * 退一可能引起前面许多位都有借位，所以本质上是连续减法，使用递归调用解决此问题。
          * 这里当做另外一次减法来做，被减数：当前算盘的数，减数：1。
          * */
-        CARRYNUM carryNumber(n+1);
+        CARRYNUM carryNumber(n-1);
 
         drawNumOnAbacusOfSubtraction(minuend);
         drawRules("退一");
         _getch();
-        simulateSubtraction(minuend, carryNumber.carry, n + 1);
+        simulateSubtraction(minuend, carryNumber.carry, n-1);
     }
 }
