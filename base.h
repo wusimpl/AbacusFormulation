@@ -62,16 +62,17 @@ void drawRules(const char* str); //绘制拨珠规则
 void drawExpression(const char*);//绘制表达式计算结果
 void drawAbacus(Num *num, AbacusParams param); //绘制算盘
 bool convertToDecimal(char *x); //判断是否为小数,如果为小数，则去掉小数点
-void toAbacusForm(Num *abacus_number, const char *arabic_number, int len); //阿拉伯数字(字符串形式)转换为算盘式数字
-int toNumberForm(Num *abacus_number); //算盘某档转为阿拉伯数字
-int toNumberForm(int upper, int lower); //算盘某档转为阿拉伯数字
-double allToNumberForm(Num* abacus_number); //整个算盘转换为阿拉伯数字(toAbacusForm()的逆运算)
-void setNumToAbacus(int num, Num* abacus,int stickNum); //将数字设置到算盘的某个挡位
+void numberToAbacus(Num *abacus_number, const char *arabic_number, int len); //阿拉伯数字(字符串形式)转换为算盘式数字
+int oneToNumber(Num *abacus_number); //算盘某档转为阿拉伯数字
+//int oneToNumber(int upper, int lower); //算盘某档转为阿拉伯数字
+double allToNumber(Num* abacus_number); //整个算盘转换为阿拉伯数字(numberToAbacus()的逆运算)
+void setNumToAbacusRadicationVersion(int num, Num* abacus, int stickNum); //将数字设置到算盘的某个挡位
+void setNumToAbacusMulVersion(int num, Num* abacus,int placeNum);
 void clearAbacus(Num* abacus);//清空算盘
 void setFontSize(int size);
 void setFontSizeTo16();
 void setFontSizeTo32();
-size_t getDotLocation(const char cStr[]);
+size_t getDotLocation(const char cStr[]); //返回小数点所在index，若没有小数点返回0
 
 ////算盘的形式模型
 //typedef struct Abacus{
@@ -106,7 +107,7 @@ size_t getDotLocation(const char cStr[]);
 //        double result = 0;
 //        int digit;
 //        for (int i = 0; i < 15; ++i) {
-//            digit = toNumberForm(upper[i],lower[i]);
+//            digit = oneToNumber(upper[i],lower[i]);
 //            if(digit != 0){
 //                result += digit * pow(10,i-2);
 //            }

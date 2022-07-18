@@ -44,7 +44,7 @@ void simulateRadication(char* original_c_first_operand,size_t dotLocation,int le
     char head[3]; // 要估算的位，例如344.2，估首根，head为3
     double sumUpOfRoots = 0; // 已经求得的根之和
     double denominator; // 法数：2(root1 + root2 + root3 ...)
-    double remainder = allToNumberForm(a_first_operand);//余数
+    double remainder = allToNumber(a_first_operand);//余数
     double subtrahend; //减数：(法数+当前根)*当前根
     //估首根
     _getch();
@@ -54,7 +54,7 @@ void simulateRadication(char* original_c_first_operand,size_t dotLocation,int le
     sumUpOfRoots += currentRootWithDigits;
     denominator = 2*sumUpOfRoots;
 
-    setNumToAbacus(currentRoot,a_second_operand,currentResultStick);//可视化
+    setNumToAbacusRadicationVersion(currentRoot, a_second_operand, currentResultStick);//可视化
     drawNumOnAbacusOfRadication(a_first_operand, a_second_operand);
     currentResultStick--;
     stringGenerator<<"估得首根为"<<currentRoot;
@@ -69,7 +69,7 @@ void simulateRadication(char* original_c_first_operand,size_t dotLocation,int le
     NUM_TO_CSTR(remainder,c_first_operand);//可视化
     convertToDecimal(c_first_operand);
     clearAbacus(a_first_operand);
-    toAbacusForm(a_first_operand,c_first_operand, strlen(c_first_operand));
+    numberToAbacus(a_first_operand, c_first_operand, strlen(c_first_operand));
     drawNumOnAbacusOfRadication(a_first_operand, a_second_operand);
     stringGenerator<<"减首根平方"<<pow(currentRootWithDigits,2);
     strcpy(strInfo,stringGenerator.str().c_str());
@@ -93,7 +93,7 @@ void simulateRadication(char* original_c_first_operand,size_t dotLocation,int le
         }
 
 
-        setNumToAbacus(currentRoot,a_second_operand,currentResultStick);//可视化
+        setNumToAbacusRadicationVersion(currentRoot, a_second_operand, currentResultStick);//可视化
         drawNumOnAbacusOfRadication(a_first_operand, a_second_operand);
         stringGenerator<<"估得下一根为"<<currentRoot;
         strcpy(strInfo,stringGenerator.str().c_str());
@@ -110,7 +110,7 @@ void simulateRadication(char* original_c_first_operand,size_t dotLocation,int le
         NUM_TO_CSTR(remainder,c_first_operand);//可视化
         convertToDecimal(c_first_operand);
         clearAbacus(a_first_operand);
-        toAbacusForm(a_first_operand,c_first_operand, strlen(c_first_operand));
+        numberToAbacus(a_first_operand, c_first_operand, strlen(c_first_operand));
         drawNumOnAbacusOfRadication(a_first_operand, a_second_operand);
         strcpy(strInfo,stringGenerator.str().c_str());
         drawRules(strInfo);

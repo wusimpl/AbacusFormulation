@@ -10,5 +10,6 @@
 void drawExpressionOfMultiplication();
 void drawNumOnAbacusOfMultiplication(Num*);
 void lookUpMultiplicationTable(int fac, int mul, int placeOfFirstDigit, Num* product);
+void simulateMultiplication(Num* result, int len1, int len2);
 
 #endif //ABACUS_MULTIPLICATION_H

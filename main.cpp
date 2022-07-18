@@ -4,8 +4,9 @@
 #include "addition.h"
 #include "subtraction.h"
 #include "radication.h"
+#include "multiplication.h"
 
-//#define DEBUG
+#define DEBUG
 #ifdef DEBUG
 #define _getch() ;
 #endif
@@ -69,35 +70,34 @@ void multiplication() {
     int len1,len2;
     int maxLen;
     do{
-        printf("请输入两个长度不超过7位的数(被乘数和乘数，允许1位小数)：");
+        printf("请输入两个整数部分不超过6位，小数部分不超过1位的数(被乘数和乘数)：");
         scanf("%s %s", c_first_operand, c_second_operand);
+
         strcpy(original_c_first_operand,c_first_operand);
         strcpy(original_c_second_operand,c_second_operand);
-        convertToDecimal(c_first_operand);//判断是否为小数
+        convertToDecimal(c_first_operand);//*100
         convertToDecimal(c_second_operand);
-        len1 = strlen(c_first_operand);
-        len2 = strlen(c_second_operand);
+        size_t dotLocationOfFirstOperand = getDotLocation(original_c_first_operand); //得到小数点的位置（用于后面的定位）
+        size_t dotLocationOfSecondOperand = getDotLocation(original_c_second_operand); //得到小数点的位置（用于后面的定位）
+        len1 = dotLocationOfFirstOperand==0?strlen(original_c_first_operand):dotLocationOfFirstOperand; //整数部分的位数
+        len2 = dotLocationOfSecondOperand==0?strlen(original_c_second_operand):dotLocationOfSecondOperand; //整数部分的位数
         maxLen = len1 > len2 ? len1 : len2;
-        if (maxLen > 7){
+        if (maxLen > 6){
             printf("您输入的数过大，请重新输入\n");
             errorHappened = 1;
         }
     } while(errorHappened);
 
-    toAbacusForm(a_first_operand, c_first_operand, len1);
-    toAbacusForm(a_second_operand, c_second_operand, len2);
+    numberToAbacus(a_first_operand, c_first_operand, len1);
+    numberToAbacus(a_second_operand, c_second_operand, len2);
 
     initDrawingEnv();
-    drawNumOnAbacusOfAddition(a_first_operand); //初始化算盘（绘制算盘、列式、口诀表）
+    Num result[PLACES_NUM];
+    drawNumOnAbacusOfMultiplication(result); //初始化算盘（绘制算盘、列式）
+    //乘法
+    simulateMultiplication(result,len1,len2);
 
-    _getch();
-    for (int i = 0; i < maxLen; i++){ //从右到左按位依次加法
-        if(toNumberForm(&a_first_operand[i]) != 0 || toNumberForm(&a_second_operand[i]) != 0){ //本位的加数和被加数不都为零
-            simulateAddition(a_first_operand, a_second_operand, i);
-        }
-    }
-
-    drawRules("计算结束"); //绘制“计算结束”
+    drawRules("计算结束，按任意键关闭");
     _getch(); //按任意键继续
     closegraph(); //释放绘图资源
 }
@@ -122,8 +122,8 @@ void subtraction() {
         }
     } while(errorHappened);
 
-    toAbacusForm(a_first_operand, c_first_operand, len1);
-    toAbacusForm(a_second_operand, c_second_operand, len2);
+    numberToAbacus(a_first_operand, c_first_operand, len1);
+    numberToAbacus(a_second_operand, c_second_operand, len2);
     initgraph(GraphSizeOfWidth, GraphSizeOfHeight); //初始化绘图环境
 
     initDrawingEnv();
@@ -131,11 +131,12 @@ void subtraction() {
 
     _getch();
     for (int i = 0; i < maxLen; i++){ //从左到右按位依次减法
-        if(toNumberForm(&a_first_operand[PLACES_NUM-i-1]) != 0 || toNumberForm(&a_second_operand[PLACES_NUM-i-1]) != 0){ //本位的加数和被加数不都为零
+        if(oneToNumber(&a_first_operand[PLACES_NUM - i - 1]) != 0 ||
+                oneToNumber(&a_second_operand[PLACES_NUM - i - 1]) != 0){ //本位的加数和被加数不都为零
             simulateSubtraction(a_first_operand, a_second_operand, PLACES_NUM-i-1);
         }
     }
-    drawRules("计算结束"); //绘制“计算结束”
+    drawRules("计算结束，按任意键关闭"); //绘制“计算结束，按任意键关闭”
     _getch(); //按任意键继续
     closegraph(); //释放绘图资源
 }
@@ -160,20 +161,20 @@ void addition() {
         }
     } while(errorHappened);
 
-    toAbacusForm(a_first_operand, c_first_operand, len1);
-    toAbacusForm(a_second_operand, c_second_operand, len2);
+    numberToAbacus(a_first_operand, c_first_operand, len1);
+    numberToAbacus(a_second_operand, c_second_operand, len2);
 
     initDrawingEnv();
     drawNumOnAbacusOfAddition(a_first_operand); //初始化算盘（绘制算盘、列式、口诀表）
 
     _getch();
     for (int i = 0; i < maxLen; i++){ //从右到左按位依次加法
-        if(toNumberForm(&a_first_operand[PLACES_NUM-i-1]) != 0 || toNumberForm(&a_second_operand[PLACES_NUM-i-1]) != 0){ //本位的加数和被加数不都为零
+        if(oneToNumber(&a_second_operand[PLACES_NUM - i - 1]) != 0){ //被加数的当前计算挡位不为零
             simulateAddition(a_first_operand, a_second_operand, PLACES_NUM-i-1);
         }
     }
 
-    drawRules("计算结束"); //绘制“计算结束”
+    drawRules("计算结束，按任意键关闭"); //绘制“计算结束，按任意键关闭”
     _getch(); //按任意键继续
     closegraph(); //释放绘图资源
 }
@@ -196,7 +197,7 @@ void radication(){
             lenWithoutDot -= 1;
         }
         convertedLen = strlen(c_first_operand);
-        toAbacusForm(a_first_operand, c_first_operand, convertedLen); //转为算盘形式
+        numberToAbacus(a_first_operand, c_first_operand, convertedLen); //转为算盘形式
 
         if (convertedLen > 14){
             printf("您输入的数过大，请重新输入\n");
@@ -208,16 +209,15 @@ void radication(){
 
     c_second_operand[14] = '0'; //存储开方结果
     convertToDecimal(c_second_operand);
-    toAbacusForm(a_second_operand, c_second_operand, 1);
+    numberToAbacus(a_second_operand, c_second_operand, 1);
 
     initDrawingEnv();
     drawNumOnAbacusOfRadication(a_first_operand, a_second_operand); //初始化算盘
 
     // simulation
-    _getch();
     simulateRadication(original_c_first_operand,dotLocation,lenWithoutDot,convertedLen);
 
-    drawRules("计算结束"); //绘制“计算结束”
+    drawRules("计算结束，按任意键关闭"); //绘制“计算结束，按任意键关闭”
     _getch(); //按任意键继续
     closegraph(); //释放绘图资源
 }

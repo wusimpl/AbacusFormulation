@@ -2,7 +2,7 @@
 
 #include "addition.h"
 
-//#define DEBUG
+#define DEBUG
 #ifdef DEBUG
 #define _getch() ;
 #endif
@@ -85,8 +85,8 @@ void simulateAddition(Num* au, Num* ad, int n){
     Num* aug = &au[n];
     Num* add = &ad[n];
     Num* tmp = aug; //当前被加数的指针
-    int augNumber = toNumberForm(aug); //被加数
-    int addNumber = toNumberForm(add); //加数
+    int augNumber = oneToNumber(aug); //被加数
+    int addNumber = oneToNumber(add); //加数
 
     if (addNumber + augNumber <= 9){ //直接加或者凑五加
         if(augNumber<5&&addNumber<5&&addNumber+augNumber>=5){//凑五加：被加数下框离梁珠<加数 && 加数<5

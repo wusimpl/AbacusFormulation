@@ -82,8 +82,8 @@ void simulateSubtraction(Num* minuend, Num* meiosis, int n){
     Num* mi = &minuend[n];
     Num* mei = &meiosis[n];
     Num* tmp = mi; //当前被减数的指针
-    int miNumber = toNumberForm(mi); //被减数
-    int meiNumber = toNumberForm(mei); //减数
+    int miNumber = oneToNumber(mi); //被减数
+    int meiNumber = oneToNumber(mei); //减数
 
     if (miNumber >= meiNumber){ //不退位减
         if(miNumber>=5 && meiNumber<5 && meiNumber > (miNumber-5)){//破五减

@@ -111,7 +111,7 @@ void clearAbacus(Num* abacus){
 }
 
 //阿拉伯数字转换为算盘式数字
-void toAbacusForm(Num *abacus_number, const char* arabic_number, int len) //len：没有小数点
+void numberToAbacus(Num *abacus_number, const char* arabic_number, int len) //len：没有小数点
 {
     for (int i = len-1,j=0; i >=0; i--,j++)
     {
@@ -122,29 +122,34 @@ void toAbacusForm(Num *abacus_number, const char* arabic_number, int len) //len�
 }
 
 //算盘某档转为阿拉伯数字
-int toNumberForm(Num *abacus_number){
+int oneToNumber(Num *abacus_number){
     return abacus_number->upper * 5 + abacus_number->lower;
 }
 
 //将数字设置到算盘的某个挡位
-void setNumToAbacus(int num, Num* abacus,int stickNum){
+void setNumToAbacusRadicationVersion(int num, Num* abacus, int stickNum){
     abacus[PLACES_NUM-stickNum].upper = num / 5;
     abacus[PLACES_NUM-stickNum].lower = num % 5;
 }
 
-double allToNumberForm(Num* abacus_number){
+void setNumToAbacusMulVersion(int num, Num* abacus,int placeNum){
+    abacus[placeNum].upper = num / 5;
+    abacus[placeNum].lower = num % 5;
+}
+
+double allToNumber(Num* abacus_number){
     double result = 0;
     int digit;
-    for (int i = 0; i < 15; ++i) {
-        digit = toNumberForm(&abacus_number[i]);
+    for (int i = PLACES_NUM-1; i >= 0; --i) {
+        digit = oneToNumber(&abacus_number[i]);
         if(digit != 0){
-            result += digit * pow(10,PLACES_NUM-2-i-1);
+            result += digit * pow(10,PLACES_NUM-(i+1)-2);
         }
     }
     return result;
 }
 
-//int toNumberForm(int upper, int lower) {
+//int oneToNumber(int upper, int lower) {
 //    return upper * 5 + lower;
 //}
 
