@@ -2,7 +2,7 @@
 
 #include "addition.h"
 
-#define DEBUG
+//#define DEBUG
 #ifdef DEBUG
 #define _getch() ;
 #endif
@@ -115,7 +115,7 @@ void simulateAddition(Num* au, Num* ad, int n){
     }else{ //进十加或者破五进十加
         int complement = 10-addNumber;//加数的补数
         /*先计算本位*/
-        if(addNumber>5&&tmp->upper==1){//破五进十加
+        if(augNumber>=5&&addNumber>5&&tmp->lower<complement){//破五进十加
             //去五，上（5-补数）
             tmp->upper -= 1;
             drawNumOnAbacusOfAddition(au);

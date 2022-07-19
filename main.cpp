@@ -6,7 +6,7 @@
 #include "radication.h"
 #include "multiplication.h"
 
-#define DEBUG
+//#define DEBUG
 #ifdef DEBUG
 #define _getch() ;
 #endif
@@ -95,9 +95,10 @@ void multiplication() {
     Num result[PLACES_NUM];
     drawNumOnAbacusOfMultiplication(result); //初始化算盘（绘制算盘、列式）
     //乘法
+    _getch();
     simulateMultiplication(result,len1,len2);
 
-    drawRules("计算结束，按任意键关闭");
+    drawRules("计算结束");
     _getch(); //按任意键继续
     closegraph(); //释放绘图资源
 }
@@ -136,7 +137,7 @@ void subtraction() {
             simulateSubtraction(a_first_operand, a_second_operand, PLACES_NUM-i-1);
         }
     }
-    drawRules("计算结束，按任意键关闭"); //绘制“计算结束，按任意键关闭”
+    drawRules("计算结束"); //绘制“计算结束”
     _getch(); //按任意键继续
     closegraph(); //释放绘图资源
 }
@@ -174,7 +175,7 @@ void addition() {
         }
     }
 
-    drawRules("计算结束，按任意键关闭"); //绘制“计算结束，按任意键关闭”
+    drawRules("计算结束"); //绘制“计算结束”
     _getch(); //按任意键继续
     closegraph(); //释放绘图资源
 }
@@ -217,7 +218,7 @@ void radication(){
     // simulation
     simulateRadication(original_c_first_operand,dotLocation,lenWithoutDot,convertedLen);
 
-    drawRules("计算结束，按任意键关闭"); //绘制“计算结束，按任意键关闭”
+    drawRules("计算结束"); //绘制“计算结束”
     _getch(); //按任意键继续
     closegraph(); //释放绘图资源
 }

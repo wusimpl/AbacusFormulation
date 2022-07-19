@@ -5,10 +5,12 @@
 #include "multiplication.h"
 #include "addition.h"
 
-#define DEBUG
+//#define DEBUG
 #ifdef DEBUG
 #define _getch() ;
 #endif
+
+Coordinate multiplicationRhymeDisplayLeftTop={750,150},multiplicationRhymeDisplayRightBottom{1250,183};
 
 //显示表达式计算的结果
 void drawExpressionOfMultiplication()
@@ -39,11 +41,7 @@ void drawNumOnAbacusOfMultiplication(Num *sa)
  * @param placeOfFirstDigit 积的第一个数字所在的挡位
  * @param product
  */
-void lookUpMultiplicationTable(int fac, int mul, int placeOfFirstDigit, Num* product){
-    int _product = fac * mul;
-//    char charProduct[9];
-//    _itoa_s(_product,charProduct,10);
-
+void lookUpMultiplicationTable(int _product, int placeOfFirstDigit, Num* product){
     if(_product<10){
         setNumToAbacusMulVersion(_product, product, placeOfFirstDigit+1); //0不用放置，直接放置第二位
     }else{
@@ -70,18 +68,38 @@ void simulateMultiplication(Num* result, int len1, int len2){
     int outerAccumulationPointer=PLACES_NUM-productDigitNum; //1*n位乘积累加的错位指针
     int innerAccumulationPointer; // 1位乘法累加的错位指针
     Num product[PLACES_NUM]; //1位乘法之积
+    int _product;
     //乘法
-    for (int i = 0; i < len2; ++i,currentMul = &mul[PLACES_NUM-len2+i],outerAccumulationPointer++) {  // 1*n位乘法的积错位相加
+    for (int i = 0; i < len2; ++i,outerAccumulationPointer++) {  // 1*n位乘法的积错位相加
+        currentMul = &mul[PLACES_NUM-len2+i],
         innerAccumulationPointer = outerAccumulationPointer;
-        for (int j = 0; j < len1; ++j,currentFac = &fac[PLACES_NUM-len1+j],innerAccumulationPointer++) {  // 1位乘法的积错位相加 5*7821
+        for (int j = 0; j < len1; ++j,innerAccumulationPointer++) {  // 1位乘法的积错位相加 5*7821
+            currentFac = &fac[PLACES_NUM-len1+j];
             //得1位乘法之积
-            lookUpMultiplicationTable(oneToNumber(currentFac), oneToNumber(currentMul), innerAccumulationPointer, product);
+            _product = oneToNumber(currentFac)*oneToNumber(currentMul);
+            lookUpMultiplicationTable(_product, innerAccumulationPointer, product);
+
+            //显示累加之积
+            /*stringGenerator<<"错位累加";
+            if(_product<10){
+                stringGenerator<<"0"<<_product;
+            }
+            else{
+                stringGenerator<<_product;
+            }
+            strcpy(strInfo,stringGenerator.str().c_str());
+            drawMultiplicationRhymeProduct(strInfo);
+            stringGenerator.clear();
+            stringGenerator.str("");*/
+
+
             //将积累加到结果中
-            for (int k = 0; k <= productDigitNum; k++){
-                if(oneToNumber(&product[PLACES_NUM - k - 1]) != 0){
-                    simulateAddition(result, product, PLACES_NUM - k - 1);
+            for (int k = PLACES_NUM-productDigitNum; k < PLACES_NUM; k++){
+                if(oneToNumber(&product[k]) != 0){
+                    simulateAddition(result, product, k);
                 }
             }
+
             clearAbacus(product);
             //show result
             drawNumOnAbacusOfMultiplication(result);
@@ -89,6 +107,14 @@ void simulateMultiplication(Num* result, int len1, int len2){
             cout<<r<<endl;
         }
     }
+}
+
+void drawMultiplicationRhymeProduct(const char *str) {
+    setFontSizeTo32();
+    RECT r1 = {multiplicationRhymeDisplayLeftTop.x, multiplicationRhymeDisplayLeftTop.y,
+               multiplicationRhymeDisplayRightBottom.x, multiplicationRhymeDisplayRightBottom.y};
+    drawtext(str, &r1, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+    setFontSizeTo16();
 }
 
 //# pragma warning (disable:4819)
