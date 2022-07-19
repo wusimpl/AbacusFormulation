@@ -72,7 +72,7 @@ void multiplication() {
     size_t len1WithoutDot,len2WithoutDot; //整数加小数部分的位数（不含小数点）
     size_t convertedLen1,convertedLen2; // 21.5->2150：三位；1->100：三位；45.33->4533：四位
     do{
-        printf("请输入两个整数部分不超过6位，小数部分不超过1位的数(被乘数和乘数)：");
+        printf("请输入两个数（整数部分不超过6位，小数部分不超过1位)：");
         scanf("%s %s", c_first_operand, c_second_operand);
 
         strcpy(original_c_first_operand,c_first_operand);
@@ -88,8 +88,8 @@ void multiplication() {
         len1WithoutDot = dotLocationOfFirstOperand==0?strlen(original_c_first_operand):strlen(original_c_first_operand)-1;
         len2WithoutDot = dotLocationOfSecondOperand==0?strlen(original_c_second_operand):strlen(original_c_second_operand)-1;
         maxLen = integerLen1 > integerLen2 ? integerLen1 : integerLen2;
-        if (maxLen > 6){
-            printf("您输入的数过大，请重新输入\n");
+        if (maxLen > 6 || len1WithoutDot-integerLen1>1 || len2WithoutDot-integerLen2>1){
+            printf("输入数据不符合规范，请重新输入\n");
             errorHappened = 1;
         }
     } while(errorHappened);
