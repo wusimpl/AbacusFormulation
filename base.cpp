@@ -56,6 +56,8 @@ void setFontSize(int size){
     f.lfWeight = FW_NORMAL;
     settextstyle(&f);
 }
+
+
 //绘制算盘
 void drawAbacus(Num *num, AbacusParams param) {
     Coordinate topLeft = param.topLeft;
@@ -91,6 +93,8 @@ void drawAbacus(Num *num, AbacusParams param) {
     }
 }
 
+
+
 //248->24800, 23.12 -> 2312, 0.3 -> 3-
 bool convertToDecimal(char *x)
 {
@@ -111,13 +115,15 @@ void clearAbacus(Num* abacus){
 }
 
 //阿拉伯数字转换为算盘式数字
-void numberToAbacus(Num *abacus_number, const char* arabic_number, int len) //len：没有小数点
+void numberToAbacus(Num *abacus_number, const char* arabic_number, int convertedLen) //convertedLen=strlen(a*100)
 {
-    for (int i = len-1,j=0; i >=0; i--,j++)
+    for (int i = convertedLen - 1,j=0; i >= 0; i--,j++)
     {
         int digit = arabic_number[i] - '0';
-        abacus_number[PLACES_NUM-1-j].upper = digit / 5;
-        abacus_number[PLACES_NUM-1-j].lower = digit % 5;
+        if(digit!=0){
+            abacus_number[PLACES_NUM-1-j].upper = digit / 5;
+            abacus_number[PLACES_NUM-1-j].lower = digit % 5;
+        }
     }
 }
 
@@ -162,4 +168,8 @@ size_t getDotLocation(const char cStr[]){
         }
     }
     return 0;
+}
+
+void clearAbacus(AbacusParams param) {
+    clearrectangle(param.topLeft.x,param.topLeft.y,param.topLeft.x+param.width, param.topLeft.y+param.heightToBottom);
 }

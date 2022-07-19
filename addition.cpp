@@ -80,6 +80,13 @@ void drawNumOnAbacusOfAddition(Num *sa)
     drawMnemonicRhymeOfAddition(); //绘制加法口诀表
 }
 
+void drawNumOnAbacusOfAdditionPureVersion(Num *sa)
+{
+    AbacusParams  param;
+    clearAbacus(param); //清除算盘
+    drawAbacus(sa,AbacusParams()); //重新绘制算盘
+}
+
 //可视化模拟一位加法
 void simulateAddition(Num* au, Num* ad, int n){
     Num* aug = &au[n];
@@ -146,6 +153,58 @@ void simulateAddition(Num* au, Num* ad, int n){
         drawRules("进一");
         _getch();
         simulateAddition(au, carryNumber.carry, n - 1);
+    }
+}
+
+void simulateAdditionPureVersion(Num* au, Num* ad, int n){
+    Num* aug = &au[n];
+    Num* add = &ad[n];
+    Num* tmp = aug; //当前被加数的指针
+    int augNumber = oneToNumber(aug); //被加数
+    int addNumber = oneToNumber(add); //加数
+
+    if (addNumber + augNumber <= 9){ //直接加或者凑五加
+        if(augNumber<5&&addNumber<5&&addNumber+augNumber>=5){//凑五加：被加数下框离梁珠<加数 && 加数<5
+            //凑五加：下五去凑五数
+            tmp->upper += 1; //下五
+            drawNumOnAbacusOfAdditionPureVersion(au);
+            _getch();
+            tmp->lower -= 5 - addNumber;
+            drawNumOnAbacusOfAdditionPureVersion(au);
+            _getch();
+        }else{ //直接加
+            tmp->upper += addNumber / 5;
+            tmp->lower += addNumber % 5;
+            drawNumOnAbacusOfAdditionPureVersion(au);
+            _getch();
+        }
+    }else{ //进十加或者破五进十加
+        int complement = 10-addNumber;//加数的补数
+        /*先计算本位*/
+        if(augNumber>=5&&addNumber>5&&tmp->lower<complement){//破五进十加
+            //去五，上（5-补数）
+            tmp->upper -= 1;
+            drawNumOnAbacusOfAdditionPureVersion(au);
+            _getch();
+
+            tmp->lower += 5 - complement;
+            drawNumOnAbacusOfAdditionPureVersion(au);
+        }else{ //进十加
+            tmp->upper -= int(complement / 5);
+            tmp->lower -= complement % 5;
+            drawNumOnAbacusOfAdditionPureVersion(au);
+        }
+        _getch();
+
+        /*再计算进位
+         * 进一可能引起前面许多位都有进位，所以本质上是连续加法，使用递归调用解决此问题。
+         * 这里当做另外一次加法来做，被加数：当前算盘的数，加数：1。
+         * */
+        CARRYNUM carryNumber(n-1);
+
+        drawNumOnAbacusOfAdditionPureVersion(au);
+        _getch();
+        simulateAdditionPureVersion(au, carryNumber.carry, n - 1);
     }
 }
 

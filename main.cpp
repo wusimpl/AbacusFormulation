@@ -67,8 +67,10 @@ void division() {
 
 void multiplication() {
     int errorHappened = 0;
-    int len1,len2;
-    int maxLen;
+    size_t integerLen1,integerLen2; //被乘数、乘数整数部分的位数
+    size_t maxLen; // maxLen between integerLen1 and integerLen2
+    size_t len1WithoutDot,len2WithoutDot; //整数加小数部分的位数（不含小数点）
+    size_t convertedLen1,convertedLen2; // 21.5->2150：三位；1->100：三位；45.33->4533：四位
     do{
         printf("请输入两个整数部分不超过6位，小数部分不超过1位的数(被乘数和乘数)：");
         scanf("%s %s", c_first_operand, c_second_operand);
@@ -77,26 +79,30 @@ void multiplication() {
         strcpy(original_c_second_operand,c_second_operand);
         convertToDecimal(c_first_operand);//*100
         convertToDecimal(c_second_operand);
+        convertedLen1 = strlen(c_first_operand);
+        convertedLen2 = strlen(c_second_operand);
         size_t dotLocationOfFirstOperand = getDotLocation(original_c_first_operand); //得到小数点的位置（用于后面的定位）
         size_t dotLocationOfSecondOperand = getDotLocation(original_c_second_operand); //得到小数点的位置（用于后面的定位）
-        len1 = dotLocationOfFirstOperand==0?strlen(original_c_first_operand):dotLocationOfFirstOperand; //整数部分的位数
-        len2 = dotLocationOfSecondOperand==0?strlen(original_c_second_operand):dotLocationOfSecondOperand; //整数部分的位数
-        maxLen = len1 > len2 ? len1 : len2;
+        integerLen1 = dotLocationOfFirstOperand == 0 ? strlen(original_c_first_operand) : dotLocationOfFirstOperand; //整数部分的位数
+        integerLen2 = dotLocationOfSecondOperand == 0 ? strlen(original_c_second_operand) : dotLocationOfSecondOperand; //整数部分的位数
+        len1WithoutDot = dotLocationOfFirstOperand==0?strlen(original_c_first_operand):strlen(original_c_first_operand)-1;
+        len2WithoutDot = dotLocationOfSecondOperand==0?strlen(original_c_second_operand):strlen(original_c_second_operand)-1;
+        maxLen = integerLen1 > integerLen2 ? integerLen1 : integerLen2;
         if (maxLen > 6){
             printf("您输入的数过大，请重新输入\n");
             errorHappened = 1;
         }
     } while(errorHappened);
 
-    numberToAbacus(a_first_operand, c_first_operand, len1);
-    numberToAbacus(a_second_operand, c_second_operand, len2);
+    numberToAbacus(a_first_operand, c_first_operand, convertedLen1);
+    numberToAbacus(a_second_operand, c_second_operand, convertedLen2);
 
     initDrawingEnv();
     Num result[PLACES_NUM];
     drawNumOnAbacusOfMultiplication(result); //初始化算盘（绘制算盘、列式）
     //乘法
     _getch();
-    simulateMultiplication(result,len1,len2);
+    simulateMultiplication(result, integerLen1, integerLen2, len1WithoutDot, len2WithoutDot,convertedLen1,convertedLen2);
 
     drawRules("计算结束");
     _getch(); //按任意键继续
