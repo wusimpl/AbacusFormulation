@@ -10,7 +10,7 @@
 void drawExpressionOfMultiplication();
 void drawNumOnAbacusOfMultiplication(Num*);
 void lookUpMultiplicationTable(int _product, int placeOfFirstDigit, Num* product);
-void simulateMultiplication(Num* result, int len1, int len2,int len1WithoutDot,int len2WithoutDot,int convertedLen1,int convertedLen2);
+void simulateMultiplication(Num* result, int integerLen1, int integerLen2, int len1WithoutDot, int len2WithoutDot, int convertedLen1, int convertedLen2);
 void drawMultiplicationRhymeProduct(const char* oneToNExpressionStrInfo,const char* str);
 void draw1toNExpression(const char* str);
 

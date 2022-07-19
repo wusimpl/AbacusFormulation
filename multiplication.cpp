@@ -53,14 +53,14 @@ void lookUpMultiplicationTable(int _product, int placeOfFirstDigit, Num* product
 /**
  *
  * @param result
- * @param len1 被乘数位数
- * @param len2 乘数位数（位数少的那一个）
+ * @param integerLen1 被乘数位数
+ * @param integerLen2 乘数位数（位数少的那一个）
  */
-void simulateMultiplication(Num* result, int len1, int len2,int len1WithoutDot,int len2WithoutDot,int convertedLen1,int convertedLen2){
+void simulateMultiplication(Num* result, int integerLen1, int integerLen2, int len1WithoutDot, int len2WithoutDot, int convertedLen1, int convertedLen2){
     //定位
-//    int productDigitNum = oneToNumber(&a_first_operand[PLACES_NUM - len1]) *
-//                          oneToNumber(&a_second_operand[PLACES_NUM - len2]) < 10 ? len1 + len2 - 1 : len1 + len2; //积的位数
-    int productDigitNum = len1 + len2; //积的位数
+//    int productDigitNum = oneToNumber(&a_first_operand[PLACES_NUM - integerLen1]) *
+//                          oneToNumber(&a_second_operand[PLACES_NUM - integerLen2]) < 10 ? integerLen1 + integerLen2 - 1 : integerLen1 + integerLen2; //积的位数
+    int productDigitNum = integerLen1 + integerLen2; //积的位数
     productDigitNum+=2; //加上两位小数的位置
     Num* fac = a_first_operand;
     Num* mul = a_second_operand;
@@ -70,11 +70,18 @@ void simulateMultiplication(Num* result, int len1, int len2,int len1WithoutDot,i
     int innerAccumulationPointer; // 1位乘法累加的错位指针
     Num product[PLACES_NUM]; //1位乘法之积
     int _product;
-    stringstream ss;
+    stringstream ss; //yet another string builder
     char oneToNExpressionStrInfo[20];
     //乘法
-    for (int i = 0; i < len2WithoutDot; ++i,outerAccumulationPointer++) {  // 1*n位乘法的积错位相加
-        currentMul = &mul[PLACES_NUM-convertedLen2+i],
+    for (int i = 0; i < integerLen2 + 2; ++i,outerAccumulationPointer++) {  // 1*n位乘法的积错位相加
+        currentMul = &mul[PLACES_NUM - (integerLen2 + 2) + i];
+        if(oneToNumber(currentMul)==0){ //乘数当前位为零
+            if(i==integerLen2){ //当前位为十分位，没必要继续算法了，out
+                break;
+            }else{ //当前位在整数位，跳过当前循环加速计算
+                continue;
+            }
+        }
         innerAccumulationPointer = outerAccumulationPointer;
 
         ss<<original_c_first_operand<<"*"<<oneToNumber(currentMul);
@@ -82,8 +89,8 @@ void simulateMultiplication(Num* result, int len1, int len2,int len1WithoutDot,i
         ss.clear();
         ss.str("");
 
-        for (int j = 0; j < len1WithoutDot; ++j,innerAccumulationPointer++) {  // 1位乘法的积错位相加 5*7821
-            currentFac = &fac[PLACES_NUM-convertedLen1+j];
+        for (int j = 0; j < integerLen1 + 2; ++j,innerAccumulationPointer++) {  // 1位乘法的积错位相加 5*7821
+            currentFac = &fac[PLACES_NUM - (integerLen1 + 2) + j];
             //得1位乘法之积
             _product = oneToNumber(currentFac)*oneToNumber(currentMul);
             lookUpMultiplicationTable(_product, innerAccumulationPointer, product);

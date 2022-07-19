@@ -78,13 +78,11 @@ void drawAbacus(Num *num, AbacusParams param) {
 
     for (int i = 0, j = 0; i < PLACES_NUM; ++i, ++j) //绘制梁上算珠
     {
-//        setfillstyle(BS_SOLID);
         for (int k = 0; k < num[j].upper; ++k) //入珠
         {
             setfillcolor(BLACK);
             drawOneBead(topLeft.x+stickSpan + stickSpan * i, topLeft.y+heightToBeam-beadHalfHeight - 2*beadHalfWidth * k);
         }
-//        setfillstyle(BS_NULL);
         for (int k = 0; k < 1 - num[j].upper; ++k) //未入珠
         {
             setfillcolor(WHITE);
@@ -94,13 +92,11 @@ void drawAbacus(Num *num, AbacusParams param) {
 
     for (int i = 0, j = 0; i < PLACES_NUM; ++i, ++j) //绘制梁下算珠
     {
-//        setfillstyle(BS_SOLID);
         for (int k = 0; k < num[j].lower; ++k) //入珠
         {
             setfillcolor(BLACK);
             drawOneBead(topLeft.x+stickSpan + stickSpan * i, topLeft.y+heightToBeam+beadHalfHeight + 2*beadHalfWidth * k);
         }
-//        setfillstyle(BS_NULL);
         for (int k = 0; k < 4 - num[j].lower; ++k) //未入珠
         {
             setfillcolor(WHITE);
