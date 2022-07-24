@@ -4,6 +4,8 @@
 
 #include "multiplication.h"
 #include "addition.h"
+#include "division.h"
+
 
 //#define DEBUG
 #ifdef DEBUG
@@ -38,15 +40,24 @@ void drawNumOnAbacusOfMultiplication(Num *sa)
  * 模拟大九九口诀表返回乘积
  * @param fac
  * @param mul
- * @param placeOfFirstDigit 积的第一个数字所在的挡位
+ * @param indexOfFirstDigit 积的第一个数字所在的挡位
  * @param product
  */
-void lookUpMultiplicationTable(int _product, int placeOfFirstDigit, Num* product){
+void lookUpMultiplicationTable(int _product, int indexOfFirstDigit, Num* product){
     if(_product<10){
-        setNumToAbacusMulVersion(_product, product, placeOfFirstDigit+1); //0不用放置，直接放置第二位
+        setNumToAbacusMulVersion(_product, product, indexOfFirstDigit + 1); //0不用放置，直接放置第二位
     }else{
-        setNumToAbacusMulVersion(_product / 10, product, placeOfFirstDigit); //放置第一位
-        setNumToAbacusMulVersion(_product % 10, product, placeOfFirstDigit+1); //放置第二位
+        setNumToAbacusMulVersion(_product / 10, product, indexOfFirstDigit); //放置第一位
+        setNumToAbacusMulVersion(_product % 10, product, indexOfFirstDigit + 1); //放置第二位
+    }
+}
+
+void lookUpMultiplicationTableDivisionVersion(int _product, int indexOfFirstDigit, Num* product){
+    if(_product<10){
+        setNumToAbacusMulVersion(_product, product, indexOfFirstDigit); //0不用放置，直接放置第二位
+    }else{
+        setNumToAbacusMulVersion(_product / 10, product, indexOfFirstDigit); //放置第一位
+        setNumToAbacusMulVersion(_product % 10, product, indexOfFirstDigit + 1); //放置第二位
     }
 }
 
@@ -56,7 +67,7 @@ void lookUpMultiplicationTable(int _product, int placeOfFirstDigit, Num* product
  * @param integerLen1 被乘数位数
  * @param integerLen2 乘数位数（位数少的那一个）
  */
-void simulateMultiplication(Num* result, int integerLen1, int integerLen2, int len1WithoutDot, int len2WithoutDot, int convertedLen1, int convertedLen2){
+void simulateMultiplication(Num* result, int integerLen1, int integerLen2){
     //定位
 //    int productDigitNum = oneToNumber(&a_first_operand[PLACES_NUM - integerLen1]) *
 //                          oneToNumber(&a_second_operand[PLACES_NUM - integerLen2]) < 10 ? integerLen1 + integerLen2 - 1 : integerLen1 + integerLen2; //积的位数

@@ -150,21 +150,27 @@ void setNumToAbacusRadicationVersion(int num, Num* abacus, int stickNum){
     abacus[PLACES_NUM-stickNum].lower = num % 5;
 }
 
-void setNumToAbacusMulVersion(int num, Num* abacus,int placeNum){
-    abacus[placeNum].upper = num / 5;
-    abacus[placeNum].lower = num % 5;
+void setNumToAbacusMulVersion(int num, Num* abacus,int indexNum){
+    abacus[indexNum].upper = num / 5;
+    abacus[indexNum].lower = num % 5;
+}
+
+void setNumToAbacus(int num, Num* abacus,int placeNum){
+    abacus[placeNum-1].upper = num / 5;
+    abacus[placeNum-1].lower = num % 5;
 }
 
 double allToNumber(Num* abacus_number){
-    double result = 0;
-    int digit;
-    for (int i = PLACES_NUM-1; i >= 0; --i) {
-        digit = oneToNumber(&abacus_number[i]);
-        if(digit != 0){
-            result += digit * pow(10,PLACES_NUM-(i+1)-2);
-        }
-    }
-    return result;
+    return toNumber(abacus_number,0,14);
+//    double result = 0;
+//    int digit;
+//    for (int i = PLACES_NUM-1; i >= 0; --i) {
+//        digit = oneToNumber(&abacus_number[i]);
+//        if(digit != 0){
+//            result += digit * pow(10,PLACES_NUM-(i+1)-2);
+//        }
+//    }
+//    return result;
 }
 
 //int oneToNumber(int upper, int lower) {
@@ -184,4 +190,16 @@ size_t getDotLocation(const char cStr[]){
 
 void clearAbacus(AbacusParams param) {
     clearrectangle(param.topLeft.x,param.topLeft.y,param.topLeft.x+param.width, param.topLeft.y+param.heightToBottom);
+}
+
+double toNumber(Num *abacus_number, int indexA, int indexB) {
+    double result = 0;
+    int digit;
+    for (int i = indexB; i >= indexA; --i) {
+        digit = oneToNumber(&abacus_number[i]);
+        if(digit != 0){
+            result += digit * pow(10,PLACES_NUM-3-i);
+        }
+    }
+    return result;
 }

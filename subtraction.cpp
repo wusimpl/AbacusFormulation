@@ -77,6 +77,11 @@ void drawNumOnAbacusOfSubtraction(Num *sa)
     drawMnemonicRhymeOfSubtraction(); //绘制减法口诀表
 }
 
+void drawNumOnAbacusOfSubtractionPureVersion(Num *sa)
+{
+    drawNumOnAbacusOfAdditionPureVersion(sa);
+}
+
 //可视化模拟一位减法
 void simulateSubtraction(Num* minuend, Num* meiosis, int n){
     Num* mi = &minuend[n];
@@ -140,5 +145,49 @@ void simulateSubtraction(Num* minuend, Num* meiosis, int n){
         drawRules("退一");
         _getch();
         simulateSubtraction(minuend, carryNumber.carry, n-1);
+    }
+}
+
+void simulateSubtractionPureVersion(Num *minuend, Num *meiosis, int n) {
+    Num* mi = &minuend[n];
+    Num* mei = &meiosis[n];
+    Num* tmp = mi; //当前被减数的指针
+    int miNumber = oneToNumber(mi); //被减数
+    int meiNumber = oneToNumber(mei); //减数
+
+    if (miNumber >= meiNumber){ //不退位减
+        if(miNumber>=5 && meiNumber<5 && meiNumber > (miNumber-5)){//破五减
+            tmp->upper -= 1; //去五
+            drawNumOnAbacusOfSubtractionPureVersion(minuend);
+            _getch();
+            tmp->lower += 5 - meiNumber; //上（5-减数）
+            drawNumOnAbacusOfSubtractionPureVersion(minuend);
+            _getch();
+        }else{ //直接减
+            tmp->upper -= mei->upper;
+            tmp->lower -= mei->lower;
+            drawNumOnAbacusOfSubtractionPureVersion(minuend);
+            _getch();
+        }
+    }else{ //退位减
+        int complement = 10 - meiNumber;//减数的补数
+        /*先计算本位*/
+        if(meiNumber>5&&miNumber<5&&(meiNumber-miNumber)<=5){//退十还五减
+            tmp->upper += 1; //还五
+            drawNumOnAbacusOfSubtractionPureVersion(minuend);
+            _getch();
+            tmp->lower -= meiNumber - 5;
+            drawNumOnAbacusOfSubtractionPureVersion(minuend);
+        }else{ //退十减
+            tmp->upper += int(complement / 5);
+            tmp->lower += complement % 5;
+            drawNumOnAbacusOfSubtractionPureVersion(minuend);
+        }
+
+        CARRYNUM carryNumber(n-1);
+
+        drawNumOnAbacusOfSubtractionPureVersion(minuend);
+        _getch();
+        simulateSubtractionPureVersion(minuend, carryNumber.carry, n-1);
     }
 }

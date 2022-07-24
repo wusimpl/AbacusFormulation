@@ -5,8 +5,9 @@
 #include "subtraction.h"
 #include "radication.h"
 #include "multiplication.h"
+#include "division.h"
 
-//#define DEBUG
+#define DEBUG
 #ifdef DEBUG
 #define _getch() ;
 #endif
@@ -62,7 +63,46 @@ int main()
 }
 
 void division() {
+    int errorHappened = 0;
+    size_t integerLen1,integerLen2; //被除数、除数整数部分的位数
+    size_t maxLen; // maxLen between integerLen1 and integerLen2
+    size_t len1WithoutDot,len2WithoutDot; //整数加小数部分的位数（不含小数点）
+    size_t convertedLen1,convertedLen2; // 21.5->2150：三位；1->100：三位；45.33->4533：四位
+    do{
+        printf("请输入被除数和除数(被除数整数部分不超过13位且除数小于被除数，小数部分不超过2位)：");
+        scanf("%s %s", c_first_operand, c_second_operand);
 
+        strcpy(original_c_first_operand,c_first_operand);
+        strcpy(original_c_second_operand,c_second_operand);
+        convertToDecimal(c_first_operand);//*100
+        convertToDecimal(c_second_operand);
+        convertedLen1 = strlen(c_first_operand);
+        convertedLen2 = strlen(c_second_operand);
+        size_t dotLocationOfFirstOperand = getDotLocation(original_c_first_operand); //得到小数点的位置（用于后面的定位）
+        size_t dotLocationOfSecondOperand = getDotLocation(original_c_second_operand); //得到小数点的位置（用于后面的定位）
+        integerLen1 = dotLocationOfFirstOperand == 0 ? strlen(original_c_first_operand) : dotLocationOfFirstOperand; //整数部分的位数
+        integerLen2 = dotLocationOfSecondOperand == 0 ? strlen(original_c_second_operand) : dotLocationOfSecondOperand; //整数部分的位数
+        len1WithoutDot = dotLocationOfFirstOperand==0?strlen(original_c_first_operand):strlen(original_c_first_operand)-1;
+        len2WithoutDot = dotLocationOfSecondOperand==0?strlen(original_c_second_operand):strlen(original_c_second_operand)-1;
+        maxLen = integerLen1 > integerLen2 ? integerLen1 : integerLen2;
+        if (maxLen > 14 || len1WithoutDot-integerLen1>2 || len2WithoutDot-integerLen2>2){
+            printf("输入数据不符合规范，请重新输入\n");
+            errorHappened = 1;
+        }
+    } while(errorHappened);
+
+    numberToAbacus(a_first_operand, c_first_operand, convertedLen1);
+    numberToAbacus(a_second_operand, c_second_operand, convertedLen2);
+
+    initDrawingEnv();
+    drawNumOnAbacusOfDivision(a_first_operand); //初始化算盘（绘制算盘、列式）
+
+    _getch();
+    simulateDivision(integerLen1, integerLen2);
+
+    drawRules("计算结束");
+    _getch(); //按任意键继续
+    closegraph(); //释放绘图资源
 }
 
 void multiplication() {
@@ -102,7 +142,7 @@ void multiplication() {
     drawNumOnAbacusOfMultiplication(result); //初始化算盘（绘制算盘、列式）
     //乘法
     _getch();
-    simulateMultiplication(result, integerLen1, integerLen2, len1WithoutDot, len2WithoutDot,convertedLen1,convertedLen2);
+    simulateMultiplication(result, integerLen1, integerLen2);
 
     drawRules("计算结束");
     _getch(); //按任意键继续

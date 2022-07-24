@@ -9,8 +9,9 @@
 
 void drawExpressionOfMultiplication();
 void drawNumOnAbacusOfMultiplication(Num*);
-void lookUpMultiplicationTable(int _product, int placeOfFirstDigit, Num* product);
-void simulateMultiplication(Num* result, int integerLen1, int integerLen2, int len1WithoutDot, int len2WithoutDot, int convertedLen1, int convertedLen2);
+void lookUpMultiplicationTable(int _product, int indexOfFirstDigit, Num* product);
+void lookUpMultiplicationTableDivisionVersion(int _product, int indexOfFirstDigit, Num* product);
+void simulateMultiplication(Num* result, int integerLen1, int integerLen2);
 void drawMultiplicationRhymeProduct(const char* oneToNExpressionStrInfo,const char* str);
 void draw1toNExpression(const char* str);
 
