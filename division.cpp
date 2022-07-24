@@ -14,7 +14,10 @@ void drawExpressionOfDivision(){
     setFontSizeTo32();
     double diNumber = atof(original_c_first_operand);
     double divNumber = atof(original_c_second_operand);
-    stringGenerator<<diNumber<<"/"<<divNumber<<"="<<diNumber/divNumber;
+    stringGenerator<<diNumber<<"/"<<divNumber<<"=";
+    stringGenerator.precision(3);
+    stringGenerator<<diNumber/divNumber;
+    stringGenerator.precision(2);
     strcpy(strInfo,stringGenerator.str().c_str());
     drawExpression(strInfo);
     stringGenerator.str("");
@@ -38,7 +41,7 @@ void simulateDivision(size_t integerLen1, size_t integerLen2){
     double currentRealQuo; //当前所试出来的商（带位的形态，用于调商）
     int currentQuoLocation; //当前商所在(档位-1)
     size_t quoNum; //商总共有几位（整数部分）
-    int CurrentDigitOfQuo=1; //当前商是第几个商
+    int currentDigitOfQuo=1; //当前商是第几个商
     int currentDi; //当前所比较的被除数
     int firstTwoDi; //被除数前两位
     int currentDiv; //当前所比较的除数
@@ -94,12 +97,12 @@ void simulateDivision(size_t integerLen1, size_t integerLen2){
 //        currentMul = &div[headIndexOfDiv]; //预估乘积
 //        _product = currentQuo * oneToNumber(currentMul);
 //        lookUpMultiplicationTableDivisionVersion(_product, headIndexOfDi, product);
-        currentRealQuo = currentQuo*pow(10,(int)quoNum-CurrentDigitOfQuo);
+        currentRealQuo = currentQuo*pow(10, (int)quoNum - currentDigitOfQuo);
 
         //4.退商：估商过大，须退商 （原为心算，用比较代替）
         while (currentRealQuo*divNum > toNumber(di, headIndexOfDi, PLACES_NUM - 1)) { //余数不够减当前商数*除数
             currentQuo--;
-            currentRealQuo = currentQuo*pow(10,(int)quoNum-CurrentDigitOfQuo);
+            currentRealQuo = currentQuo*pow(10, (int)quoNum - currentDigitOfQuo);
             setNumToAbacusMulVersion(currentQuo, di, headIndexOfDi - 1 - quoLocation);
             drawNumOnAbacusOfDivision(di);
         }
@@ -127,7 +130,7 @@ void simulateDivision(size_t integerLen1, size_t integerLen2){
 //            ptr++;
         }
         //6.补商：余数 > 除数*商所在位数（个位即为1，十位即为10，十分位即为0.1）
-        while(toNumber(di, headIndexOfDi, PLACES_NUM-1) > divNum*(pow(10,(int)quoNum-CurrentDigitOfQuo))){
+        while(toNumber(di, headIndexOfDi, PLACES_NUM-1) > divNum*(pow(10, (int)quoNum - currentDigitOfQuo))){
             currentQuo++;
             setNumToAbacusMulVersion(currentQuo, di, headIndexOfDi - 1 - quoLocation);
             drawNumOnAbacusOfDivision(di);
@@ -139,9 +142,7 @@ void simulateDivision(size_t integerLen1, size_t integerLen2){
                 }
             }
         }
-
         while(oneToNumber(&di[++headIndexOfDi])==0);
-        CurrentDigitOfQuo++;
-    }while(allToNumber(di)!=0);
-
+        currentDigitOfQuo++;
+    }while((toNumber(di, headIndexOfDi, PLACES_NUM-1)-0.00001)>0 && (currentDigitOfQuo-quoNum)<=2); //当余数不为0或未达到预设精度时，继续运算
 }
