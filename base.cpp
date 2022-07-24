@@ -29,6 +29,7 @@ void drawStr(const char* str){
 void drawRules(const char* str){
     setFontSizeTo32();
     RECT r1 = {rulesDisplayLeftTop.x, rulesDisplayLeftTop.y, rulesDisplayRightBottom.x, rulesDisplayRightBottom.y};
+    clearrectangle(rulesDisplayLeftTop.x, rulesDisplayLeftTop.y, rulesDisplayRightBottom.x, rulesDisplayRightBottom.y);
     drawtext(str, &r1, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
     setFontSizeTo16();
 }

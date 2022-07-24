@@ -6,11 +6,10 @@
 #define ABACUS_DIVISION_H
 
 #include "base.h"
-void drawExpressionOfDivision();
-void drawNumOnAbacusOfDivision(Num*);
-void lookUpDivisionTable(int _product, int placeOfFirstDigit, Num* product);
-void simulateDivision(size_t integerLen1, size_t integerLen2);
-void drawDivisionRhymeProduct(const char* oneToNExpressionStrInfo,const char* str);
-void draw1toNExpression(const char* str);
+void drawExpressionOfDivision(); //draw除法表达式
+void drawNumOnAbacusOfDivision(Num*); //draw abacus
+void simulateDivision(size_t integerLen1, size_t integerLen2); //you know if you know
+//void drawDivisionRhymeProduct(const char* oneToNExpressionStrInfo,const char* str);
+//void draw1toNExpression(const char* str);
 
 #endif //ABACUS_DIVISION_H
