@@ -203,3 +203,15 @@ double toNumber(Num *abacus_number, int indexA, int indexB) {
     }
     return result;
 }
+
+double subNumber(Num *abacus_number, int indexA, int indexB) {
+    double result = 0;
+    int digit;
+    for (int i = indexB; i >= indexA; --i) {
+        digit = oneToNumber(&abacus_number[i]);
+        if(digit != 0){
+            result += digit * pow(10,indexB-i);
+        }
+    }
+    return result;
+}

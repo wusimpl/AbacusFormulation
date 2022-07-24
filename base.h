@@ -66,7 +66,8 @@ void numberToAbacus(Num *abacus_number, const char *arabic_number, int converted
 int oneToNumber(Num *abacus_number); //算盘某档转为阿拉伯数字
 //int oneToNumber(int upper, int lower); //算盘某档转为阿拉伯数字
 double allToNumber(Num* abacus_number); //整个算盘转换为阿拉伯数字(numberToAbacus()的逆运算)
-double toNumber(Num* abacus_number, int indexA, int indexB); //截取A到B档所表示的数
+double toNumber(Num* abacus_number, int indexA, int indexB); //截取A到B档所表示的数 [...,1,3,5,0] indexA=12,indexB=13,->3.5
+double subNumber(Num* abacus_number, int indexA, int indexB); ////截取A到B档所表示的数（忽略小数点，忽略绝对挡位，使用相对挡位）[...,1,3,5,0] indexA=12,indexB=13,->35
 void setNumToAbacusRadicationVersion(int num, Num* abacus, int stickNum); //将数字设置到算盘的某个挡位
 void setNumToAbacusMulVersion(int num, Num* abacus,int indexNum);
 void setNumToAbacus(int num, Num* abacus,int placeNum); //original version 正常版本
