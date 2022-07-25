@@ -3,7 +3,7 @@
 //
 
 #include "division.h"
-#define DEBUG
+//#define DEBUG
 #ifdef DEBUG
 #define _getch() ;
 #endif
@@ -25,6 +25,8 @@ void drawExpressionOfDivision(){
 
 void drawNumOnAbacusOfDivision(Num* sa){
     cleardevice(); //清空屏幕内容
+//    AbacusParams  param;
+//    clearAbacus(param);
     drawExpressionOfDivision(); // 绘制列式计算的结果
     drawAbacus(sa,AbacusParams()); //绘制算盘
 }
@@ -35,17 +37,17 @@ void simulateDivision(size_t integerLen1, size_t integerLen2){
     double divNum = allToNumber(a_second_operand); //被除数
     int headIndexOfDi = PLACES_NUM - integerLen1 - 2;
     int headIndexOfDiv = PLACES_NUM - integerLen2 - 2;
-//    int headIndexOfQuo = PLACES_NUM - integerLen1 - 2 - 2;
+    int headIndexOfQuo = -1;
     int currentQuo; //当前所试出来的商（不带位的形态）
     double currentRealQuo; //当前所试出来的商（带位的形态，用于调商）
     int currentQuoLocation; //当前商所在(档位-1)
     size_t quoNum; //商总共有几位（整数部分）
-    int currentDigitOfQuo=1; //当前商是第几个商
+    int currentDigitOfQuo; //当前商是第几个商
     int currentDi; //当前所比较的被除数
     int firstTwoDi; //被除数前两位
     int currentDiv; //当前所比较的除数
     int nextDiv; //除数下一档所代表的数
-    int quoLocation = 1; //商的位置：1代表够除，隔位商；0代表不够除，挨位商
+//    int quoLocation = 1; //商的位置：1代表够除，隔位商；0代表不够除，挨位商 #已移到循环内
     stringstream ss;
 
     //1.定位
@@ -60,6 +62,7 @@ void simulateDivision(size_t integerLen1, size_t integerLen2){
         currentDi =oneToNumber(&di[headIndexOfDi]); //被首
         firstTwoDi = subNumber(di, headIndexOfDi, headIndexOfDi + 1); //被2
 
+        int quoLocation = 1;
         if(integerLen2==1){
             //2.估商（1位除）
             if (currentDi < currentDiv){
@@ -92,17 +95,17 @@ void simulateDivision(size_t integerLen1, size_t integerLen2){
         _getch();
         //3.置商
         currentQuoLocation = headIndexOfDi - 1 - quoLocation;
+        if(headIndexOfQuo==-1){ //记录商的开始位置
+            headIndexOfQuo = currentQuoLocation;
+        }
+        currentDigitOfQuo = currentQuoLocation-headIndexOfQuo+1; //当前是第几个商数
+
         setNumToAbacusMulVersion(currentQuo, di, currentQuoLocation);
         drawNumOnAbacusOfDivision(di);
         _getch();
 
         Num product[PLACES_NUM];
         double _product;
-        Num* currentMul;
-
-//        currentMul = &div[headIndexOfDiv]; //预估乘积
-//        _product = currentQuo * oneToNumber(currentMul);
-//        lookUpMultiplicationTableDivisionVersion(_product, headIndexOfDi, product);
         currentRealQuo = currentQuo*pow(10, (int)quoNum - currentDigitOfQuo);
 
         //4.退商：估商过大，须退商 （原为心算，用比较代替）
@@ -111,7 +114,7 @@ void simulateDivision(size_t integerLen1, size_t integerLen2){
             strcpy(strInfo,ss.str().c_str());
             drawRules(strInfo);
             ss.str("");
-            getch();
+            _getch();
 
             currentQuo--;
             currentRealQuo = currentQuo*pow(10, (int)quoNum - currentDigitOfQuo);
@@ -121,7 +124,6 @@ void simulateDivision(size_t integerLen1, size_t integerLen2){
         }
 
         //5.减积：1位乘法的积错位相减
-//        int ptr = headIndexOfDi; //错位相减指针
         double mulDigit; //遍历乘数的每一位（带位的形态）
         char tmp[PLACES_NUM+1];
         for (int i = headIndexOfDiv; i < PLACES_NUM; ++i) {
@@ -141,7 +143,7 @@ void simulateDivision(size_t integerLen1, size_t integerLen2){
             strcpy(strInfo,ss.str().c_str());
             drawRules(strInfo);
             ss.str("");
-            getch();
+            _getch();
 
             for (int j = headIndexOfDi; j < PLACES_NUM; j++) {  // 只会在两档上进行减运算（不算上借位的情况，即使有借位的情况，减法中的递归调用也会解决此问题）
                 if (oneToNumber(&product[j]) != 0) {
@@ -149,7 +151,6 @@ void simulateDivision(size_t integerLen1, size_t integerLen2){
                 }
             }
             clearAbacus(product);
-//            ptr++;
         }
         //6.补商：余数 > 除数*商所在位数（个位即为1，十位即为10，十分位即为0.1）
         while(toNumber(di, headIndexOfDi, PLACES_NUM-1) > divNum*(pow(10, (int)quoNum - currentDigitOfQuo))){
@@ -179,9 +180,8 @@ void simulateDivision(size_t integerLen1, size_t integerLen2){
                 }
             }
         }
-        while(oneToNumber(&di[++headIndexOfDi])==0){ //
-            currentDigitOfQuo++;
+        while(oneToNumber(&di[headIndexOfDi])==0){ //跳过被除数为0的位
+            ++headIndexOfDi;
         }
-        currentDigitOfQuo++;
-    }while((toNumber(di, headIndexOfDi, PLACES_NUM-1)-0.00001)>0 && (currentDigitOfQuo-(int)quoNum)<=2); //当余数不为0或未达到预设精度时，继续运算
+    }while((toNumber(di, headIndexOfDi, PLACES_NUM-1)-0.00001)>0 && (currentDigitOfQuo-(int)quoNum)<2); //当余数不为0或未达到预设精度时，继续运算
 }

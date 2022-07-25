@@ -10,7 +10,7 @@ char original_c_first_operand[PLACES_NUM+1], original_c_second_operand[PLACES_NU
 const char* INDEX_TO_CHINESE_NUM[] = {"零","一","二","三","四","五","六","七","八","九","十"}; // 中文数字字符常量
 //string processHintPlaceHolder; //演算过程提示占位符
 Coordinate expressionDisplayLeftTop={50, 20},expressionDisplayRightBottom={850, 53};
-Coordinate rulesDisplayLeftTop={750,190},rulesDisplayRightBottom{1250,223};
+Coordinate rulesDisplayLeftTop={885,190},rulesDisplayRightBottom{1350,223};
 char strInfo[100];
 stringstream stringGenerator;
 
@@ -30,7 +30,7 @@ void drawRules(const char* str){
     setFontSizeTo32();
     RECT r1 = {rulesDisplayLeftTop.x, rulesDisplayLeftTop.y, rulesDisplayRightBottom.x, rulesDisplayRightBottom.y};
     clearrectangle(rulesDisplayLeftTop.x, rulesDisplayLeftTop.y, rulesDisplayRightBottom.x, rulesDisplayRightBottom.y);
-    drawtext(str, &r1, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+    drawtext(str, &r1, DT_WORDBREAK | DT_VCENTER |  DT_LEFT);
     setFontSizeTo16();
 }
 

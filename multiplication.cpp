@@ -12,7 +12,7 @@
 #define _getch() ;
 #endif
 
-Coordinate multiplicationRhymeDisplayLeftTop={750,150},multiplicationRhymeDisplayRightBottom{1250,183};
+Coordinate multiplicationRhymeDisplayLeftTop={885,150},multiplicationRhymeDisplayRightBottom{1350,183};
 
 //显示表达式计算的结果
 void drawExpressionOfMultiplication()
@@ -139,7 +139,7 @@ void draw1toNExpression(const char* str){
     setFontSizeTo32();
     RECT r1 = {multiplicationRhymeDisplayLeftTop.x, multiplicationRhymeDisplayLeftTop.y,
                multiplicationRhymeDisplayRightBottom.x, multiplicationRhymeDisplayRightBottom.y};
-    drawtext(str, &r1, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+    drawtext(str, &r1, DT_WORDBREAK | DT_VCENTER |  DT_LEFT);
     setFontSizeTo16();
 }
 

@@ -7,13 +7,13 @@
 #include "multiplication.h"
 #include "division.h"
 
-#define DEBUG
+//#define DEBUG
 #ifdef DEBUG
 #define _getch() ;
 #endif
 
-#define GraphSizeOfWidth 1300
-#define GraphSizeOfHeight 800
+#define GraphSizeOfWidth 1400
+#define GraphSizeOfHeight 750
 
 void menu();
 void initDrawingEnv();
@@ -273,8 +273,10 @@ void radication(){
 void initDrawingEnv() {
     initgraph(GraphSizeOfWidth, GraphSizeOfHeight); //初始化绘图环境
     setbkcolor(WHITE); //设置背景颜色
-    setcolor(BLACK); //设置前景颜色
+//    setcolor(BLACK); //设置前景颜色 never use it, it's awful!
     setfillstyle(BLACK); //设置填充样式
     setlinestyle(PS_SOLID, 2); //设置直线样式
+    setlinecolor(BLACK);
+    settextcolor(BLACK);
 }
 
