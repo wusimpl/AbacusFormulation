@@ -25,8 +25,6 @@ void drawExpressionOfDivision(){
 
 void drawNumOnAbacusOfDivision(Num* sa){
     cleardevice(); //清空屏幕内容
-//    AbacusParams  param;
-//    clearAbacus(param);
     drawExpressionOfDivision(); // 绘制列式计算的结果
     drawAbacus(sa,AbacusParams()); //绘制算盘
 }
@@ -35,90 +33,90 @@ void simulateDivision(size_t integerLen1, size_t integerLen2){
     Num* di = a_first_operand;
     Num* div = a_second_operand; //被除数的算盘形式
     double divNum = allToNumber(a_second_operand); //被除数
-    int headIndexOfDi = PLACES_NUM - integerLen1 - 2;
-    int headIndexOfDiv = PLACES_NUM - integerLen2 - 2;
+    int diPtr = PLACES_NUM - integerLen1 - 2;
+    int divPtr = PLACES_NUM - integerLen2 - 2;
     int headIndexOfQuo = -1;
-    int currentQuo; //当前所试出来的商（不带位的形态）
-    double currentRealQuo; //当前所试出来的商（带位的形态，用于调商）
-    int currentQuoLocation; //当前商所在(档位-1)
+    int qc; //当前所试出来的商（不带位的形态）
+    double realQc; //当前所试出来的商（带位的形态，用于调商）
+    int loc; //当前商所在(档位-1)
     size_t quoNum; //商总共有几位（整数部分）
-    int currentDigitOfQuo; //当前商是第几个商
-    int currentDi; //当前所比较的被除数
+    int qco; //当前商是第几个商
+    int firstDi; //当前所比较的被除数
     int firstTwoDi; //被除数前两位
-    int currentDiv; //当前所比较的除数
-    int nextDiv; //除数下一档所代表的数
+    int firstDiv; //当前所比较的除数
+    int secondDiv; //除数下一档所代表的数
 //    int quoLocation = 1; //商的位置：1代表够除，隔位商；0代表不够除，挨位商 #已移到循环内
     stringstream ss;
 
     //1.定位
-    int sameNumDivOfDi = toNumber(di, headIndexOfDi, PLACES_NUM - integerLen1 - 2 + integerLen2) / pow(10, integerLen1 - integerLen2); //与除数取相同位数
-    int integerPartOfDiv = toNumber(div, headIndexOfDiv, 12);
+    int sameNumDivOfDi = toNumber(di, diPtr, PLACES_NUM - integerLen1 - 2 + integerLen2) / pow(10, integerLen1 - integerLen2); //与除数取相同位数
+    int integerPartOfDiv = toNumber(div, divPtr, 12);
     quoNum = sameNumDivOfDi < integerPartOfDiv ? integerLen1 - integerLen2 : integerLen1 - integerLen2 + 1;
 //    quoNum+=2; //加上两位小数的位置
 
-    currentDiv = oneToNumber(&div[headIndexOfDiv]); //除首
-    nextDiv = oneToNumber(&div[headIndexOfDiv+1]); //次首
+    firstDiv = oneToNumber(&div[divPtr]); //除首
+    secondDiv = oneToNumber(&div[divPtr + 1]); //次首
     do{
-        currentDi =oneToNumber(&di[headIndexOfDi]); //被首
-        firstTwoDi = subNumber(di, headIndexOfDi, headIndexOfDi + 1); //被2
+        firstDi =oneToNumber(&di[diPtr]); //被首
+        firstTwoDi = subNumber(di, diPtr, diPtr + 1); //被2
 
-        int quoLocation = 1;
+        int type = 1;
         if(integerLen2==1){
             //2.估商（1位除）
-            if (currentDi < currentDiv){
-                currentQuo = firstTwoDi/currentDiv;
-                quoLocation = 0;
+            if (firstDi < firstDiv){
+                qc = firstTwoDi / firstDiv;
+                type = 0;
             }else{
-                currentQuo = currentDi/currentDiv;
+                qc = firstDi / firstDiv;
             }
         }else{
             //2.估商（多位除）
-            if (currentDi < currentDiv){ //被首<除首
-                quoLocation = 0;
-                if(nextDiv<=4){
-                    currentQuo = firstTwoDi/currentDiv;
+            if (firstDi < firstDiv){ //被首<除首
+                type = 0;
+                if(secondDiv <= 4){
+                    qc = firstTwoDi / firstDiv;
                 }else{
-                    currentQuo = firstTwoDi/(currentDiv+1);
+                    qc = firstTwoDi / (firstDiv + 1);
                 }
             }else{
-                if(nextDiv<=4){
-                    currentQuo = currentDi/currentDiv;
+                if(secondDiv <= 4){
+                    qc = firstDi / firstDiv;
                 }else{
-                    currentQuo = currentDi/(currentDiv+1);
+                    qc = firstDi / (firstDiv + 1);
                 }
             }
         }
-        ss<<"估得商为"<<currentQuo;
+        ss << "估得商为" << qc;
         strcpy(strInfo,ss.str().c_str());
         drawRules(strInfo);
         ss.str("");
         _getch();
         //3.置商
-        currentQuoLocation = headIndexOfDi - 1 - quoLocation;
+        loc = diPtr - 1 - type;
         if(headIndexOfQuo==-1){ //记录商的开始位置
-            headIndexOfQuo = currentQuoLocation;
+            headIndexOfQuo = loc;
         }
-        currentDigitOfQuo = currentQuoLocation-headIndexOfQuo+1; //当前是第几个商数
+        qco = loc - headIndexOfQuo + 1; //当前是第几个商数
 
-        setNumToAbacusMulVersion(currentQuo, di, currentQuoLocation);
+        setNumToAbacusMulVersion(qc, di, loc);
         drawNumOnAbacusOfDivision(di);
         _getch();
 
         Num product[PLACES_NUM];
         double _product;
-        currentRealQuo = currentQuo*pow(10, (int)quoNum - currentDigitOfQuo);
+        realQc = qc * pow(10, (int)quoNum - qco);
 
         //4.退商：估商过大，须退商 （原为心算，用比较代替）
-        while (currentRealQuo*divNum > toNumber(di, headIndexOfDi, PLACES_NUM - 1)) { //余数不够减当前商数*除数
+        while (realQc * divNum > toNumber(di, diPtr, PLACES_NUM - 1)) { //余数不够减当前商数*除数
             ss<<"退商：估商过大，退1";
             strcpy(strInfo,ss.str().c_str());
             drawRules(strInfo);
             ss.str("");
             _getch();
 
-            currentQuo--;
-            currentRealQuo = currentQuo*pow(10, (int)quoNum - currentDigitOfQuo);
-            setNumToAbacusMulVersion(currentQuo, di, headIndexOfDi - 1 - quoLocation);
+            qc--;
+            realQc = qc * pow(10, (int)quoNum - qco);
+            setNumToAbacusMulVersion(qc, di, diPtr - 1 - type);
             drawNumOnAbacusOfDivision(di);
             _getch();
         }
@@ -126,15 +124,15 @@ void simulateDivision(size_t integerLen1, size_t integerLen2){
         //5.减积：1位乘法的积错位相减
         double mulDigit; //遍历乘数的每一位（带位的形态）
         char tmp[PLACES_NUM+1];
-        for (int i = headIndexOfDiv; i < PLACES_NUM; ++i) {
-            if((currentRealQuo-0.00001)<0){ //估商都为0了还减个啥积啊，跳过完事了
+        for (int i = divPtr; i < PLACES_NUM; ++i) {
+            if((realQc - 0.00001) < 0){ //估商都为0了还减个啥积啊，跳过完事了
                 break;
             }
             mulDigit = toNumber(div,i,i);
             if((mulDigit-0.00001) < 0){ // mulDigit = 0
                 continue;
             }
-            _product = currentRealQuo * mulDigit;
+            _product = realQc * mulDigit;
             sprintf(tmp,"%.2f",_product);
             convertToDecimal(tmp);
             numberToAbacus(product,tmp, strlen(tmp));
@@ -145,7 +143,7 @@ void simulateDivision(size_t integerLen1, size_t integerLen2){
             ss.str("");
             _getch();
 
-            for (int j = headIndexOfDi; j < PLACES_NUM; j++) {  // 只会在两档上进行减运算（不算上借位的情况，即使有借位的情况，减法中的递归调用也会解决此问题）
+            for (int j = diPtr; j < PLACES_NUM; j++) {  // 只会在两档上进行减运算（不算上借位的情况，即使有借位的情况，减法中的递归调用也会解决此问题）
                 if (oneToNumber(&product[j]) != 0) {
                     simulateSubtractionPureVersion(di, product, j);
                 }
@@ -153,15 +151,15 @@ void simulateDivision(size_t integerLen1, size_t integerLen2){
             clearAbacus(product);
         }
         //6.补商：余数 > 除数*商所在位数（个位即为1，十位即为10，十分位即为0.1）
-        while(toNumber(di, headIndexOfDi, PLACES_NUM-1) > divNum*(pow(10, (int)quoNum - currentDigitOfQuo))){
+        while(toNumber(di, diPtr, PLACES_NUM - 1) > divNum * (pow(10, (int)quoNum - qco))){
             ss<<"补商：估商过小，加1";
             strcpy(strInfo,ss.str().c_str());
             drawRules(strInfo);
             ss.str("");
             _getch();
 
-            currentQuo++;
-            setNumToAbacusMulVersion(currentQuo, di, headIndexOfDi - 1 - quoLocation);
+            qc++;
+            setNumToAbacusMulVersion(qc, di, diPtr - 1 - type);
             drawNumOnAbacusOfDivision(di);
             _getch();
             ss<<"补商：减一个除数";
@@ -169,19 +167,19 @@ void simulateDivision(size_t integerLen1, size_t integerLen2){
             drawRules(strInfo);
             ss.str("");
             //（从当前商数的位置起）隔位减一个(除数*商所在位数)
-            double mei = divNum*(pow(10, (int)quoNum - currentDigitOfQuo));
+            double mei = divNum*(pow(10, (int)quoNum - qco));
             Num tmpDiv[PLACES_NUM];
             sprintf(tmp,"%.2f",mei);
             convertToDecimal(tmp);
             numberToAbacus(tmpDiv,tmp, strlen(tmp));
-            for (int i = headIndexOfDi; i < PLACES_NUM; i++){
+            for (int i = diPtr; i < PLACES_NUM; i++){
                 if(oneToNumber(&tmpDiv[i]) != 0){
                     simulateSubtractionPureVersion(di, tmpDiv, i);
                 }
             }
         }
-        while(oneToNumber(&di[headIndexOfDi])==0){ //跳过被除数为0的位
-            ++headIndexOfDi;
+        while(oneToNumber(&di[diPtr]) == 0){ //跳过被除数为0的位
+            ++diPtr;
         }
-    }while((toNumber(di, headIndexOfDi, PLACES_NUM-1)-0.00001)>0 && (currentDigitOfQuo-(int)quoNum)<2); //当余数不为0或未达到预设精度时，继续运算
+    }while((toNumber(di, diPtr, PLACES_NUM - 1) - 0.00001) > 0 && (qco - (int)quoNum) < 2); //当余数不为0或未达到预设精度时，继续运算
 }

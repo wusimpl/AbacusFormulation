@@ -128,7 +128,7 @@ void multiplication() {
         len1WithoutDot = dotLocationOfFirstOperand==0?strlen(original_c_first_operand):strlen(original_c_first_operand)-1;
         len2WithoutDot = dotLocationOfSecondOperand==0?strlen(original_c_second_operand):strlen(original_c_second_operand)-1;
         maxLen = integerLen1 > integerLen2 ? integerLen1 : integerLen2;
-        if (maxLen > 6 || len1WithoutDot-integerLen1>1 || len2WithoutDot-integerLen2>1){
+        if (maxLen > 6 || len1WithoutDot-integerLen1>1){
             printf("输入数据不符合规范，请重新输入\n");
             errorHappened = 1;
         }

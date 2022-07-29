@@ -53,7 +53,6 @@ void simulateRadication(char* original_c_first_operand,size_t dotLocation,int le
     currentRootWithDigits = currentRoot * pow(10,currentRootLocation-1);
     sumUpOfRoots += currentRootWithDigits;
     denominator = 2*sumUpOfRoots;
-
     setNumToAbacusRadicationVersion(currentRoot, a_second_operand, currentResultStick);//可视化
     drawNumOnAbacusOfRadication(a_first_operand, a_second_operand);
     currentResultStick--;
@@ -135,16 +134,22 @@ void simulateRadication(char* original_c_first_operand,size_t dotLocation,int le
 //}
 
 void getHead(const char* strNum, int length, size_t dotLocation, char *head) {
-    int headLength = 0;
-    size_t integralDigitsNum = 0; //被开方数的整数部分的位数
+    int headLength;
+    int digitsNum; //被开方数的整数部分或小数部分的位数
+    int start = 0; //从何位开始取数
 
-    integralDigitsNum = dotLocation == 0 ? length : dotLocation;
+    if(strNum[0]=='0'){ //纯小数
+        digitsNum = length - dotLocation;
+        start = dotLocation+1;
+    }else{ //others
+        digitsNum = dotLocation == 0 ? length : dotLocation;
+    }
+    headLength = digitsNum % 2 == 0 ? 2 : 1; //判断head是一位还是两位
 
-    headLength = integralDigitsNum%2==0 ? 2 : 1; //判断head是一位还是两位
-
-    int i = 0;
-    for (i = 0; i < headLength; ++i) {
-        head[i] = strNum[i];
+    //开始截取数
+    int i;
+    for (i=0; i < headLength; ++i,++start) {
+        head[i] = strNum[start];
     }
     head[i] = '\0';
 }

@@ -4,7 +4,6 @@
 
 #include "multiplication.h"
 #include "addition.h"
-#include "division.h"
 
 
 //#define DEBUG
@@ -104,6 +103,9 @@ void simulateMultiplication(Num* result, int integerLen1, int integerLen2){
             currentFac = &fac[PLACES_NUM - (integerLen1 + 2) + j];
             //得1位乘法之积
             _product = oneToNumber(currentFac)*oneToNumber(currentMul);
+            if(_product==0){  //被乘数当前位为0，不用算了
+                continue;
+            }
             lookUpMultiplicationTable(_product, innerAccumulationPointer, product);
             //显示累加之积
             stringGenerator<<"错位累加"<<oneToNumber(currentFac)<<"*"<<oneToNumber(currentMul)<<"=";
