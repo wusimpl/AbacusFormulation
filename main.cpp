@@ -7,7 +7,7 @@
 #include "multiplication.h"
 #include "division.h"
 
-//#define DEBUG
+#define DEBUG
 #ifdef DEBUG
 #define _getch() ;
 #endif
@@ -24,12 +24,12 @@ void multiplication();
 void division();
 
 void menu(){
-    printf("*******算盘的演算过程********\n");
+    printf("*******珠算算法可视化演示********\n");
     printf("1.加法\n");
     printf("2.减法\n");
-    printf("3.乘法\n");
-    printf("4.除法\n");
-    printf("5.开方\n");
+    printf("3.乘法（空盘前乘法）\n");
+    printf("4.除法（商除法）\n");
+    printf("5.开方（折半商除开平方）\n");
     printf("***************************\n");
 }
 
@@ -63,12 +63,13 @@ int main()
 }
 
 void division() {
-    int errorHappened = 0;
+    int errorHappened;
     size_t integerLen1,integerLen2; //被除数、除数整数部分的位数
     size_t maxLen; // maxLen between integerLen1 and integerLen2
     size_t len1WithoutDot,len2WithoutDot; //整数加小数部分的位数（不含小数点）
     size_t convertedLen1,convertedLen2; // 21.5->2150：三位；1->100：三位；45.33->4533：四位
     do{
+        errorHappened = 0;
         printf("请输入被除数和除数(被除数整数部分不超过13位且除数小于被除数，小数部分不超过2位)：");
         scanf("%s %s", c_first_operand, c_second_operand);
 
@@ -85,7 +86,10 @@ void division() {
         len1WithoutDot = dotLocationOfFirstOperand==0?strlen(original_c_first_operand):strlen(original_c_first_operand)-1;
         len2WithoutDot = dotLocationOfSecondOperand==0?strlen(original_c_second_operand):strlen(original_c_second_operand)-1;
         maxLen = integerLen1 > integerLen2 ? integerLen1 : integerLen2;
-        if (maxLen > 14 || len1WithoutDot-integerLen1>2 || len2WithoutDot-integerLen2>2){
+        double a = atoi(original_c_first_operand);
+        double b = atoi(original_c_second_operand);
+        if (maxLen > 14 || len1WithoutDot-integerLen1>2 || len2WithoutDot-integerLen2>2 || a<=0 || b<=0 ||
+                a<b){
             printf("输入数据不符合规范，请重新输入\n");
             errorHappened = 1;
         }
@@ -106,12 +110,13 @@ void division() {
 }
 
 void multiplication() {
-    int errorHappened = 0;
+    int errorHappened;
     size_t integerLen1,integerLen2; //被乘数、乘数整数部分的位数
     size_t maxLen; // maxLen between integerLen1 and integerLen2
     size_t len1WithoutDot,len2WithoutDot; //整数加小数部分的位数（不含小数点）
     size_t convertedLen1,convertedLen2; // 21.5->2150：三位；1->100：三位；45.33->4533：四位
     do{
+        errorHappened = 0;
         printf("请输入两个数（整数部分不超过6位，小数部分不超过1位)：");
         scanf("%s %s", c_first_operand, c_second_operand);
 
@@ -128,7 +133,7 @@ void multiplication() {
         len1WithoutDot = dotLocationOfFirstOperand==0?strlen(original_c_first_operand):strlen(original_c_first_operand)-1;
         len2WithoutDot = dotLocationOfSecondOperand==0?strlen(original_c_second_operand):strlen(original_c_second_operand)-1;
         maxLen = integerLen1 > integerLen2 ? integerLen1 : integerLen2;
-        if (maxLen > 6 || len1WithoutDot-integerLen1>1){
+        if (maxLen > 6 || len1WithoutDot-integerLen1>1 || atoi(original_c_first_operand)<=0 || atoi(original_c_second_operand)<=0){
             printf("输入数据不符合规范，请重新输入\n");
             errorHappened = 1;
         }
@@ -150,10 +155,11 @@ void multiplication() {
 }
 
 void subtraction() {
-    int errorHappened = 0;
+    int errorHappened;
     int len1,len2;
     int maxLen;
     do{
+        errorHappened = 0;
         printf("请输入两个长度不超过14位的数(被减数和减数,被减数大于减数，允许两位小数)：");
         scanf("%s %s", c_first_operand, c_second_operand);
         strcpy(original_c_first_operand,c_first_operand);
@@ -163,8 +169,10 @@ void subtraction() {
         len1 = strlen(c_first_operand);
         len2 = strlen(c_second_operand);
         maxLen = len1 > len2 ? len1 : len2;
-        if (maxLen > 14){
-            printf("您输入的数过大，请重新输入\n");
+        double a = atoi(original_c_first_operand);
+        double b = atoi(original_c_second_operand);
+        if (maxLen > 14 || atoi(original_c_second_operand)<=0 || a<=0 || b<=0 || a<b){
+            printf("输入数据不符合规范 ，请重新输入\n");
             errorHappened = 1;
         }
     } while(errorHappened);
@@ -193,6 +201,7 @@ void addition() {
     int len1,len2;
     int maxLen;
    do{
+       errorHappened = 0;
         printf("请输入两个长度不超过14位的数(被加数和加数，允许两位小数)：");
         scanf("%s %s", c_first_operand, c_second_operand);
         strcpy(original_c_first_operand,c_first_operand);
@@ -202,8 +211,8 @@ void addition() {
         len1 = strlen(c_first_operand);
         len2 = strlen(c_second_operand);
         maxLen = len1 > len2 ? len1 : len2;
-        if (maxLen > 14){
-            printf("您输入的数过大，请重新输入\n");
+        if (maxLen > 14 ||atoi(original_c_second_operand)<=0 || atoi(original_c_first_operand)<=0){
+            printf("输入数据不符合规范，请重新输入\n");
             errorHappened = 1;
         }
     } while(errorHappened);
@@ -234,6 +243,7 @@ void radication(){
     size_t dotLocation; //小数点在第dotLocation位数字的后面
 //    char original_c_first_operand[PLACES_NUM+1]; //未去掉小数点的cstr
     do{
+        errorHappened = false;
         printf("请输入被开方数(被开方数不超过15位，允许最多两位小数)：");
         scanf("%s", c_first_operand); //读取
         strcpy(original_c_first_operand, c_first_operand);
@@ -246,11 +256,9 @@ void radication(){
         convertedLen = strlen(c_first_operand);
         numberToAbacus(a_first_operand, c_first_operand, convertedLen); //转为算盘形式
 
-        if (convertedLen > 14){
-            printf("您输入的数过大，请重新输入\n");
+        if (convertedLen > 14 || atof(original_c_first_operand)<=0){
+            printf("输入数据不符合规范，请重新输入\n");
             errorHappened = true;
-        }else{
-            errorHappened = false;
         }
     } while(errorHappened);
 
