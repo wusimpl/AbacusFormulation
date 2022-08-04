@@ -7,7 +7,7 @@
 #include "multiplication.h"
 #include "division.h"
 
-#define DEBUG
+//#define DEBUG
 #ifdef DEBUG
 #define _getch() ;
 #endif
@@ -70,7 +70,7 @@ void division() {
     size_t convertedLen1,convertedLen2; // 21.5->2150：三位；1->100：三位；45.33->4533：四位
     do{
         errorHappened = 0;
-        printf("请输入被除数和除数(被除数整数部分不超过13位且除数小于被除数，小数部分不超过2位)：");
+        printf("请输入被除数和除数(被除数整数部分不超过13位，小数部分不超过2位，除数需为整数，且除数小于被除数)：");
         scanf("%s %s", c_first_operand, c_second_operand);
 
         strcpy(original_c_first_operand,c_first_operand);
@@ -89,7 +89,7 @@ void division() {
         double a = atoi(original_c_first_operand);
         double b = atoi(original_c_second_operand);
         if (maxLen > 14 || len1WithoutDot-integerLen1>2 || len2WithoutDot-integerLen2>2 || a<=0 || b<=0 ||
-                a<b){
+                a<b || dotLocationOfSecondOperand!=0){
             printf("输入数据不符合规范，请重新输入\n");
             errorHappened = 1;
         }
