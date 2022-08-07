@@ -115,7 +115,7 @@ bool convertToDecimal(char *x)
     if((string(x)).find('.') == string::npos) { //整数
         isDecimal = false;
     }
-    long long value = atof(x)*100;
+    long long value = ceil(strtod(x,nullptr)*100);
     sprintf(x,"%lld",value);
     return isDecimal;
 }
@@ -137,6 +137,15 @@ void numberToAbacus(Num *abacus_number, const char* arabic_number, int converted
             abacus_number[PLACES_NUM-1-j].upper = digit / 5;
             abacus_number[PLACES_NUM-1-j].lower = digit % 5;
         }
+    }
+}
+
+//阿拉伯数字转换为算盘式数字
+void numberToAbacusV2(Num *abacus_number,double number) //convertedLen=strlen(a*100)
+{
+    for (int i = 0; i < 15; ++i) {
+        abacus_number[i].lower = int(int(100*number/ pow(10,15-i))%10/5);
+        abacus_number[i].upper = int(100*number/ pow(10,15-i))%10%5;
     }
 }
 

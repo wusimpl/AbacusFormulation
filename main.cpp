@@ -7,7 +7,7 @@
 #include "multiplication.h"
 #include "division.h"
 
-//#define DEBUG
+#define DEBUG
 #ifdef DEBUG
 #define _getch() ;
 #endif
