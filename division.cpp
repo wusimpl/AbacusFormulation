@@ -135,7 +135,7 @@ void simulateDivision(size_t integerLen1, size_t integerLen2){
             _product = realQc * mulDigit;
             sprintf(tmp,"%.2f",_product);
             convertToDecimal(tmp);
-            numberToAbacus(product,tmp, strlen(tmp));
+            numberToAbacusV2(product,strtod(tmp,nullptr));
 
             ss<<"¼õ»ý£º¼õ"<<_product;
             strcpy(strInfo,ss.str().c_str());
@@ -171,7 +171,7 @@ void simulateDivision(size_t integerLen1, size_t integerLen2){
             Num tmpDiv[PLACES_NUM];
             sprintf(tmp,"%.2f",mei);
             convertToDecimal(tmp);
-            numberToAbacus(tmpDiv,tmp, strlen(tmp));
+            numberToAbacusV2(tmpDiv,strtod(tmp,nullptr));
             for (int i = diPtr; i < PLACES_NUM; i++){
                 if(oneToNumber(&tmpDiv[i]) != 0){
                     simulateSubtractionPureVersion(di, tmpDiv, i);

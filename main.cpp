@@ -7,7 +7,7 @@
 #include "multiplication.h"
 #include "division.h"
 
-#define DEBUG
+//#define DEBUG
 #ifdef DEBUG
 #define _getch() ;
 #endif
@@ -24,7 +24,7 @@ void multiplication();
 void division();
 
 void menu(){
-    printf("*******珠算算法可视化演示********\n");
+    printf("*******珠算可视化演示与学习系统********\n");
     printf("1.加法\n");
     printf("2.减法\n");
     printf("3.乘法（空盘前乘法）\n");
@@ -95,8 +95,11 @@ void division() {
         }
     } while(errorHappened);
 
-    numberToAbacus(a_first_operand, c_first_operand, convertedLen1);
-    numberToAbacus(a_second_operand, c_second_operand, convertedLen2);
+//    numberToAbacus(a_first_operand, c_first_operand, convertedLen1);
+//    numberToAbacus(a_second_operand, c_second_operand, convertedLen2);
+
+    numberToAbacusV2(a_first_operand, strtod(original_c_first_operand, nullptr));
+    numberToAbacusV2(a_second_operand, strtod(original_c_second_operand, nullptr));
 
     initDrawingEnv();
     drawNumOnAbacusOfDivision(a_first_operand); //初始化算盘（绘制算盘、列式）
@@ -139,8 +142,8 @@ void multiplication() {
         }
     } while(errorHappened);
 
-    numberToAbacus(a_first_operand, c_first_operand, convertedLen1);
-    numberToAbacus(a_second_operand, c_second_operand, convertedLen2);
+    numberToAbacusV2(a_first_operand, strtod(original_c_first_operand, nullptr));
+    numberToAbacusV2(a_second_operand,strtod(original_c_second_operand, nullptr));
 
     initDrawingEnv();
     Num result[PLACES_NUM];
@@ -177,8 +180,10 @@ void subtraction() {
         }
     } while(errorHappened);
 
-    numberToAbacus(a_first_operand, c_first_operand, len1);
-    numberToAbacus(a_second_operand, c_second_operand, len2);
+//    numberToAbacus(a_first_operand, c_first_operand, len1);
+//    numberToAbacus(a_second_operand, c_second_operand, len2);
+    numberToAbacusV2(a_first_operand, strtod(original_c_first_operand, nullptr));
+    numberToAbacusV2(a_second_operand,strtod(original_c_second_operand, nullptr));
     initgraph(GraphSizeOfWidth, GraphSizeOfHeight); //初始化绘图环境
 
     initDrawingEnv();
@@ -217,8 +222,8 @@ void addition() {
         }
     } while(errorHappened);
 
-    numberToAbacus(a_first_operand, c_first_operand, len1);
-    numberToAbacus(a_second_operand, c_second_operand, len2);
+    numberToAbacusV2(a_first_operand, strtod(original_c_first_operand,nullptr));
+    numberToAbacusV2(a_second_operand, strtod(original_c_second_operand, nullptr));
 
     initDrawingEnv();
     drawNumOnAbacusOfAddition(a_first_operand); //初始化算盘（绘制算盘、列式、口诀表）
@@ -254,7 +259,8 @@ void radication(){
             lenWithoutDot -= 1;
         }
         convertedLen = strlen(c_first_operand);
-        numberToAbacus(a_first_operand, c_first_operand, convertedLen); //转为算盘形式
+//        numberToAbacus(a_first_operand, c_first_operand, convertedLen); //转为算盘形式
+        numberToAbacusV2(a_first_operand,strtod(original_c_first_operand, nullptr));
 
         if (convertedLen > 14 || atof(original_c_first_operand)<=0){
             printf("输入数据不符合规范，请重新输入\n");
@@ -264,7 +270,8 @@ void radication(){
 
     c_second_operand[14] = '0'; //存储开方结果
     convertToDecimal(c_second_operand);
-    numberToAbacus(a_second_operand, c_second_operand, 1);
+//    numberToAbacus(a_second_operand, c_second_operand, 1);
+    numberToAbacusV2(a_second_operand,strtod(original_c_second_operand, nullptr));
 
     initDrawingEnv();
     drawNumOnAbacusOfRadication(a_first_operand, a_second_operand); //初始化算盘

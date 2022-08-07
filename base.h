@@ -63,6 +63,7 @@ void drawExpression(const char*);//绘制表达式计算结果
 void drawAbacus(Num *num, AbacusParams param); //绘制算盘
 bool convertToDecimal(char *x); //判断是否为小数,如果为小数，则去掉小数点
 void numberToAbacus(Num *abacus_number, const char *arabic_number, int convertedLen); //阿拉伯数字(字符串形式)转换为算盘式数字
+void numberToAbacusV2(Num *abacus_number,double number);
 int oneToNumber(Num *abacus_number); //算盘某档转为阿拉伯数字
 //int oneToNumber(int upper, int lower); //算盘某档转为阿拉伯数字
 double allToNumber(Num* abacus_number); //整个算盘转换为阿拉伯数字(numberToAbacus()的逆运算)
@@ -77,6 +78,7 @@ void setFontSize(int size);
 void setFontSizeTo16();
 void setFontSizeTo32();
 size_t getDotLocation(const char cStr[]); //返回小数点所在index，若没有小数点返回0
+bool assertCharNumber(char* number,int limitedIntegerCount, int limitedDecimalCount);
 ////算盘的形式模型
 //typedef struct Abacus{
 //    double d; //算盘上所表示的数

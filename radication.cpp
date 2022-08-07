@@ -68,7 +68,8 @@ void simulateRadication(char* original_c_first_operand,size_t dotLocation,int le
     NUM_TO_CSTR(remainder,c_first_operand);//可视化
     convertToDecimal(c_first_operand);
     clearAbacus(a_first_operand);
-    numberToAbacus(a_first_operand, c_first_operand, strlen(c_first_operand));
+//    numberToAbacus(a_first_operand, c_first_operand, strlen(c_first_operand));
+    numberToAbacusV2(a_first_operand, strtod(original_c_first_operand,nullptr));
     drawNumOnAbacusOfRadication(a_first_operand, a_second_operand);
     stringGenerator<<"减首根平方"<<pow(currentRootWithDigits,2);
     strcpy(strInfo,stringGenerator.str().c_str());
@@ -110,6 +111,7 @@ void simulateRadication(char* original_c_first_operand,size_t dotLocation,int le
         convertToDecimal(c_first_operand);
         clearAbacus(a_first_operand);
         numberToAbacus(a_first_operand, c_first_operand, strlen(c_first_operand));
+        numberToAbacusV2(a_first_operand, strtod(original_c_first_operand, nullptr));
         drawNumOnAbacusOfRadication(a_first_operand, a_second_operand);
         strcpy(strInfo,stringGenerator.str().c_str());
         drawRules(strInfo);

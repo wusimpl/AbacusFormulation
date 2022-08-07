@@ -141,11 +141,11 @@ void numberToAbacus(Num *abacus_number, const char* arabic_number, int converted
 }
 
 //阿拉伯数字转换为算盘式数字
-void numberToAbacusV2(Num *abacus_number,double number) //convertedLen=strlen(a*100)
+void numberToAbacusV2(Num *abacus_number,double number)
 {
     for (int i = 0; i < 15; ++i) {
-        abacus_number[i].lower = int(int(100*number/ pow(10,15-i))%10/5);
-        abacus_number[i].upper = int(100*number/ pow(10,15-i))%10%5;
+        abacus_number[i].upper = int(int(100*number/ pow(10,15-i-1))%10/5);
+        abacus_number[i].lower = int(100*number/ pow(10,15-i-1))%10%5;
     }
 }
 
@@ -224,4 +224,31 @@ double subNumber(Num *abacus_number, int indexA, int indexB) {
         }
     }
     return result;
+}
+
+/**
+ * 判断字符串型数字是否符合规范
+ * @param number
+ * @param limitedIntegerCount 整数部分最多多少位
+ * @param limitedDecimalCount  小数部分最多多少位
+ * @return
+ */
+bool assertCharNumber(char *number,int limitedIntegerCount, int limitedDecimalCount) {
+    int integerCount=0;
+    int decimalCount=0;
+    size_t dotPos = (string(number)).find('.');
+
+    if(dotPos == string::npos) {
+      integerCount = strlen(number);
+    }else{
+        integerCount = dotPos;
+        decimalCount = strlen(number) - dotPos;
+    }
+
+    if(integerCount<=limitedDecimalCount && decimalCount<=limitedDecimalCount){
+        return false;
+    }else{
+        return true;
+    }
+
 }
