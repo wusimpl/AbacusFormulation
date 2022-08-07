@@ -78,7 +78,11 @@ void setFontSize(int size);
 void setFontSizeTo16();
 void setFontSizeTo32();
 size_t getDotLocation(const char cStr[]); //返回小数点所在index，若没有小数点返回0
-bool assertCharNumber(char* number,int limitedIntegerCount, int limitedDecimalCount);
+bool assertCharNumber(char* number,int limitedIntegerCount, int limitedDecimalCount); //see definition
+bool assertNonNegative(char* number); //非负?
+bool assertEBigger(char* number1, char* number2); //number1 >= number2?
+bool assertNonZero(char* number); // !0 ?
+bool assertInteger(char* number); // 整数？
 ////算盘的形式模型
 //typedef struct Abacus{
 //    double d; //算盘上所表示的数

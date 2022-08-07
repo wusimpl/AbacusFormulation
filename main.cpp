@@ -75,21 +75,29 @@ void division() {
 
         strcpy(original_c_first_operand,c_first_operand);
         strcpy(original_c_second_operand,c_second_operand);
-        convertToDecimal(c_first_operand);//*100
-        convertToDecimal(c_second_operand);
-        convertedLen1 = strlen(c_first_operand);
-        convertedLen2 = strlen(c_second_operand);
+//        convertToDecimal(c_first_operand);//*100
+//        convertToDecimal(c_second_operand);
+//        convertedLen1 = strlen(c_first_operand);
+//        convertedLen2 = strlen(c_second_operand);
         size_t dotLocationOfFirstOperand = getDotLocation(original_c_first_operand); //得到小数点的位置（用于后面的定位）
         size_t dotLocationOfSecondOperand = getDotLocation(original_c_second_operand); //得到小数点的位置（用于后面的定位）
         integerLen1 = dotLocationOfFirstOperand == 0 ? strlen(original_c_first_operand) : dotLocationOfFirstOperand; //整数部分的位数
         integerLen2 = dotLocationOfSecondOperand == 0 ? strlen(original_c_second_operand) : dotLocationOfSecondOperand; //整数部分的位数
-        len1WithoutDot = dotLocationOfFirstOperand==0?strlen(original_c_first_operand):strlen(original_c_first_operand)-1;
-        len2WithoutDot = dotLocationOfSecondOperand==0?strlen(original_c_second_operand):strlen(original_c_second_operand)-1;
-        maxLen = integerLen1 > integerLen2 ? integerLen1 : integerLen2;
-        double a = atoi(original_c_first_operand);
-        double b = atoi(original_c_second_operand);
-        if (maxLen > 14 || len1WithoutDot-integerLen1>2 || len2WithoutDot-integerLen2>2 || a<=0 || b<=0 ||
-                a<b || dotLocationOfSecondOperand!=0){
+//        len1WithoutDot = dotLocationOfFirstOperand==0?strlen(original_c_first_operand):strlen(original_c_first_operand)-1;
+//        len2WithoutDot = dotLocationOfSecondOperand==0?strlen(original_c_second_operand):strlen(original_c_second_operand)-1;
+//        maxLen = integerLen1 > integerLen2 ? integerLen1 : integerLen2;
+//        double a = atoi(original_c_first_operand);
+//        double b = atoi(original_c_second_operand);
+//        if (maxLen > 14 || len1WithoutDot-integerLen1>2 || len2WithoutDot-integerLen2>2 || a<=0 || b<=0 ||
+//                a<b || dotLocationOfSecondOperand!=0){
+//            printf("输入数据不符合规范，请重新输入\n");
+//            errorHappened = 1;
+//        }
+        if(!assertCharNumber(original_c_first_operand,13,1)
+           || !assertCharNumber(original_c_second_operand,13,0)
+           || !assertNonNegative(original_c_first_operand) || !assertNonNegative(original_c_second_operand)
+           || !assertInteger(original_c_second_operand) || !assertNonZero(original_c_second_operand)
+           || !assertEBigger(original_c_first_operand,original_c_second_operand)){
             printf("输入数据不符合规范，请重新输入\n");
             errorHappened = 1;
         }
@@ -125,21 +133,27 @@ void multiplication() {
 
         strcpy(original_c_first_operand,c_first_operand);
         strcpy(original_c_second_operand,c_second_operand);
-        convertToDecimal(c_first_operand);//*100
-        convertToDecimal(c_second_operand);
-        convertedLen1 = strlen(c_first_operand);
-        convertedLen2 = strlen(c_second_operand);
+//        convertToDecimal(c_first_operand);//*100
+//        convertToDecimal(c_second_operand);
+//        convertedLen1 = strlen(c_first_operand);
+//        convertedLen2 = strlen(c_second_operand);
         size_t dotLocationOfFirstOperand = getDotLocation(original_c_first_operand); //得到小数点的位置（用于后面的定位）
         size_t dotLocationOfSecondOperand = getDotLocation(original_c_second_operand); //得到小数点的位置（用于后面的定位）
         integerLen1 = dotLocationOfFirstOperand == 0 ? strlen(original_c_first_operand) : dotLocationOfFirstOperand; //整数部分的位数
         integerLen2 = dotLocationOfSecondOperand == 0 ? strlen(original_c_second_operand) : dotLocationOfSecondOperand; //整数部分的位数
-        len1WithoutDot = dotLocationOfFirstOperand==0?strlen(original_c_first_operand):strlen(original_c_first_operand)-1;
-        len2WithoutDot = dotLocationOfSecondOperand==0?strlen(original_c_second_operand):strlen(original_c_second_operand)-1;
+//        len1WithoutDot = dotLocationOfFirstOperand==0?strlen(original_c_first_operand):strlen(original_c_first_operand)-1;
+//        len2WithoutDot = dotLocationOfSecondOperand==0?strlen(original_c_second_operand):strlen(original_c_second_operand)-1;
         maxLen = integerLen1 > integerLen2 ? integerLen1 : integerLen2;
-        if (maxLen > 6 || len1WithoutDot-integerLen1>1 || atoi(original_c_first_operand)<=0 || atoi(original_c_second_operand)<=0){
+//        if (maxLen > 6 || len1WithoutDot-integerLen1>1 || atoi(original_c_first_operand)<=0 || atoi(original_c_second_operand)<=0){
+//            printf("输入数据不符合规范，请重新输入\n");
+//            errorHappened = 1;
+//        }
+        if(!assertCharNumber(original_c_first_operand,6,1) || !assertCharNumber(original_c_second_operand,6,1)
+           || !assertNonNegative(original_c_first_operand) || !assertNonNegative(original_c_second_operand)){
             printf("输入数据不符合规范，请重新输入\n");
             errorHappened = 1;
         }
+
     } while(errorHappened);
 
     numberToAbacusV2(a_first_operand, strtod(original_c_first_operand, nullptr));
@@ -172,10 +186,16 @@ void subtraction() {
         len1 = strlen(c_first_operand);
         len2 = strlen(c_second_operand);
         maxLen = len1 > len2 ? len1 : len2;
-        double a = atoi(original_c_first_operand);
-        double b = atoi(original_c_second_operand);
-        if (maxLen > 14 || atoi(original_c_second_operand)<=0 || a<=0 || b<=0 || a<b){
-            printf("输入数据不符合规范 ，请重新输入\n");
+//        double a = atoi(original_c_first_operand);
+//        double b = atoi(original_c_second_operand);
+//        if (maxLen > 14 || atoi(original_c_second_operand)<=0 || a<=0 || b<=0 || a<b){
+//            printf("输入数据不符合规范 ，请重新输入\n");
+//            errorHappened = 1;
+//        }
+        if(!assertCharNumber(original_c_first_operand,13,2) || !assertCharNumber(original_c_second_operand,13,2)
+        || !assertNonNegative(original_c_first_operand) || !assertNonNegative(original_c_second_operand)
+        || !assertEBigger(original_c_first_operand,original_c_second_operand)){
+            printf("输入数据不符合规范，请重新输入\n");
             errorHappened = 1;
         }
     } while(errorHappened);
@@ -211,15 +231,20 @@ void addition() {
         scanf("%s %s", c_first_operand, c_second_operand);
         strcpy(original_c_first_operand,c_first_operand);
         strcpy(original_c_second_operand,c_second_operand);
-        convertToDecimal(c_first_operand);//判断是否为小数
-        convertToDecimal(c_second_operand);
+//        convertToDecimal(c_first_operand);//判断是否为小数
+//        convertToDecimal(c_second_operand);
         len1 = strlen(c_first_operand);
         len2 = strlen(c_second_operand);
         maxLen = len1 > len2 ? len1 : len2;
-        if (maxLen > 14 ||atoi(original_c_second_operand)<=0 || atoi(original_c_first_operand)<=0){
-            printf("输入数据不符合规范，请重新输入\n");
-            errorHappened = 1;
-        }
+//        if (maxLen > 14 ||atoi(original_c_second_operand)<=0 || atoi(original_c_first_operand)<=0){
+//            printf("输入数据不符合规范，请重新输入\n");
+//            errorHappened = 1;
+//        }
+       if(!assertCharNumber(original_c_first_operand,12,2) || !assertCharNumber(original_c_second_operand,12,2)
+       || !assertNonNegative(original_c_first_operand) || !assertNonNegative(original_c_second_operand)){
+           printf("输入数据不符合规范，请重新输入\n");
+           errorHappened = 1;
+       }
     } while(errorHappened);
 
     numberToAbacusV2(a_first_operand, strtod(original_c_first_operand,nullptr));
@@ -262,9 +287,15 @@ void radication(){
 //        numberToAbacus(a_first_operand, c_first_operand, convertedLen); //转为算盘形式
         numberToAbacusV2(a_first_operand,strtod(original_c_first_operand, nullptr));
 
-        if (convertedLen > 14 || atof(original_c_first_operand)<=0){
+//        if (convertedLen > 14 || atof(original_c_first_operand)<=0){
+//            printf("输入数据不符合规范，请重新输入\n");
+//            errorHappened = true;
+//        }
+        if(!assertCharNumber(original_c_first_operand,13,2)
+           || atof(original_c_first_operand) < 1) //整数部分不为0
+        {
             printf("输入数据不符合规范，请重新输入\n");
-            errorHappened = true;
+            errorHappened = 1;
         }
     } while(errorHappened);
 

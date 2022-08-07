@@ -144,8 +144,8 @@ void numberToAbacus(Num *abacus_number, const char* arabic_number, int converted
 void numberToAbacusV2(Num *abacus_number,double number)
 {
     for (int i = 0; i < 15; ++i) {
-        abacus_number[i].upper = int(int(100*number/ pow(10,15-i-1))%10/5);
-        abacus_number[i].lower = int(100*number/ pow(10,15-i-1))%10%5;
+        abacus_number[i].upper = (long long)((long long)(100*number/ pow(10,15-i-1))%10/5);
+        abacus_number[i].lower = (long long)(100*number/ pow(10,15-i-1))%10%5;
     }
 }
 
@@ -234,7 +234,7 @@ double subNumber(Num *abacus_number, int indexA, int indexB) {
  * @return
  */
 bool assertCharNumber(char *number,int limitedIntegerCount, int limitedDecimalCount) {
-    int integerCount=0;
+    int integerCount;
     int decimalCount=0;
     size_t dotPos = (string(number)).find('.');
 
@@ -242,13 +242,38 @@ bool assertCharNumber(char *number,int limitedIntegerCount, int limitedDecimalCo
       integerCount = strlen(number);
     }else{
         integerCount = dotPos;
-        decimalCount = strlen(number) - dotPos;
+        decimalCount = strlen(number) - dotPos-1;
     }
 
-    if(integerCount<=limitedDecimalCount && decimalCount<=limitedDecimalCount){
-        return false;
+    if(integerCount<=limitedIntegerCount && decimalCount<=limitedDecimalCount){
+        return true;
     }else{
+        return false;
+    }
+
+}
+
+bool assertNonNegative(char *number) {
+    if(atof(number)>=0){
         return true;
     }
+    return false;
+}
 
+bool assertEBigger(char *number1, char *number2) {
+    if(atof(number1)>=atof(number2)){
+        return true;
+    }
+    return false;
+}
+
+bool assertNonZero(char *number) {
+    if(fabs(atof(number)) > 1e-6){
+        return true;
+    }
+    return false;
+}
+
+bool assertInteger(char *number) {
+    return (string(number)).find('.') == string::npos;
 }
