@@ -32,6 +32,11 @@ typedef struct Num
         upper = _upper;
         lower = _lower;
     }
+
+    Num(const Num& b){
+        upper = b.upper;
+        lower = b.lower;
+    }
 } Num;
 
 typedef struct{
@@ -49,9 +54,9 @@ typedef struct AbacusParams{
 }AbacusParams;
 
 //全局变量
-extern Num a_first_operand[PLACES_NUM], a_second_operand[PLACES_NUM]; //a_first_operand[14]表示第15档，a_first_operand[0]表示第1档
-extern char original_c_first_operand[PLACES_NUM+1], original_c_second_operand[PLACES_NUM+1];//接收到的输入数字
-extern char c_first_operand[PLACES_NUM+1], c_second_operand[PLACES_NUM+1];//original数字
+extern Num num_1operand[PLACES_NUM], num_2operand[PLACES_NUM]; //num_1operand[14]表示第15档，num_1operand[0]表示第1档
+extern char ochar_1operand[PLACES_NUM + 1], ochar_2operand[PLACES_NUM + 1];//接收到的输入数字
+extern char char_1operand[PLACES_NUM + 1], char_2operand[PLACES_NUM + 1];//original数字
 extern const char* INDEX_TO_CHINESE_NUM[];
 //extern string processHintPlaceHolder; //演算过程提示占位符
 extern char strInfo[100];
@@ -69,8 +74,8 @@ int oneToNumber(Num *abacus_number); //算盘某档转为阿拉伯数字
 double allToNumber(Num* abacus_number); //整个算盘转换为阿拉伯数字(numberToAbacus()的逆运算)
 double toNumber(Num* abacus_number, int indexA, int indexB); //截取A到B档所表示的数 [...,1,3,5,0] indexA=12,indexB=13,->3.5
 double subNumber(Num* abacus_number, int indexA, int indexB); ////截取A到B档所表示的数（忽略小数点，忽略绝对挡位，使用相对挡位）[...,1,3,5,0] indexA=12,indexB=13,->35
-void setNumToAbacusRadicationVersion(int num, Num* abacus, int stickNum); //将数字设置到算盘的某个挡位
-void setNumToAbacusMulVersion(int num, Num* abacus,int indexNum);
+void setNumToAbacusRadicationStickVersion(int num, Num* abacus, int stickNum); //将数字设置到算盘的某个挡位
+void setNumToAbacusIndexVersion(int num, Num* abacus, int indexNum);
 void setNumToAbacus(int num, Num* abacus,int placeNum); //original version 正常版本
 void clearAbacus(Num* abacus);//清空算盘对象
 void clearAbacus(AbacusParams param); //清空绘制的算盘（其它不清除）
@@ -83,6 +88,7 @@ bool assertNonNegative(char* number); //非负?
 bool assertEBigger(char* number1, char* number2); //number1 >= number2?
 bool assertNonZero(char* number); // !0 ?
 bool assertInteger(char* number); // 整数？
+void copy(Num* A,Num* B);// copy A to B
 ////算盘的形式模型
 //typedef struct Abacus{
 //    double d; //算盘上所表示的数

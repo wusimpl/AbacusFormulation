@@ -9,6 +9,7 @@
 void drawExpressionOfDivision(); //draw除法表达式
 void drawNumOnAbacusOfDivision(Num*); //draw abacus
 void simulateDivision(size_t integerLen1, size_t integerLen2); //you know if you know
+int simulateDivisionImprovedVersion(Num* Di, Num* Div, size_t integerLen1, size_t integerLen2);
 //void drawDivisionRhymeProduct(const char* oneToNExpressionStrInfo,const char* str);
 //void draw1toNExpression(const char* str);
 

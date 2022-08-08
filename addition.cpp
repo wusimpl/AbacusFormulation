@@ -2,7 +2,7 @@
 
 #include "addition.h"
 
-//#define DEBUG
+#define DEBUG
 #ifdef DEBUG
 #define _getch() ;
 #endif
@@ -62,8 +62,8 @@ void drawMnemonicRhymeOfAddition()
 //显示表达式计算的结果
 void drawExpressionOfAddition()
 {
-    double augNumber = atof(original_c_first_operand);
-    double addNumber = atof(original_c_second_operand);
+    double augNumber = atof(ochar_1operand);
+    double addNumber = atof(ochar_2operand);
     stringGenerator<<augNumber<<"+"<<addNumber<<"="<<augNumber+addNumber;
     strcpy(strInfo,stringGenerator.str().c_str());
     drawExpression(strInfo);

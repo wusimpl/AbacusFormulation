@@ -4,9 +4,9 @@
 
 #include "base.h"
 
-Num a_first_operand[PLACES_NUM], a_second_operand[PLACES_NUM]; //数的算盘形式
-char c_first_operand[PLACES_NUM+1], c_second_operand[PLACES_NUM+1]; //数的字符形式
-char original_c_first_operand[PLACES_NUM+1], original_c_second_operand[PLACES_NUM+1];//接收到的输入数字
+Num num_1operand[PLACES_NUM], num_2operand[PLACES_NUM]; //数的算盘形式
+char char_1operand[PLACES_NUM + 1], char_2operand[PLACES_NUM + 1]; //数的字符形式
+char ochar_1operand[PLACES_NUM + 1], ochar_2operand[PLACES_NUM + 1];//接收到的输入数字
 const char* INDEX_TO_CHINESE_NUM[] = {"零","一","二","三","四","五","六","七","八","九","十"}; // 中文数字字符常量
 //string processHintPlaceHolder; //演算过程提示占位符
 Coordinate expressionDisplayLeftTop={50, 20},expressionDisplayRightBottom={850, 53};
@@ -155,14 +155,13 @@ int oneToNumber(Num *abacus_number){
 }
 
 //将数字设置到算盘的某个挡位
-void setNumToAbacusRadicationVersion(int num, Num* abacus, int stickNum){
-    abacus[PLACES_NUM-stickNum].upper = num / 5;
-    abacus[PLACES_NUM-stickNum].lower = num % 5;
+void setNumToAbacusRadicationStickVersion(int num, Num* abacus, int stickNum){
+    abacus[stickNum-1].upper = num / 5;
+    abacus[stickNum-1].lower = num % 5;
 }
 
-void setNumToAbacusMulVersion(int num, Num* abacus,int indexNum){
-    abacus[indexNum].upper = num / 5;
-    abacus[indexNum].lower = num % 5;
+void setNumToAbacusIndexVersion(int num, Num* abacus, int indexNum){
+    setNumToAbacusRadicationStickVersion(num,abacus,indexNum+1);
 }
 
 void setNumToAbacus(int num, Num* abacus,int placeNum){
@@ -276,4 +275,10 @@ bool assertNonZero(char *number) {
 
 bool assertInteger(char *number) {
     return (string(number)).find('.') == string::npos;
+}
+
+void copy(Num *A, Num *B) {
+    for (int i = 0; i < PLACES_NUM; ++i) {
+        B[i] = A[i];
+    }
 }

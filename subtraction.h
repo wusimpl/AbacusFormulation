@@ -13,5 +13,6 @@ void drawNumOnAbacusOfSubtractionPureVersion(Num *sa);
 void drawExpressionOfSubtraction();
 void simulateSubtraction(Num* minuend, Num* meiosis, int n);
 void simulateSubtractionPureVersion(Num* minuend, Num* meiosis, int n);
+void simulateSubtractionImprovedPureVersion(Num *minuend, Num *meiosis, int n);
 
 #endif //ABACUS_SUBTRACTION_H

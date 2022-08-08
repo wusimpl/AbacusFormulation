@@ -7,14 +7,17 @@
 #include <string>
 #include <cstdio>
 #include <iomanip>
+#include "subtraction.h"
+#include "multiplication.h"
+#include "division.h"
 
-//#define DEBUG
+#define DEBUG
 #ifdef DEBUG
 #define _getch() ;
 #endif
 
 #define CSTR_TO_NUM(cstr) (atoi(cstr))
-#define NUM_TO_CSTR(num,str) (sprintf(str,"%.2lf",num))
+#define NUMBER_TO_CSTR(num,str) (sprintf(str,"%.2lf",num))
 
 void drawNumOnAbacusOfRadication(Num *sa, Num* result) {
     cleardevice(); //清空屏幕内容
@@ -31,88 +34,114 @@ void drawNumOnAbacusOfRadication(Num *sa, Num* result) {
     drawAbacus(result, param); //绘制第二个算盘，用于展示开方结果的变化
 }
 
-void simulateRadication(char* original_c_first_operand,size_t dotLocation,int lenWithoutDot, int convertedLen){
-    int integralDigitsCount = 0; //开方结果的整数的位数
-    //根据小数点的位置确定integralDigitsCount
-    integralDigitsCount = dotLocation == 0?lenWithoutDot:dotLocation;
-    integralDigitsCount = integralDigitsCount%2==0?integralDigitsCount/2:integralDigitsCount/2+1;
-
-    int currentRootLocation = integralDigitsCount; //以小数点为原点0，向左依次+1，向右依次-1
-    double currentRoot = 0; // root value
-    int currentResultStick = integralDigitsCount+2; // 显示结果的算盘的当前挡位（从右至左），因为有两位小数点，所以+2
-    double currentRootWithDigits = 0; // root * 10^(its digit)
-    char head[3]; // 要估算的位，例如344.2，估首根，head为3
-    double sumUpOfRoots = 0; // 已经求得的根之和
-    double denominator; // 法数：2(root1 + root2 + root3 ...)
-    double remainder = allToNumber(a_first_operand);//余数
+void simulateRadication(size_t dotLocation, int lenWithoutDot,int radLen){
+    Num* rad = num_1operand;
+    Num* root = num_2operand;
+    int rootLen = 0; //开方结果的整数的位数
+    int location; //以小数点为原点0，向左依次+1，向右依次-1
+    double cr = 0; // root value
+    double rcr = 0; // root * 10^(its digit)
+    int rootPtr; // 显示结果的算盘的当前挡位（从右至左），因为有两位小数点，所以+2
+    int radPtr;
+    char sec[3]; // 要估算的位，例如344.2，估首根，head为3
+    double sum = 0; // 已经求得的根之和
+    double den; // 法数：2(root1 + root2 + root3 ...)
+    double remainder = allToNumber(rad);//余数
     double subtrahend; //减数：(法数+当前根)*当前根
+    Num tmp1[PLACES_NUM], tmp2[PLACES_NUM];
+    //定位
+
+    radLen = dotLocation == 0 ? lenWithoutDot : dotLocation;
+    rootLen = radLen % 2 == 0 ? radLen / 2 : radLen / 2 + 1;
+    location = rootLen;
+    rootPtr = 13 - rootLen; //index rather than location
+    radPtr = 13 - radLen;
     //估首根
     _getch();
-    getHead(original_c_first_operand,lenWithoutDot,dotLocation,head);
-    currentRoot = int(sqrt(CSTR_TO_NUM(head)));
-    currentRootWithDigits = currentRoot * pow(10,currentRootLocation-1);
-    sumUpOfRoots += currentRootWithDigits;
-    denominator = 2*sumUpOfRoots;
-    setNumToAbacusRadicationVersion(currentRoot, a_second_operand, currentResultStick);//可视化
-    drawNumOnAbacusOfRadication(a_first_operand, a_second_operand);
-    currentResultStick--;
-    stringGenerator<<"估得首根为"<<currentRoot;
+    getHead(ochar_1operand, lenWithoutDot, dotLocation, sec); //sec
+    cr = int(sqrt(CSTR_TO_NUM(sec)));
+    rcr = cr * pow(10, 12-rootPtr);
+    sum += rcr; //累加前根之和
+    den = 2 * sum;
+    setNumToAbacusIndexVersion(cr, root, rootPtr);
+    drawNumOnAbacusOfRadication(rad, root);//可视化
+    rootPtr++;
+    stringGenerator << "估得首根为" << cr;
     strcpy(strInfo,stringGenerator.str().c_str());
     drawRules(strInfo);
     stringGenerator.str("");
     _getch();
     //减首根平方
-    remainder -= pow(currentRootWithDigits,2);
-    currentRootLocation--;
-
-    NUM_TO_CSTR(remainder,c_first_operand);//可视化
-//    convertToDecimal(c_first_operand);
-    clearAbacus(a_first_operand);
-//    numberToAbacus(a_first_operand, c_first_operand, strlen(c_first_operand));
-    numberToAbacusV2(a_first_operand, strtod(original_c_first_operand,nullptr));
-    drawNumOnAbacusOfRadication(a_first_operand, a_second_operand);
-    stringGenerator<<"减首根平方"<<pow(currentRootWithDigits,2);
+    stringGenerator<<"减首根平方"<<pow(rcr, 2);
     strcpy(strInfo,stringGenerator.str().c_str());
     drawRules(strInfo);
     stringGenerator.str("");
     _getch();
+    location--;
+    numberToAbacusV2(tmp1,pow(rcr, 2));
+    remainder -= pow(rcr, 2);
+    for (int i = 0; i < 15; i++){ //从左到右按位依次减法
+        if(oneToNumber(&rad[PLACES_NUM - i - 1]) != 0 ||
+           oneToNumber(&tmp1[PLACES_NUM - i - 1]) != 0){
+            simulateSubtractionPureVersion(rad, tmp1, PLACES_NUM - i - 1);
+        }
+    }
+    clearAbacus(tmp1);
+    //余数减半
+    stringGenerator<<"余数减半为"<<allToNumber(rad)/2;
+    strcpy(strInfo,stringGenerator.str().c_str());
+    drawRules(strInfo);
+    stringGenerator.str("");
+    _getch();
+    while(oneToNumber(&rad[radPtr])==0){ //移动指针
+        radPtr+=1;
+        if(radLen!=0){
+            radLen -= 1;
+        }
+    }
+    Num fac[PLACES_NUM],mul[PLACES_NUM];
+    copy(rad,fac);
+    numberToAbacusV2(mul,0.5);
+    clearAbacus(rad);
+    simulateMultiplicationPureVersion(fac,mul,rad,radLen,0);
     //估其他根
     char remainderStrForm[15];
-    for (int i = currentRootLocation; i > -2; i--,currentResultStick--) {
-        //估根
-        NUM_TO_CSTR(remainder, remainderStrForm);
-//        dotLocation = getDotLocation(remainderStrForm);
-//        getHead(remainderStrForm, strlen(remainderStrForm),dotLocation,head);
-        currentRoot = i>0?int(remainder/denominator/ pow(10,i-1)):int((remainder/denominator)*pow(10,-(i-1))); //估
-        currentRootWithDigits = currentRoot * pow(10,i-1);
-//        currentRootWithDigits = ((int)(currentRootWithDigits*100))/100.0; //0.1000004 -> 10 -> 0.100000 懂？
-        while(remainder - (denominator+currentRootWithDigits)*currentRootWithDigits < 0){ //估根估大了，调整
-            currentRoot--;
-            currentRootWithDigits = currentRoot * pow(10,i-1);
-//            currentRootWithDigits = ((int)(currentRootWithDigits*100))/100.0; //0.1000004 -> 10 -> 0.100000 懂？
+    for (int i = location; i > -2; i--,rootPtr--) {
+        //前根之和试除余数估下一根
+        numberToAbacusV2(tmp1,sum);
+        double tmp=sum;
+        int sumLen = 1;
+        while ((tmp=tmp/10) > 1){
+            sumLen++;
         }
+        copy(rad,tmp2);
+        while(oneToNumber(&rad[radPtr])==0){ //移动指针
+            radPtr+=1;
+            if(radLen!=0){
+                radLen -= 1;
+            }
+        }
+        cr = simulateDivisionImprovedVersion(tmp2,tmp1,radLen,sumLen);
+        rcr = cr * pow(10, 12-rootPtr);
 
-
-        setNumToAbacusRadicationVersion(currentRoot, a_second_operand, currentResultStick);//可视化
-        drawNumOnAbacusOfRadication(a_first_operand, a_second_operand);
-        stringGenerator<<"估得下一根为"<<currentRoot;
+        stringGenerator << "估得下一根为" << cr;
         strcpy(strInfo,stringGenerator.str().c_str());
         drawRules(strInfo);
         stringGenerator.str("");
         _getch();
-
-        sumUpOfRoots += currentRootWithDigits;
-        subtrahend = (denominator + currentRootWithDigits) * currentRootWithDigits;
+        setNumToAbacusRadicationStickVersion(cr, root, rootPtr+1);
+        drawNumOnAbacusOfRadication(rad, root);//可视化
+        rootPtr++;
+        //余数减法数
+        sum += rcr;
+        subtrahend = (den + rcr) * rcr;
         stringGenerator<<"减"<<subtrahend;
         remainder -= subtrahend;
-        denominator = 2*sumUpOfRoots; //更新法数
-
-        NUM_TO_CSTR(remainder,c_first_operand);//可视化
-//        convertToDecimal(c_first_operand);
-        clearAbacus(a_first_operand);
-//        numberToAbacus(a_first_operand, c_first_operand, strlen(c_first_operand));
-        numberToAbacusV2(a_first_operand, strtod(original_c_first_operand, nullptr));
-        drawNumOnAbacusOfRadication(a_first_operand, a_second_operand);
+        den = 2 * sum; //更新法数
+        NUMBER_TO_CSTR(remainder, char_1operand);//可视化
+        clearAbacus(rad);
+        numberToAbacusV2(rad, strtod(ochar_1operand, nullptr));
+        drawNumOnAbacusOfRadication(rad, root);
         strcpy(strInfo,stringGenerator.str().c_str());
         drawRules(strInfo);
         stringGenerator.str("");
@@ -161,7 +190,7 @@ void drawExpressionOfRadication() {
     stringstream sg;
     sg.precision(2);
     sg.setf(ios::fixed);
-    double number = atof(original_c_first_operand);
+    double number = atof(ochar_1operand);
     sg << "sqrt("<<number<<")"<<"="<<sqrt(number)<<"（保留两位小数）";
     strcpy(strInfo,sg.str().c_str());
     drawExpression(strInfo);

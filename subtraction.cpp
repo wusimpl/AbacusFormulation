@@ -4,14 +4,14 @@
 #include "subtraction.h"
 #include "addition.h"
 
-//#define DEBUG
+#define DEBUG
 #ifdef DEBUG
 #define _getch() ;
 #endif
 
 void drawExpressionOfSubtraction(){//显示计算表达式
-    double miNumber = atof(original_c_first_operand);
-    double meiNumber = atof(original_c_second_operand);
+    double miNumber = atof(ochar_1operand);
+    double meiNumber = atof(ochar_2operand);
     stringGenerator << miNumber << "-" << meiNumber << "=" << miNumber - meiNumber;
     strcpy(strInfo,stringGenerator.str().c_str());
     drawExpression(strInfo);
@@ -148,6 +148,36 @@ void simulateSubtraction(Num* minuend, Num* meiosis, int n){
     }
 }
 
+void simulateSubtractionImprovedPureVersion(Num *minuend, Num *meiosis, int n) {
+    Num *mi = &minuend[n];
+    Num *mei = &meiosis[n];
+    Num *tmp = mi; //当前被减数的指针
+    int miNumber = oneToNumber(mi); //被减数
+    int meiNumber = oneToNumber(mei); //减数
+
+    if (miNumber >= meiNumber) { //不退位减
+        if (miNumber >= 5 && meiNumber < 5 && meiNumber > (miNumber - 5)) {//破五减
+            tmp->upper -= 1; //去五
+            tmp->lower += 5 - meiNumber; //上（5-减数）
+        } else { //直接减
+            tmp->upper -= mei->upper;
+            tmp->lower -= mei->lower;
+        }
+    } else { //退位减
+        int complement = 10 - meiNumber;//减数的补数
+        /*先计算本位*/
+        if (meiNumber > 5 && miNumber < 5 && (meiNumber - miNumber) <= 5) {//退十还五减
+            tmp->upper += 1; //还五
+            tmp->lower -= meiNumber - 5;
+        } else { //退十减
+            tmp->upper += int(complement / 5);
+            tmp->lower += complement % 5;
+        }
+
+        CARRYNUM carryNumber(n - 1);
+        simulateSubtractionImprovedPureVersion(minuend, carryNumber.carry, n - 1);
+    }
+}
 void simulateSubtractionPureVersion(Num *minuend, Num *meiosis, int n) {
     Num* mi = &minuend[n];
     Num* mei = &meiosis[n];

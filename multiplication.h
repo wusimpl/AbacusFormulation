@@ -12,6 +12,7 @@ void drawNumOnAbacusOfMultiplication(Num*);
 void lookUpMultiplicationTable(int _product, int indexOfFirstDigit, Num* product);
 void lookUpMultiplicationTableDivisionVersion(int _product, int indexOfFirstDigit, Num* product);
 void simulateMultiplication(Num* result, int integerLen1, int integerLen2);
+void simulateMultiplicationPureVersion(Num *fac, Num* mul,Num* result, int integerLen1, int integerLen2);
 void drawMultiplicationRhymeProduct(const char* oneToNExpressionStrInfo,const char* str);
 void draw1toNExpression(const char* str);
 

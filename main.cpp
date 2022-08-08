@@ -68,31 +68,31 @@ void division() {
     do{
         errorHappened = 0;
         printf("请输入被除数和除数(被除数整数部分不超过13位，小数部分不超过2位，除数需为整数，且除数小于被除数)：");
-        scanf("%s %s", c_first_operand, c_second_operand);
+        scanf("%s %s", char_1operand, char_2operand);
 
-        strcpy(original_c_first_operand,c_first_operand);
-        strcpy(original_c_second_operand,c_second_operand);
+        strcpy(ochar_1operand, char_1operand);
+        strcpy(ochar_2operand, char_2operand);
 
-        size_t dotLocationOfFirstOperand = getDotLocation(original_c_first_operand); //得到小数点的位置（用于后面的定位）
-        size_t dotLocationOfSecondOperand = getDotLocation(original_c_second_operand); //得到小数点的位置（用于后面的定位）
-        integerLen1 = dotLocationOfFirstOperand == 0 ? strlen(original_c_first_operand) : dotLocationOfFirstOperand; //整数部分的位数
-        integerLen2 = dotLocationOfSecondOperand == 0 ? strlen(original_c_second_operand) : dotLocationOfSecondOperand; //整数部分的位数
+        size_t dotLocationOfFirstOperand = getDotLocation(ochar_1operand); //得到小数点的位置（用于后面的定位）
+        size_t dotLocationOfSecondOperand = getDotLocation(ochar_2operand); //得到小数点的位置（用于后面的定位）
+        integerLen1 = dotLocationOfFirstOperand == 0 ? strlen(ochar_1operand) : dotLocationOfFirstOperand; //整数部分的位数
+        integerLen2 = dotLocationOfSecondOperand == 0 ? strlen(ochar_2operand) : dotLocationOfSecondOperand; //整数部分的位数
 
-        if(!assertCharNumber(original_c_first_operand,13,1)
-           || !assertCharNumber(original_c_second_operand,13,0)
-           || !assertNonNegative(original_c_first_operand) || !assertNonNegative(original_c_second_operand)
-           || !assertInteger(original_c_second_operand) || !assertNonZero(original_c_second_operand)
-           || !assertEBigger(original_c_first_operand,original_c_second_operand)){
+        if(!assertCharNumber(ochar_1operand, 13, 1)
+           || !assertCharNumber(ochar_2operand, 13, 0)
+           || !assertNonNegative(ochar_1operand) || !assertNonNegative(ochar_2operand)
+           || !assertInteger(ochar_2operand) || !assertNonZero(ochar_2operand)
+           || !assertEBigger(ochar_1operand, ochar_2operand)){
             printf("输入数据不符合规范，请重新输入\n");
             errorHappened = 1;
         }
     } while(errorHappened);
 
-    numberToAbacusV2(a_first_operand, strtod(original_c_first_operand, nullptr));
-    numberToAbacusV2(a_second_operand, strtod(original_c_second_operand, nullptr));
+    numberToAbacusV2(num_1operand, strtod(ochar_1operand, nullptr));
+    numberToAbacusV2(num_2operand, strtod(ochar_2operand, nullptr));
 
     initDrawingEnv();
-    drawNumOnAbacusOfDivision(a_first_operand); //初始化算盘（绘制算盘、列式）
+    drawNumOnAbacusOfDivision(num_1operand); //初始化算盘（绘制算盘、列式）
 
     _getch();
     simulateDivision(integerLen1, integerLen2);
@@ -108,25 +108,25 @@ void multiplication() {
     do{
         errorHappened = 0;
         printf("请输入两个数（整数部分不超过6位，小数部分不超过1位)：");
-        scanf("%s %s", c_first_operand, c_second_operand);
+        scanf("%s %s", char_1operand, char_2operand);
 
-        strcpy(original_c_first_operand,c_first_operand);
-        strcpy(original_c_second_operand,c_second_operand);
-        size_t dotLocationOfFirstOperand = getDotLocation(original_c_first_operand); //得到小数点的位置（用于后面的定位）
-        size_t dotLocationOfSecondOperand = getDotLocation(original_c_second_operand); //得到小数点的位置（用于后面的定位）
-        integerLen1 = dotLocationOfFirstOperand == 0 ? strlen(original_c_first_operand) : dotLocationOfFirstOperand; //整数部分的位数
-        integerLen2 = dotLocationOfSecondOperand == 0 ? strlen(original_c_second_operand) : dotLocationOfSecondOperand; //整数部分的位数
+        strcpy(ochar_1operand, char_1operand);
+        strcpy(ochar_2operand, char_2operand);
+        size_t dotLocationOfFirstOperand = getDotLocation(ochar_1operand); //得到小数点的位置（用于后面的定位）
+        size_t dotLocationOfSecondOperand = getDotLocation(ochar_2operand); //得到小数点的位置（用于后面的定位）
+        integerLen1 = dotLocationOfFirstOperand == 0 ? strlen(ochar_1operand) : dotLocationOfFirstOperand; //整数部分的位数
+        integerLen2 = dotLocationOfSecondOperand == 0 ? strlen(ochar_2operand) : dotLocationOfSecondOperand; //整数部分的位数
 
-        if(!assertCharNumber(original_c_first_operand,6,1) || !assertCharNumber(original_c_second_operand,6,1)
-           || !assertNonNegative(original_c_first_operand) || !assertNonNegative(original_c_second_operand)){
+        if(!assertCharNumber(ochar_1operand, 6, 1) || !assertCharNumber(ochar_2operand, 6, 1)
+           || !assertNonNegative(ochar_1operand) || !assertNonNegative(ochar_2operand)){
             printf("输入数据不符合规范，请重新输入\n");
             errorHappened = 1;
         }
 
     } while(errorHappened);
 
-    numberToAbacusV2(a_first_operand, strtod(original_c_first_operand, nullptr));
-    numberToAbacusV2(a_second_operand,strtod(original_c_second_operand, nullptr));
+    numberToAbacusV2(num_1operand, strtod(ochar_1operand, nullptr));
+    numberToAbacusV2(num_2operand, strtod(ochar_2operand, nullptr));
 
     initDrawingEnv();
     Num result[PLACES_NUM];
@@ -147,34 +147,34 @@ void subtraction() {
     do{
         errorHappened = 0;
         printf("请输入两个长度不超过14位的数(被减数和减数,被减数大于减数，允许两位小数)：");
-        scanf("%s %s", c_first_operand, c_second_operand);
-        strcpy(original_c_first_operand,c_first_operand);
-        strcpy(original_c_second_operand,c_second_operand);
-        len1 = strlen(c_first_operand);
-        len2 = strlen(c_second_operand);
+        scanf("%s %s", char_1operand, char_2operand);
+        strcpy(ochar_1operand, char_1operand);
+        strcpy(ochar_2operand, char_2operand);
+        len1 = strlen(char_1operand);
+        len2 = strlen(char_2operand);
         maxLen = len1 > len2 ? len1 : len2;
-        if(!assertCharNumber(original_c_first_operand,13,2) || !assertCharNumber(original_c_second_operand,13,2)
-           || !assertNonNegative(original_c_first_operand) || !assertNonNegative(original_c_second_operand)
-           || !assertEBigger(original_c_first_operand,original_c_second_operand)){
+        if(!assertCharNumber(ochar_1operand, 13, 2) || !assertCharNumber(ochar_2operand, 13, 2)
+           || !assertNonNegative(ochar_1operand) || !assertNonNegative(ochar_2operand)
+           || !assertEBigger(ochar_1operand, ochar_2operand)){
             printf("输入数据不符合规范，请重新输入\n");
             errorHappened = 1;
         }
     } while(errorHappened);
 
-//    numberToAbacus(a_first_operand, c_first_operand, len1);
-//    numberToAbacus(a_second_operand, c_second_operand, len2);
-    numberToAbacusV2(a_first_operand, strtod(original_c_first_operand, nullptr));
-    numberToAbacusV2(a_second_operand,strtod(original_c_second_operand, nullptr));
+//    numberToAbacus(num_1operand, char_1operand, len1);
+//    numberToAbacus(num_2operand, char_2operand, len2);
+    numberToAbacusV2(num_1operand, strtod(ochar_1operand, nullptr));
+    numberToAbacusV2(num_2operand, strtod(ochar_2operand, nullptr));
     initgraph(GraphSizeOfWidth, GraphSizeOfHeight); //初始化绘图环境
 
     initDrawingEnv();
-    drawNumOnAbacusOfSubtraction(a_first_operand); //初始化算盘（绘制算盘、列式、口诀表）
+    drawNumOnAbacusOfSubtraction(num_1operand); //初始化算盘（绘制算盘、列式、口诀表）
 
     _getch();
     for (int i = 0; i < maxLen; i++){ //从左到右按位依次减法
-        if(oneToNumber(&a_first_operand[PLACES_NUM - i - 1]) != 0 ||
-           oneToNumber(&a_second_operand[PLACES_NUM - i - 1]) != 0){ //本位的加数和被加数不都为零
-            simulateSubtraction(a_first_operand, a_second_operand, PLACES_NUM-i-1);
+        if(oneToNumber(&num_1operand[PLACES_NUM - i - 1]) != 0 ||
+           oneToNumber(&num_2operand[PLACES_NUM - i - 1]) != 0){ //本位的加数和被加数不都为零
+            simulateSubtraction(num_1operand, num_2operand, PLACES_NUM - i - 1);
         }
     }
     drawRules("计算结束"); //绘制“计算结束”
@@ -189,29 +189,29 @@ void addition() {
     do{
         errorHappened = 0;
         printf("请输入两个长度不超过14位的数(被加数和加数，允许两位小数)：");
-        scanf("%s %s", c_first_operand, c_second_operand);
-        strcpy(original_c_first_operand,c_first_operand);
-        strcpy(original_c_second_operand,c_second_operand);
-        len1 = strlen(c_first_operand);
-        len2 = strlen(c_second_operand);
+        scanf("%s %s", char_1operand, char_2operand);
+        strcpy(ochar_1operand, char_1operand);
+        strcpy(ochar_2operand, char_2operand);
+        len1 = strlen(char_1operand);
+        len2 = strlen(char_2operand);
         maxLen = len1 > len2 ? len1 : len2;
-        if(!assertCharNumber(original_c_first_operand,12,2) || !assertCharNumber(original_c_second_operand,12,2)
-           || !assertNonNegative(original_c_first_operand) || !assertNonNegative(original_c_second_operand)){
+        if(!assertCharNumber(ochar_1operand, 12, 2) || !assertCharNumber(ochar_2operand, 12, 2)
+           || !assertNonNegative(ochar_1operand) || !assertNonNegative(ochar_2operand)){
             printf("输入数据不符合规范，请重新输入\n");
             errorHappened = 1;
         }
     } while(errorHappened);
 
-    numberToAbacusV2(a_first_operand, strtod(original_c_first_operand,nullptr));
-    numberToAbacusV2(a_second_operand, strtod(original_c_second_operand, nullptr));
+    numberToAbacusV2(num_1operand, strtod(ochar_1operand, nullptr));
+    numberToAbacusV2(num_2operand, strtod(ochar_2operand, nullptr));
 
     initDrawingEnv();
-    drawNumOnAbacusOfAddition(a_first_operand); //初始化算盘（绘制算盘、列式、口诀表）
+    drawNumOnAbacusOfAddition(num_1operand); //初始化算盘（绘制算盘、列式、口诀表）
 
     _getch();
     for (int i = 0; i < maxLen; i++){ //从右到左按位依次加法
-        if(oneToNumber(&a_second_operand[PLACES_NUM - i - 1]) != 0){ //被加数的当前计算挡位不为零
-            simulateAddition(a_first_operand, a_second_operand, PLACES_NUM-i-1);
+        if(oneToNumber(&num_2operand[PLACES_NUM - i - 1]) != 0){ //被加数的当前计算挡位不为零
+            simulateAddition(num_1operand, num_2operand, PLACES_NUM - i - 1);
         }
     }
 
@@ -221,41 +221,36 @@ void addition() {
 }
 
 void radication(){
-    int errorHappened; //true如果用户输入的数字位数>14
+    int errorHappened; //true if error happened
     int lenWithoutDot; //去掉小数点后的长度
-    int convertedLen; //*100之后的长度
-    size_t dotLocation; //小数点在第dotLocation位数字的后面
+    int num_1operandLen; //整数部分位数
+    size_t dotLocation; //小数点的位置
     do{
         errorHappened = false;
         printf("请输入被开方数(被开方数不超过15位，允许最多两位小数)：");
-        scanf("%s", c_first_operand); //读取
-        strcpy(original_c_first_operand, c_first_operand);
-        dotLocation = getDotLocation(c_first_operand); //得到小数点的位置（用于后面的定位）
-        lenWithoutDot = strlen(c_first_operand); //原始长度（不算上小数点）
-        if(convertToDecimal(c_first_operand)){ //若为整数，末尾添加00；若为小数，*100
+        scanf("%s", char_1operand); //读取
+        strcpy(ochar_1operand, char_1operand);
+        dotLocation = getDotLocation(char_1operand); //得到小数点的位置（用于定位）
+        num_1operandLen = dotLocation==0?strlen(char_1operand):dotLocation;
+        lenWithoutDot = strlen(char_1operand); //原始长度（不算上小数点）
+        if(convertToDecimal(char_1operand)){ //若为整数，末尾添加00；若为小数，*100
             //如果是小数
             lenWithoutDot -= 1;
         }
-        convertedLen = strlen(c_first_operand);
-
-        numberToAbacusV2(a_first_operand,strtod(original_c_first_operand, nullptr));
-
-        if(!assertCharNumber(original_c_first_operand,13,2)
-           || atof(original_c_first_operand) < 1) //整数部分不为0
-        {
+        if(!assertCharNumber(ochar_1operand, 13, 2) //检查数据是否符合规范
+           || atof(ochar_1operand) < 1){ //整数部分不为0
             printf("输入数据不符合规范，请重新输入\n");
-            errorHappened = 1;
+            errorHappened = true;
         }
     } while(errorHappened);
 
-    c_second_operand[14] = '0'; //存储开方结果
-    numberToAbacusV2(a_second_operand,strtod(original_c_second_operand, nullptr));
+    char_2operand[14] = '0'; //存储开方结果
+    numberToAbacusV2(num_2operand, strtod(ochar_2operand, nullptr));
+    numberToAbacusV2(num_1operand, strtod(ochar_1operand, nullptr));
 
     initDrawingEnv();
-    drawNumOnAbacusOfRadication(a_first_operand, a_second_operand); //初始化算盘
-
-    // simulation
-    simulateRadication(original_c_first_operand,dotLocation,lenWithoutDot,convertedLen);
+    drawNumOnAbacusOfRadication(num_1operand, num_2operand); //初始化算盘
+    simulateRadication(dotLocation,lenWithoutDot,num_1operandLen); //simulation
 
     drawRules("计算结束"); //绘制“计算结束”
     _getch(); //按任意键继续
