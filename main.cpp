@@ -7,7 +7,7 @@
 #include "multiplication.h"
 #include "division.h"
 
-//#define DEBUG
+#define DEBUG
 #ifdef DEBUG
 #define _getch() ;
 #endif
@@ -65,9 +65,6 @@ int main()
 void division() {
     int errorHappened;
     size_t integerLen1,integerLen2; //被除数、除数整数部分的位数
-    size_t maxLen; // maxLen between integerLen1 and integerLen2
-    size_t len1WithoutDot,len2WithoutDot; //整数加小数部分的位数（不含小数点）
-    size_t convertedLen1,convertedLen2; // 21.5->2150：三位；1->100：三位；45.33->4533：四位
     do{
         errorHappened = 0;
         printf("请输入被除数和除数(被除数整数部分不超过13位，小数部分不超过2位，除数需为整数，且除数小于被除数)：");
@@ -75,24 +72,12 @@ void division() {
 
         strcpy(original_c_first_operand,c_first_operand);
         strcpy(original_c_second_operand,c_second_operand);
-//        convertToDecimal(c_first_operand);//*100
-//        convertToDecimal(c_second_operand);
-//        convertedLen1 = strlen(c_first_operand);
-//        convertedLen2 = strlen(c_second_operand);
+
         size_t dotLocationOfFirstOperand = getDotLocation(original_c_first_operand); //得到小数点的位置（用于后面的定位）
         size_t dotLocationOfSecondOperand = getDotLocation(original_c_second_operand); //得到小数点的位置（用于后面的定位）
         integerLen1 = dotLocationOfFirstOperand == 0 ? strlen(original_c_first_operand) : dotLocationOfFirstOperand; //整数部分的位数
         integerLen2 = dotLocationOfSecondOperand == 0 ? strlen(original_c_second_operand) : dotLocationOfSecondOperand; //整数部分的位数
-//        len1WithoutDot = dotLocationOfFirstOperand==0?strlen(original_c_first_operand):strlen(original_c_first_operand)-1;
-//        len2WithoutDot = dotLocationOfSecondOperand==0?strlen(original_c_second_operand):strlen(original_c_second_operand)-1;
-//        maxLen = integerLen1 > integerLen2 ? integerLen1 : integerLen2;
-//        double a = atoi(original_c_first_operand);
-//        double b = atoi(original_c_second_operand);
-//        if (maxLen > 14 || len1WithoutDot-integerLen1>2 || len2WithoutDot-integerLen2>2 || a<=0 || b<=0 ||
-//                a<b || dotLocationOfSecondOperand!=0){
-//            printf("输入数据不符合规范，请重新输入\n");
-//            errorHappened = 1;
-//        }
+
         if(!assertCharNumber(original_c_first_operand,13,1)
            || !assertCharNumber(original_c_second_operand,13,0)
            || !assertNonNegative(original_c_first_operand) || !assertNonNegative(original_c_second_operand)
@@ -102,9 +87,6 @@ void division() {
             errorHappened = 1;
         }
     } while(errorHappened);
-
-//    numberToAbacus(a_first_operand, c_first_operand, convertedLen1);
-//    numberToAbacus(a_second_operand, c_second_operand, convertedLen2);
 
     numberToAbacusV2(a_first_operand, strtod(original_c_first_operand, nullptr));
     numberToAbacusV2(a_second_operand, strtod(original_c_second_operand, nullptr));
@@ -123,9 +105,6 @@ void division() {
 void multiplication() {
     int errorHappened;
     size_t integerLen1,integerLen2; //被乘数、乘数整数部分的位数
-    size_t maxLen; // maxLen between integerLen1 and integerLen2
-    size_t len1WithoutDot,len2WithoutDot; //整数加小数部分的位数（不含小数点）
-    size_t convertedLen1,convertedLen2; // 21.5->2150：三位；1->100：三位；45.33->4533：四位
     do{
         errorHappened = 0;
         printf("请输入两个数（整数部分不超过6位，小数部分不超过1位)：");
@@ -133,21 +112,11 @@ void multiplication() {
 
         strcpy(original_c_first_operand,c_first_operand);
         strcpy(original_c_second_operand,c_second_operand);
-//        convertToDecimal(c_first_operand);//*100
-//        convertToDecimal(c_second_operand);
-//        convertedLen1 = strlen(c_first_operand);
-//        convertedLen2 = strlen(c_second_operand);
         size_t dotLocationOfFirstOperand = getDotLocation(original_c_first_operand); //得到小数点的位置（用于后面的定位）
         size_t dotLocationOfSecondOperand = getDotLocation(original_c_second_operand); //得到小数点的位置（用于后面的定位）
         integerLen1 = dotLocationOfFirstOperand == 0 ? strlen(original_c_first_operand) : dotLocationOfFirstOperand; //整数部分的位数
         integerLen2 = dotLocationOfSecondOperand == 0 ? strlen(original_c_second_operand) : dotLocationOfSecondOperand; //整数部分的位数
-//        len1WithoutDot = dotLocationOfFirstOperand==0?strlen(original_c_first_operand):strlen(original_c_first_operand)-1;
-//        len2WithoutDot = dotLocationOfSecondOperand==0?strlen(original_c_second_operand):strlen(original_c_second_operand)-1;
-        maxLen = integerLen1 > integerLen2 ? integerLen1 : integerLen2;
-//        if (maxLen > 6 || len1WithoutDot-integerLen1>1 || atoi(original_c_first_operand)<=0 || atoi(original_c_second_operand)<=0){
-//            printf("输入数据不符合规范，请重新输入\n");
-//            errorHappened = 1;
-//        }
+
         if(!assertCharNumber(original_c_first_operand,6,1) || !assertCharNumber(original_c_second_operand,6,1)
            || !assertNonNegative(original_c_first_operand) || !assertNonNegative(original_c_second_operand)){
             printf("输入数据不符合规范，请重新输入\n");
@@ -181,20 +150,12 @@ void subtraction() {
         scanf("%s %s", c_first_operand, c_second_operand);
         strcpy(original_c_first_operand,c_first_operand);
         strcpy(original_c_second_operand,c_second_operand);
-        convertToDecimal(c_first_operand);//判断是否为小数
-        convertToDecimal(c_second_operand);
         len1 = strlen(c_first_operand);
         len2 = strlen(c_second_operand);
         maxLen = len1 > len2 ? len1 : len2;
-//        double a = atoi(original_c_first_operand);
-//        double b = atoi(original_c_second_operand);
-//        if (maxLen > 14 || atoi(original_c_second_operand)<=0 || a<=0 || b<=0 || a<b){
-//            printf("输入数据不符合规范 ，请重新输入\n");
-//            errorHappened = 1;
-//        }
         if(!assertCharNumber(original_c_first_operand,13,2) || !assertCharNumber(original_c_second_operand,13,2)
-        || !assertNonNegative(original_c_first_operand) || !assertNonNegative(original_c_second_operand)
-        || !assertEBigger(original_c_first_operand,original_c_second_operand)){
+           || !assertNonNegative(original_c_first_operand) || !assertNonNegative(original_c_second_operand)
+           || !assertEBigger(original_c_first_operand,original_c_second_operand)){
             printf("输入数据不符合规范，请重新输入\n");
             errorHappened = 1;
         }
@@ -212,7 +173,7 @@ void subtraction() {
     _getch();
     for (int i = 0; i < maxLen; i++){ //从左到右按位依次减法
         if(oneToNumber(&a_first_operand[PLACES_NUM - i - 1]) != 0 ||
-                oneToNumber(&a_second_operand[PLACES_NUM - i - 1]) != 0){ //本位的加数和被加数不都为零
+           oneToNumber(&a_second_operand[PLACES_NUM - i - 1]) != 0){ //本位的加数和被加数不都为零
             simulateSubtraction(a_first_operand, a_second_operand, PLACES_NUM-i-1);
         }
     }
@@ -225,26 +186,20 @@ void addition() {
     int errorHappened = 0;
     int len1,len2;
     int maxLen;
-   do{
-       errorHappened = 0;
+    do{
+        errorHappened = 0;
         printf("请输入两个长度不超过14位的数(被加数和加数，允许两位小数)：");
         scanf("%s %s", c_first_operand, c_second_operand);
         strcpy(original_c_first_operand,c_first_operand);
         strcpy(original_c_second_operand,c_second_operand);
-//        convertToDecimal(c_first_operand);//判断是否为小数
-//        convertToDecimal(c_second_operand);
         len1 = strlen(c_first_operand);
         len2 = strlen(c_second_operand);
         maxLen = len1 > len2 ? len1 : len2;
-//        if (maxLen > 14 ||atoi(original_c_second_operand)<=0 || atoi(original_c_first_operand)<=0){
-//            printf("输入数据不符合规范，请重新输入\n");
-//            errorHappened = 1;
-//        }
-       if(!assertCharNumber(original_c_first_operand,12,2) || !assertCharNumber(original_c_second_operand,12,2)
-       || !assertNonNegative(original_c_first_operand) || !assertNonNegative(original_c_second_operand)){
-           printf("输入数据不符合规范，请重新输入\n");
-           errorHappened = 1;
-       }
+        if(!assertCharNumber(original_c_first_operand,12,2) || !assertCharNumber(original_c_second_operand,12,2)
+           || !assertNonNegative(original_c_first_operand) || !assertNonNegative(original_c_second_operand)){
+            printf("输入数据不符合规范，请重新输入\n");
+            errorHappened = 1;
+        }
     } while(errorHappened);
 
     numberToAbacusV2(a_first_operand, strtod(original_c_first_operand,nullptr));
@@ -267,30 +222,24 @@ void addition() {
 
 void radication(){
     int errorHappened; //true如果用户输入的数字位数>14
-    int originalLen; //用户输入的数字的原始长度
     int lenWithoutDot; //去掉小数点后的长度
     int convertedLen; //*100之后的长度
     size_t dotLocation; //小数点在第dotLocation位数字的后面
-//    char original_c_first_operand[PLACES_NUM+1]; //未去掉小数点的cstr
     do{
         errorHappened = false;
         printf("请输入被开方数(被开方数不超过15位，允许最多两位小数)：");
         scanf("%s", c_first_operand); //读取
         strcpy(original_c_first_operand, c_first_operand);
         dotLocation = getDotLocation(c_first_operand); //得到小数点的位置（用于后面的定位）
-        lenWithoutDot = originalLen = strlen(c_first_operand); //原始长度（不算上小数点）
+        lenWithoutDot = strlen(c_first_operand); //原始长度（不算上小数点）
         if(convertToDecimal(c_first_operand)){ //若为整数，末尾添加00；若为小数，*100
             //如果是小数
             lenWithoutDot -= 1;
         }
         convertedLen = strlen(c_first_operand);
-//        numberToAbacus(a_first_operand, c_first_operand, convertedLen); //转为算盘形式
+
         numberToAbacusV2(a_first_operand,strtod(original_c_first_operand, nullptr));
 
-//        if (convertedLen > 14 || atof(original_c_first_operand)<=0){
-//            printf("输入数据不符合规范，请重新输入\n");
-//            errorHappened = true;
-//        }
         if(!assertCharNumber(original_c_first_operand,13,2)
            || atof(original_c_first_operand) < 1) //整数部分不为0
         {
@@ -300,8 +249,6 @@ void radication(){
     } while(errorHappened);
 
     c_second_operand[14] = '0'; //存储开方结果
-    convertToDecimal(c_second_operand);
-//    numberToAbacus(a_second_operand, c_second_operand, 1);
     numberToAbacusV2(a_second_operand,strtod(original_c_second_operand, nullptr));
 
     initDrawingEnv();
@@ -325,4 +272,3 @@ void initDrawingEnv() {
     setlinecolor(BLACK);
     settextcolor(BLACK);
 }
-

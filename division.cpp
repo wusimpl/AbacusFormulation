@@ -3,7 +3,7 @@
 //
 
 #include "division.h"
-//#define DEBUG
+#define DEBUG
 #ifdef DEBUG
 #define _getch() ;
 #endif
@@ -134,7 +134,7 @@ void simulateDivision(size_t integerLen1, size_t integerLen2){
             }
             _product = realQc * mulDigit;
             sprintf(tmp,"%.2f",_product);
-            convertToDecimal(tmp);
+//            convertToDecimal(tmp);
             numberToAbacusV2(product,strtod(tmp,nullptr));
 
             ss<<"¼õ»ý£º¼õ"<<_product;
@@ -170,7 +170,7 @@ void simulateDivision(size_t integerLen1, size_t integerLen2){
             double mei = divNum*(pow(10, (int)quoNum - qco));
             Num tmpDiv[PLACES_NUM];
             sprintf(tmp,"%.2f",mei);
-            convertToDecimal(tmp);
+//            convertToDecimal(tmp);
             numberToAbacusV2(tmpDiv,strtod(tmp,nullptr));
             for (int i = diPtr; i < PLACES_NUM; i++){
                 if(oneToNumber(&tmpDiv[i]) != 0){
