@@ -10,7 +10,7 @@ char ochar_1operand[PLACES_NUM + 1], ochar_2operand[PLACES_NUM + 1];//接收到�
 const char* INDEX_TO_CHINESE_NUM[] = {"零","一","二","三","四","五","六","七","八","九","十"}; // 中文数字字符常量
 //string processHintPlaceHolder; //演算过程提示占位符
 Coordinate expressionDisplayLeftTop={50, 20},expressionDisplayRightBottom={850, 53};
-Coordinate rulesDisplayLeftTop={885,190},rulesDisplayRightBottom{1350,223};
+Coordinate rulesDisplayLeftTop={885,190},rulesDisplayRightBottom{1350,260};
 char strInfo[100];
 stringstream stringGenerator;
 
@@ -20,17 +20,12 @@ void drawOneBead(float x, float y)
     fillellipse(x - 20, y - 12.5, x + 20, y + 12.5); //left:椭圆外切矩形的左上角 x 坐标
 }
 
-void drawStr(const char* str){
-    RECT r1 = { 900, 250, 1100, 275 };
-    drawtext(str, &r1, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
-}
-
 //拨珠规则显示
 void drawRules(const char* str){
     setFontSizeTo32();
     RECT r1 = {rulesDisplayLeftTop.x, rulesDisplayLeftTop.y, rulesDisplayRightBottom.x, rulesDisplayRightBottom.y};
     clearrectangle(rulesDisplayLeftTop.x, rulesDisplayLeftTop.y, rulesDisplayRightBottom.x, rulesDisplayRightBottom.y);
-    drawtext(str, &r1, DT_WORDBREAK | DT_VCENTER |  DT_LEFT);
+    drawtext(str, &r1, DT_WORDBREAK |  DT_LEFT | DT_TOP);
     setFontSizeTo16();
 }
 

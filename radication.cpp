@@ -105,8 +105,7 @@ void simulateRadication(size_t dotLocation, int lenWithoutDot,int radLen){
     clearAbacus(rad);
     simulateMultiplicationPureVersion(fac,mul,rad,radLen,0);
     //估其他根
-    char remainderStrForm[15];
-    for (int i = location; i > -2; i--,rootPtr--) {
+    while((allToNumber(rad)-0.0) > 1e-6 || rootPtr < 15) {
         //前根之和试除余数估下一根
         numberToAbacusV2(tmp1,sum);
         double tmp=sum;
@@ -121,7 +120,7 @@ void simulateRadication(size_t dotLocation, int lenWithoutDot,int radLen){
                 radLen -= 1;
             }
         }
-        cr = simulateDivisionImprovedVersion(tmp2,tmp1,radLen,sumLen);
+        cr = int(simulateDivisionImprovedVersion(tmp2,tmp1,radLen,sumLen)%10);
         rcr = cr * pow(10, 12-rootPtr);
 
         stringGenerator << "估得下一根为" << cr;
@@ -131,25 +130,38 @@ void simulateRadication(size_t dotLocation, int lenWithoutDot,int radLen){
         _getch();
         setNumToAbacusRadicationStickVersion(cr, root, rootPtr+1);
         drawNumOnAbacusOfRadication(rad, root);//可视化
-        rootPtr++;
         //余数减法数
-        sum += rcr;
-        subtrahend = (den + rcr) * rcr;
-        stringGenerator<<"减"<<subtrahend;
-        remainder -= subtrahend;
-        den = 2 * sum; //更新法数
-        NUMBER_TO_CSTR(remainder, char_1operand);//可视化
-        clearAbacus(rad);
-        numberToAbacusV2(rad, strtod(ochar_1operand, nullptr));
-        drawNumOnAbacusOfRadication(rad, root);
+        den = sum * rcr;
+        stringGenerator<<"余数减法数：减"<<den<<"，余"<<allToNumber(rad)-den;
         strcpy(strInfo,stringGenerator.str().c_str());
         drawRules(strInfo);
         stringGenerator.str("");
         _getch();
-
-        if((remainder-0.0) < 0.000001){ //开方开尽，退出
-            break;
+        numberToAbacusV2(tmp1,den);
+        for (int j = 0; j < PLACES_NUM; j++){ //从左到右按位依次减法
+            if(oneToNumber(&rad[PLACES_NUM - j - 1]) != 0 ||
+               oneToNumber(&tmp1[PLACES_NUM - j - 1]) != 0){
+                simulateSubtractionPureVersion(rad, tmp1, PLACES_NUM - j - 1);
+            }
         }
+        clearAbacus(tmp1);
+        //减根平方半
+        stringGenerator<<"余数减当前根平方的一半：减"<<rcr*rcr/2<<"，余"<<allToNumber(rad)-(rcr*rcr/2);
+        numberToAbacusV2(tmp1,rcr*rcr/2);
+        strcpy(strInfo,stringGenerator.str().c_str());
+        drawRules(strInfo);
+        stringGenerator.str("");
+        _getch();
+        for (int j = 0; j < PLACES_NUM; j++){ //从左到右按位依次减法
+            if(oneToNumber(&rad[PLACES_NUM - j - 1]) != 0 ||
+               oneToNumber(&tmp1[PLACES_NUM - j - 1]) != 0){
+                simulateSubtractionPureVersion(rad, tmp1, PLACES_NUM - j - 1);
+            }
+        }
+        clearAbacus(tmp1);
+        sum+=rcr;
+        rootPtr++;
+        _getch();
     }
 }
 

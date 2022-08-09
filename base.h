@@ -62,7 +62,6 @@ extern const char* INDEX_TO_CHINESE_NUM[];
 extern char strInfo[100];
 extern stringstream stringGenerator; //字符串生成器
 void drawOneBead(float x, float y); //绘制算珠（椭圆形状）
-void drawStr(const char* str);
 void drawRules(const char* str); //绘制拨珠规则
 void drawExpression(const char*);//绘制表达式计算结果
 void drawAbacus(Num *num, AbacusParams param); //绘制算盘

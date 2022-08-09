@@ -45,13 +45,25 @@ void simulateDivision(size_t integerLen1, size_t integerLen2){
     int firstTwoDi; //被除数前两位
     int firstDiv; //当前所比较的除数
     int secondDiv; //除数下一档所代表的数
-//    int quoLocation = 1; //商的位置：1代表够除，隔位商；0代表不够除，挨位商 #已移到循环内
+    int type; //商的位置：1代表够除，隔位商；0代表不够除，挨位商
     stringstream ss;
 
     //1.定位
-    int sameNumDivOfDi = toNumber(di, diPtr, PLACES_NUM - integerLen1 - 2 + integerLen2) / pow(10, integerLen1 - integerLen2); //与除数取相同位数
-    int integerPartOfDiv = toNumber(div, divPtr, 12);
-    quoNum = sameNumDivOfDi < integerPartOfDiv ? integerLen1 - integerLen2 : integerLen1 - integerLen2 + 1;
+    double a,b;
+    quoNum = integerLen1 - integerLen2 + 1;
+    for (int i = diPtr, j =divPtr; (i < PLACES_NUM)&&(j<PLACES_NUM);) {
+        a = oneToNumber(&di[i]);
+        b = oneToNumber(&div[j]);
+        if(a>b){
+            quoNum = integerLen1 - integerLen2 + 1;
+            break;
+        }else if(a<b){
+            quoNum = integerLen1 - integerLen2;
+            break;
+        }else{
+            i++;j++;
+        }
+    }
 
     firstDiv = oneToNumber(&div[divPtr]); //除首
     secondDiv = oneToNumber(&div[divPtr + 1]); //次首
@@ -59,19 +71,30 @@ void simulateDivision(size_t integerLen1, size_t integerLen2){
         firstDi =oneToNumber(&di[diPtr]); //被首
         firstTwoDi = subNumber(di, diPtr, diPtr + 1); //被2
 
-        int type = 1;
+        type = 1;
+        for (int i = diPtr, j =divPtr; (i < PLACES_NUM)&&(j<PLACES_NUM);) {
+            a = oneToNumber(&di[i]);
+            b = oneToNumber(&div[j]);
+            if(a>b){ //够除隔位商
+                type = 1;
+                break;
+            }else if(a<b){
+                type = 0;
+                break;
+            }else{
+                i++;j++;
+            }
+        }
         if(integerLen2==1){
             //2.估商（1位除）
             if (firstDi < firstDiv){
                 qc = firstTwoDi / firstDiv;
-                type = 0;
             }else{
                 qc = firstDi / firstDiv;
             }
         }else{
             //2.估商（多位除）
             if (firstDi < firstDiv){ //被首<除首
-                type = 0;
                 if(secondDiv <= 4){
                     qc = firstTwoDi / firstDiv;
                 }else{
@@ -196,20 +219,45 @@ int simulateDivisionImprovedVersion(Num *di, Num *div, size_t integerLen1, size_
     int firstTwoDi; //被除数前两位
     int firstDiv; //当前所比较的除数
     int secondDiv; //除数下一档所代表的数
+    int type; //商的位置：1代表够除，隔位商；0代表不够除，挨位商
     stringstream ss;
 
     //1.定位
-    int sameNumDivOfDi = toNumber(di, diPtr, PLACES_NUM - integerLen1 - 2 + integerLen2) / pow(10, integerLen1 - integerLen2); //与除数取相同位数
-    int integerPartOfDiv = toNumber(div, divPtr, 12);
-    quoNum = sameNumDivOfDi < integerPartOfDiv ? integerLen1 - integerLen2 : integerLen1 - integerLen2 + 1;
-
+    double a,b;
+    quoNum = integerLen1 - integerLen2 + 1;
+    for (int i = diPtr, j =divPtr; (i < PLACES_NUM)&&(j<PLACES_NUM);) {
+        a = oneToNumber(&di[i]);
+        b = oneToNumber(&div[j]);
+        if(a>b){
+            quoNum = integerLen1 - integerLen2 + 1;
+            break;
+        }else if(a<b){
+            quoNum = integerLen1 - integerLen2;
+            break;
+        }else{
+            i++;j++;
+        }
+    }
     firstDiv = oneToNumber(&div[divPtr]); //除首
     secondDiv = oneToNumber(&div[divPtr + 1]); //次首
     do{
         firstDi =oneToNumber(&di[diPtr]); //被首
         firstTwoDi = subNumber(di, diPtr, diPtr + 1); //被2
 
-        int type = 1;
+        type = 1;
+        for (int i = diPtr, j =divPtr; (i < PLACES_NUM)&&(j<PLACES_NUM);) {
+            a = oneToNumber(&di[i]);
+            b = oneToNumber(&div[j]);
+            if(a>b){ //够除隔位商
+                type = 1;
+                break;
+            }else if(a<b){
+                type = 0;
+                break;
+            }else{
+                i++;j++;
+            }
+        }
         if(integerLen2==1){
             //2.估商（1位除）
             if (firstDi < firstDiv){
