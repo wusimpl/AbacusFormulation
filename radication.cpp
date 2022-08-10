@@ -45,24 +45,25 @@ void simulateRadication(size_t dotLocation, int lenWithoutDot,int radLen){
     int radPtr;
     char sec[3]; // 要估算的位，例如344.2，估首根，head为3
     double sum = 0; // 已经求得的根之和
-    double den; // 法数：2(root1 + root2 + root3 ...)
-    double remainder = allToNumber(rad);//余数
+    double product; // 法数：2(root1 + root2 + root3 ...)
     double subtrahend; //减数：(法数+当前根)*当前根
     Num tmp1[PLACES_NUM], tmp2[PLACES_NUM];
     //定位
-
     radLen = dotLocation == 0 ? lenWithoutDot : dotLocation;
     rootLen = radLen % 2 == 0 ? radLen / 2 : radLen / 2 + 1;
     location = rootLen;
     rootPtr = 13 - rootLen; //index rather than location
     radPtr = 13 - radLen;
     //估首根
+    stringGenerator << "估得首根为" << cr;
+    strcpy(strInfo,stringGenerator.str().c_str());
+    drawRules(strInfo);
+    stringGenerator.str("");
     _getch();
     getHead(ochar_1operand, lenWithoutDot, dotLocation, sec); //sec
     cr = int(sqrt(CSTR_TO_NUM(sec)));
     rcr = cr * pow(10, 12-rootPtr);
     sum += rcr; //累加前根之和
-    den = 2 * sum;
     setNumToAbacusIndexVersion(cr, root, rootPtr);
     drawNumOnAbacusOfRadication(rad, root);//可视化
     rootPtr++;
@@ -79,7 +80,6 @@ void simulateRadication(size_t dotLocation, int lenWithoutDot,int radLen){
     _getch();
     location--;
     numberToAbacusV2(tmp1,pow(rcr, 2));
-    remainder -= pow(rcr, 2);
     for (int i = 0; i < 15; i++){ //从左到右按位依次减法
         if(oneToNumber(&rad[PLACES_NUM - i - 1]) != 0 ||
            oneToNumber(&tmp1[PLACES_NUM - i - 1]) != 0){
@@ -87,6 +87,7 @@ void simulateRadication(size_t dotLocation, int lenWithoutDot,int radLen){
         }
     }
     clearAbacus(tmp1);
+    _getch();
     //余数减半
     stringGenerator<<"余数减半为"<<allToNumber(rad)/2;
     strcpy(strInfo,stringGenerator.str().c_str());
@@ -104,9 +105,15 @@ void simulateRadication(size_t dotLocation, int lenWithoutDot,int radLen){
     numberToAbacusV2(mul,0.5);
     clearAbacus(rad);
     simulateMultiplicationPureVersion(fac,mul,rad,radLen,0);
+    _getch();
     //估其他根
     while(allToNumber(rad)>= sum && ((allToNumber(rad)-0.0) > 1e-6 || rootPtr < 15)) {
         //前根之和试除余数估下一根
+        stringGenerator << "估下一根";
+        strcpy(strInfo,stringGenerator.str().c_str());
+        drawRules(strInfo);
+        stringGenerator.str("");
+        _getch();
         numberToAbacusV2(tmp1,sum);
         double tmp=sum;
         int sumLen = 1;
@@ -131,13 +138,13 @@ void simulateRadication(size_t dotLocation, int lenWithoutDot,int radLen){
         setNumToAbacusRadicationStickVersion(cr, root, rootPtr+1);
         drawNumOnAbacusOfRadication(rad, root);//可视化
         //余数减法数
-        den = sum * rcr;
-        stringGenerator<<"余数减法数：减"<<den<<"，余"<<allToNumber(rad)-den;
+        product = sum * rcr;
+        stringGenerator << "余数减法数：减" << product << "，余" << allToNumber(rad) - product;
         strcpy(strInfo,stringGenerator.str().c_str());
         drawRules(strInfo);
         stringGenerator.str("");
         _getch();
-        numberToAbacusV2(tmp1,den);
+        numberToAbacusV2(tmp1, product);
         for (int j = 0; j < PLACES_NUM; j++){ //从左到右按位依次减法
             if(oneToNumber(&rad[PLACES_NUM - j - 1]) != 0 ||
                oneToNumber(&tmp1[PLACES_NUM - j - 1]) != 0){
@@ -145,6 +152,7 @@ void simulateRadication(size_t dotLocation, int lenWithoutDot,int radLen){
             }
         }
         clearAbacus(tmp1);
+        _getch();
         //减根平方半
         stringGenerator<<"余数减当前根平方的一半：减"<<rcr*rcr/2<<"，余"<<allToNumber(rad)-(rcr*rcr/2);
         numberToAbacusV2(tmp1,rcr*rcr/2);

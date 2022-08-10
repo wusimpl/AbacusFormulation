@@ -208,7 +208,7 @@ void addition() {
 
     initDrawingEnv();
     drawNumOnAbacusOfAddition(num_1operand); //初始化算盘（绘制算盘、列式、口诀表）
-
+    drawRules("按Enter键开始执行单步演示");
     _getch();
     for (int i = 0; i < maxLen; i++){ //从右到左按位依次加法
         if(oneToNumber(&num_2operand[PLACES_NUM - i - 1]) != 0){ //被加数的当前计算挡位不为零
@@ -251,6 +251,7 @@ void radication(){
 
     initDrawingEnv();
     drawNumOnAbacusOfRadication(num_1operand, num_2operand); //初始化算盘
+    _getch();
     simulateRadication(dotLocation,lenWithoutDot,num_1operandLen); //simulation
 
     drawRules("计算结束"); //绘制“计算结束”

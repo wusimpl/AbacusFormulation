@@ -6,7 +6,7 @@
 #include "addition.h"
 
 
-#define DEBUG
+//#define DEBUG
 #ifdef DEBUG
 #define _getch() ;
 #endif
