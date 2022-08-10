@@ -11,7 +11,7 @@
 #include "multiplication.h"
 #include "division.h"
 
-#define DEBUG
+//#define DEBUG
 #ifdef DEBUG
 #define _getch() ;
 #endif
@@ -105,7 +105,7 @@ void simulateRadication(size_t dotLocation, int lenWithoutDot,int radLen){
     clearAbacus(rad);
     simulateMultiplicationPureVersion(fac,mul,rad,radLen,0);
     //估其他根
-    while((allToNumber(rad)-0.0) > 1e-6 || rootPtr < 15) {
+    while(allToNumber(rad)>= sum && ((allToNumber(rad)-0.0) > 1e-6 || rootPtr < 15)) {
         //前根之和试除余数估下一根
         numberToAbacusV2(tmp1,sum);
         double tmp=sum;

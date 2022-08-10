@@ -7,7 +7,7 @@
 #include "multiplication.h"
 #include "division.h"
 
-#define DEBUG
+//#define DEBUG
 #ifdef DEBUG
 #define _getch() ;
 #endif
@@ -82,7 +82,8 @@ void division() {
            || !assertCharNumber(ochar_2operand, 13, 0)
            || !assertNonNegative(ochar_1operand) || !assertNonNegative(ochar_2operand)
            || !assertInteger(ochar_2operand) || !assertNonZero(ochar_2operand)
-           || !assertEBigger(ochar_1operand, ochar_2operand)){
+           || !assertEBigger(ochar_1operand, ochar_2operand)
+           ){
             printf("输入数据不符合规范，请重新输入\n");
             errorHappened = 1;
         }

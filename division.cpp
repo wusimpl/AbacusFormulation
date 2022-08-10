@@ -3,7 +3,7 @@
 //
 
 #include "division.h"
-#define DEBUG
+//#define DEBUG
 #ifdef DEBUG
 #define _getch() ;
 #endif
@@ -63,6 +63,9 @@ void simulateDivision(size_t integerLen1, size_t integerLen2){
         }else{
             i++;j++;
         }
+    }
+    if(quoNum==0){
+        quoNum=1;
     }
 
     firstDiv = oneToNumber(&div[divPtr]); //除首
@@ -206,7 +209,7 @@ void simulateDivision(size_t integerLen1, size_t integerLen2){
 }
 
 int simulateDivisionImprovedVersion(Num *di, Num *div, size_t integerLen1, size_t integerLen2) {
-    double divNum = allToNumber(num_2operand); //被除数
+    double divNum = allToNumber(num_2operand); //除数
     int diPtr = PLACES_NUM - integerLen1 - 2;
     int divPtr = PLACES_NUM - integerLen2 - 2;
     int headIndexOfQuo = -1;
@@ -238,6 +241,10 @@ int simulateDivisionImprovedVersion(Num *di, Num *div, size_t integerLen1, size_
             i++;j++;
         }
     }
+    if(quoNum==0){
+        quoNum=1;
+    }
+
     firstDiv = oneToNumber(&div[divPtr]); //除首
     secondDiv = oneToNumber(&div[divPtr + 1]); //次首
     do{
@@ -285,6 +292,7 @@ int simulateDivisionImprovedVersion(Num *di, Num *div, size_t integerLen1, size_
         }
         //3.置商
         loc = diPtr - 1 - type;
+
         if(headIndexOfQuo==-1){ //记录商的开始位置
             headIndexOfQuo = loc;
         }
