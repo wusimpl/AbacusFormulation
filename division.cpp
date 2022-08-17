@@ -72,7 +72,7 @@ void simulateDivision(size_t integerLen1, size_t integerLen2){
     secondDiv = oneToNumber(&div[divPtr + 1]); //次首
     do{
         firstDi =oneToNumber(&di[diPtr]); //被首
-        firstTwoDi = subNumber(di, diPtr, diPtr + 1); //被2
+        firstTwoDi  = subNumber(di, diPtr, diPtr + 1); //被2
 
         type = 1;
         for (int i = diPtr, j =divPtr; (i < PLACES_NUM)&&(j<PLACES_NUM);) {
@@ -103,11 +103,21 @@ void simulateDivision(size_t integerLen1, size_t integerLen2){
                 }else{
                     qc = firstTwoDi / (firstDiv + 1);
                 }
-            }else{
+            }else if(firstDi>firstDiv){ //被首>除首
                 if(secondDiv <= 4){
                     qc = firstDi / firstDiv;
                 }else{
                     qc = firstDi / (firstDiv + 1);
+                }
+            }else{ //两首相等，采用”首同后大隔商1，首同后小挨商9“规则估商
+                int i = 0;
+                while((diPtr<=divPtr?divPtr+1+i<14:diPtr+1+i<14) && (oneToNumber(&di[diPtr+1]) == oneToNumber(&div[divPtr+1]))){
+                    i++;
+                }
+                if(oneToNumber(&di[diPtr+1+i]) >= oneToNumber(&div[divPtr+1+i])){
+                    qc = 1;
+                }else{
+                    qc = 9;
                 }
             }
         }
@@ -282,11 +292,21 @@ int simulateDivisionImprovedVersion(Num *di, Num *div, size_t integerLen1, size_
                 }else{
                     qc = firstTwoDi / (firstDiv + 1);
                 }
-            }else{
+            }else if(firstDi>firstDiv){ //被首>除首
                 if(secondDiv <= 4){
                     qc = firstDi / firstDiv;
                 }else{
                     qc = firstDi / (firstDiv + 1);
+                }
+            }else{ //两首相等，采用”首同后大隔商1，首同后小挨商9“规则估商
+                int i = 0;
+                while((diPtr<=divPtr?divPtr+1+i<14:diPtr+1+i<14) && (oneToNumber(&di[diPtr+1]) == oneToNumber(&div[divPtr+1]))){
+                    i++;
+                }
+                if(oneToNumber(&di[diPtr+1+i]) >= oneToNumber(&div[divPtr+1+i])){
+                    qc = 1;
+                }else{
+                    qc = 9;
                 }
             }
         }

@@ -22,7 +22,7 @@ void subtraction();
 void radication();
 void multiplication();
 void division();
-
+bool TestSubtraction();
 void menu(){
     printf("*******珠算可视化演示与学习系统********\n");
     printf("1.加法\n");
@@ -46,6 +46,7 @@ int main()
             addition();
             break;
         case 2:
+            TestSubtraction();
             subtraction();
             break;
         case 3:
@@ -79,10 +80,10 @@ void division() {
         integerLen2 = dotLocationOfSecondOperand == 0 ? strlen(ochar_2operand) : dotLocationOfSecondOperand; //整数部分的位数
 
         if(!assertCharNumber(ochar_1operand, 13, 1)
-           || !assertCharNumber(ochar_2operand, 13, 0)
+           || !assertCharNumber(ochar_2operand, 13, 1)
            || !assertNonNegative(ochar_1operand) || !assertNonNegative(ochar_2operand)
-           || !assertInteger(ochar_2operand) || !assertNonZero(ochar_2operand)
            || !assertEBigger(ochar_1operand, ochar_2operand)
+           || !ochar_2operand[0]=='0'
            ){
             printf("输入数据不符合规范，请重新输入\n");
             errorHappened = 1;
@@ -151,6 +152,8 @@ void subtraction() {
         scanf("%s %s", char_1operand, char_2operand);
         strcpy(ochar_1operand, char_1operand);
         strcpy(ochar_2operand, char_2operand);
+        convertToDecimal(char_1operand);
+        convertToDecimal(char_2operand);
         len1 = strlen(char_1operand);
         len2 = strlen(char_2operand);
         maxLen = len1 > len2 ? len1 : len2;
@@ -162,8 +165,6 @@ void subtraction() {
         }
     } while(errorHappened);
 
-//    numberToAbacus(num_1operand, char_1operand, len1);
-//    numberToAbacus(num_2operand, char_2operand, len2);
     numberToAbacusV2(num_1operand, strtod(ochar_1operand, nullptr));
     numberToAbacusV2(num_2operand, strtod(ochar_2operand, nullptr));
     initgraph(GraphSizeOfWidth, GraphSizeOfHeight); //初始化绘图环境
@@ -173,8 +174,7 @@ void subtraction() {
 
     _getch();
     for (int i = 0; i < maxLen; i++){ //从左到右按位依次减法
-        if(oneToNumber(&num_1operand[PLACES_NUM - i - 1]) != 0 ||
-           oneToNumber(&num_2operand[PLACES_NUM - i - 1]) != 0){ //本位的加数和被加数不都为零
+        if(oneToNumber(&num_2operand[PLACES_NUM - i - 1]) != 0){ //
             simulateSubtraction(num_1operand, num_2operand, PLACES_NUM - i - 1);
         }
     }
@@ -268,4 +268,10 @@ void initDrawingEnv() {
     setlinestyle(PS_SOLID, 2); //设置直线样式
     setlinecolor(BLACK);
     settextcolor(BLACK);
+}
+
+bool TestSubtraction() {
+
+
+    return false;
 }
